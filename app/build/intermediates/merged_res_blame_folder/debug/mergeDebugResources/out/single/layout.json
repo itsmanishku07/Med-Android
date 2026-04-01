@@ -1,0 +1,102 @@
+[
+    {
+        "merged": "com.medreport.ai.app-mergeDebugResources-49:/layout/activity_main.xml",
+        "source": "com.medreport.ai.app-main-52:/layout/activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\item_message_recv.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\item_message_recv.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\item_dashboard_report.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\item_dashboard_report.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\activity_admin_dashboard.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\activity_admin_dashboard.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\fragment_admin_dashboard.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\fragment_admin_dashboard.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\activity_main.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\fragment_reminders.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\fragment_reminders.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\dialog_reminder.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\dialog_reminder.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\fragment_profile.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\fragment_profile.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\fragment_chats.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\fragment_chats.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\item_message_sent.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\item_message_sent.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\fragment_dashboard.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\fragment_dashboard.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\activity_medicine_reminders.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\activity_medicine_reminders.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\activity_chat.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\activity_chat.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\item_notification.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\item_notification.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\activity_notifications.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\activity_notifications.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\activity_register.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\activity_register.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\activity_report_detail.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\activity_report_detail.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\fragment_notifications.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\fragment_notifications.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\item_reminder.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\item_reminder.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\item_chat.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\item_chat.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\activity_login.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\fragment_reports.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\fragment_reports.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\activity_profile.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\activity_profile.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\item_report.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\item_report.xml"
+    }
+]

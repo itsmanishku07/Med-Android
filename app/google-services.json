@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "128047057243",
+    "project_id": "studio-9566651049-f8441",
+    "storage_bucket": "studio-9566651049-f8441.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128047057243:android:b67a2d39ce31d081d3b27e",
+        "android_client_info": {
+          "package_name": "com.medreport.ai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "128047057243-nava7s231cdls5nnvc1tg06bdh45nq7u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdpBqhgblCUUtANA7PPYZe5pdE6yczjCI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "128047057243-nava7s231cdls5nnvc1tg06bdh45nq7u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
