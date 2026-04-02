@@ -48,4 +48,15 @@ public class ResponseModels {
         @SerializedName("stats")   public Map<String, Object> stats;
         @SerializedName("recent_reports") public List<ReportModel> recentReports;
     }
+
+    public static class AIChatResponse {
+        @SerializedName("success") public boolean success;
+        @SerializedName("history") public List<AIChatMessage> history;
+    }
+
+    public static class AIAskResponse {
+        @SerializedName("success")  public boolean success;
+        @SerializedName("question") public AIChatMessage question;
+        @SerializedName("answer")   public AIChatMessage answer;
+    }
 }

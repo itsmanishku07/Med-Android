@@ -37,6 +37,7 @@ color text_secondary
 color text_tertiary
 color warning
 drawable bg_badge
+drawable bg_bottom_sheet
 drawable bg_bubble_recv
 drawable bg_bubble_sent
 drawable bg_disclaimer
@@ -70,6 +71,7 @@ id btnActive
 id btnAnalyze
 id btnArchiveToggle
 id btnArchived
+id btnAskAI
 id btnAuditLogs
 id btnChat
 id btnChatPatient
@@ -119,6 +121,7 @@ id etMessage
 id etName
 id etNotes
 id etPassword
+id etQuestion
 id etReviewNotes
 id fab
 id fragmentContainer
@@ -140,6 +143,8 @@ id layoutExtractionBadges
 id layoutFileInfo
 id layoutLabItems
 id layoutPatientGrid
+id layoutReceived
+id layoutSent
 id layoutSuggestionItems
 id nav_admin
 id nav_chats
@@ -148,10 +153,12 @@ id nav_profile
 id nav_reminders
 id nav_reports
 id progressBar
+id progressLoading
 id rbDoctor
 id rbPatient
 id recyclerView
 id rgRole
+id rvChat
 id rvDashboardItems
 id swipeRefresh
 id switchActive
@@ -191,8 +198,12 @@ id tvName
 id tvNotes
 id tvPatientName
 id tvPhone
+id tvReceivedContent
+id tvReceivedTime
 id tvRegister
 id tvRole
+id tvSentContent
+id tvSentTime
 id tvSeverity
 id tvSeverityBadge
 id tvSpecializations
@@ -228,6 +239,7 @@ layout activity_notifications
 layout activity_profile
 layout activity_register
 layout activity_report_detail
+layout bottom_sheet_ai_chat
 layout dialog_reminder
 layout fragment_admin_dashboard
 layout fragment_chats
@@ -236,6 +248,7 @@ layout fragment_notifications
 layout fragment_profile
 layout fragment_reminders
 layout fragment_reports
+layout item_ai_chat_message
 layout item_chat
 layout item_dashboard_report
 layout item_message_recv

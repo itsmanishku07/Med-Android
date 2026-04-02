@@ -107,4 +107,11 @@ public interface ApiService {
 
     @PUT("admin/users/{uid}/status")
     Call<ApiResponse<UserModel>> updateUserStatus(@Path("uid") String uid, @Body Map<String, Boolean> body);
+
+    // ── AI Q&A ────────────────────────────────────────────────────────────────
+    @GET("medical-reports/{id}/ai-chat")
+    Call<ResponseModels.AIChatResponse> getAIChatHistory(@Path("id") String reportId);
+
+    @POST("medical-reports/{id}/ask")
+    Call<ResponseModels.AIAskResponse> askAIQuestion(@Path("id") String reportId, @Body Map<String, String> body);
 }

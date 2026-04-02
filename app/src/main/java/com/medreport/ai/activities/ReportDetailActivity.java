@@ -451,6 +451,12 @@ public class ReportDetailActivity extends AppCompatActivity {
                 b.btnAnalyze.setVisibility(View.VISIBLE);
                 b.btnDelete.setVisibility(View.VISIBLE);
             }
+            // Show Ask AI button if report is analyzed (has extracted text)
+            if (report.isAnalyzed()) {
+                b.btnAskAI.setVisibility(View.VISIBLE);
+            } else {
+                b.btnAskAI.setVisibility(View.GONE);
+            }
             b.switchDoctorEdit.setVisibility(report.assignedDoctorId != null ? View.VISIBLE : View.GONE);
         } else {
             b.btnAnalyze.setVisibility(View.GONE);
@@ -460,6 +466,10 @@ public class ReportDetailActivity extends AppCompatActivity {
 
         b.btnDelete.setOnClickListener(v -> confirmDelete());
         b.btnAnalyze.setOnClickListener(v -> triggerAnalysis());
+        b.btnAskAI.setOnClickListener(v -> {
+            com.medreport.ai.fragments.AIChatBottomSheet.newInstance(reportId)
+                .show(getSupportFragmentManager(), "ai_chat");
+        });
 
         b.switchDoctorEdit.setChecked(report.doctorEditPermission);
         b.switchDoctorEdit.setOnCheckedChangeListener((sw, checked) -> {

@@ -31,6 +31,9 @@ public final class ActivityReportDetailBinding implements ViewBinding {
   public final MaterialButton btnAnalyze;
 
   @NonNull
+  public final MaterialButton btnAskAI;
+
+  @NonNull
   public final MaterialButton btnChat;
 
   @NonNull
@@ -166,29 +169,30 @@ public final class ActivityReportDetailBinding implements ViewBinding {
   public final TextView tvUploadDate;
 
   private ActivityReportDetailBinding(@NonNull CoordinatorLayout rootView,
-      @NonNull MaterialButton btnAnalyze, @NonNull MaterialButton btnChat,
-      @NonNull MaterialButton btnDelete, @NonNull MaterialButton btnSubmitReview,
-      @NonNull MaterialCardView cardAbnormal, @NonNull MaterialCardView cardDiagnoses,
-      @NonNull MaterialCardView cardDoctorNotes, @NonNull MaterialCardView cardExtraction,
-      @NonNull MaterialCardView cardLabResults, @NonNull MaterialCardView cardMedications,
-      @NonNull MaterialCardView cardPatientInfo, @NonNull MaterialCardView cardReview,
-      @NonNull MaterialCardView cardSuggestedDoctors, @NonNull MaterialCardView cardSuggestions,
-      @NonNull MaterialCardView cardSummary, @NonNull MaterialCardView cardSymptoms,
-      @NonNull MaterialCardView cardVitals, @NonNull TextInputEditText etReviewNotes,
-      @NonNull GridLayout gridVitals, @NonNull LinearLayout layoutDoctorItems,
-      @NonNull LinearLayout layoutExtractionBadges, @NonNull LinearLayout layoutFileInfo,
-      @NonNull LinearLayout layoutLabItems, @NonNull LinearLayout layoutPatientGrid,
-      @NonNull LinearLayout layoutSuggestionItems, @NonNull SwipeRefreshLayout swipeRefresh,
-      @NonNull SwitchCompat switchDoctorEdit, @NonNull Toolbar toolbar,
-      @NonNull TextView tvAbnormal, @NonNull TextView tvAnalyzedAt, @NonNull TextView tvDiagnoses,
-      @NonNull TextView tvDiagnosesCount, @NonNull TextView tvDoctorNotes,
-      @NonNull TextView tvExtractionPreview, @NonNull TextView tvFileName,
-      @NonNull TextView tvFileSize, @NonNull TextView tvFileType, @NonNull TextView tvLabCount,
-      @NonNull TextView tvMedications, @NonNull TextView tvModelUsed, @NonNull TextView tvSeverity,
-      @NonNull TextView tvSpecialty, @NonNull TextView tvStatus, @NonNull TextView tvSummary,
-      @NonNull TextView tvSymptoms, @NonNull TextView tvUploadDate) {
+      @NonNull MaterialButton btnAnalyze, @NonNull MaterialButton btnAskAI,
+      @NonNull MaterialButton btnChat, @NonNull MaterialButton btnDelete,
+      @NonNull MaterialButton btnSubmitReview, @NonNull MaterialCardView cardAbnormal,
+      @NonNull MaterialCardView cardDiagnoses, @NonNull MaterialCardView cardDoctorNotes,
+      @NonNull MaterialCardView cardExtraction, @NonNull MaterialCardView cardLabResults,
+      @NonNull MaterialCardView cardMedications, @NonNull MaterialCardView cardPatientInfo,
+      @NonNull MaterialCardView cardReview, @NonNull MaterialCardView cardSuggestedDoctors,
+      @NonNull MaterialCardView cardSuggestions, @NonNull MaterialCardView cardSummary,
+      @NonNull MaterialCardView cardSymptoms, @NonNull MaterialCardView cardVitals,
+      @NonNull TextInputEditText etReviewNotes, @NonNull GridLayout gridVitals,
+      @NonNull LinearLayout layoutDoctorItems, @NonNull LinearLayout layoutExtractionBadges,
+      @NonNull LinearLayout layoutFileInfo, @NonNull LinearLayout layoutLabItems,
+      @NonNull LinearLayout layoutPatientGrid, @NonNull LinearLayout layoutSuggestionItems,
+      @NonNull SwipeRefreshLayout swipeRefresh, @NonNull SwitchCompat switchDoctorEdit,
+      @NonNull Toolbar toolbar, @NonNull TextView tvAbnormal, @NonNull TextView tvAnalyzedAt,
+      @NonNull TextView tvDiagnoses, @NonNull TextView tvDiagnosesCount,
+      @NonNull TextView tvDoctorNotes, @NonNull TextView tvExtractionPreview,
+      @NonNull TextView tvFileName, @NonNull TextView tvFileSize, @NonNull TextView tvFileType,
+      @NonNull TextView tvLabCount, @NonNull TextView tvMedications, @NonNull TextView tvModelUsed,
+      @NonNull TextView tvSeverity, @NonNull TextView tvSpecialty, @NonNull TextView tvStatus,
+      @NonNull TextView tvSummary, @NonNull TextView tvSymptoms, @NonNull TextView tvUploadDate) {
     this.rootView = rootView;
     this.btnAnalyze = btnAnalyze;
+    this.btnAskAI = btnAskAI;
     this.btnChat = btnChat;
     this.btnDelete = btnDelete;
     this.btnSubmitReview = btnSubmitReview;
@@ -266,6 +270,12 @@ public final class ActivityReportDetailBinding implements ViewBinding {
       id = R.id.btnAnalyze;
       MaterialButton btnAnalyze = ViewBindings.findChildViewById(rootView, id);
       if (btnAnalyze == null) {
+        break missingId;
+      }
+
+      id = R.id.btnAskAI;
+      MaterialButton btnAskAI = ViewBindings.findChildViewById(rootView, id);
+      if (btnAskAI == null) {
         break missingId;
       }
 
@@ -539,13 +549,13 @@ public final class ActivityReportDetailBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ActivityReportDetailBinding((CoordinatorLayout) rootView, btnAnalyze, btnChat,
-          btnDelete, btnSubmitReview, cardAbnormal, cardDiagnoses, cardDoctorNotes, cardExtraction,
-          cardLabResults, cardMedications, cardPatientInfo, cardReview, cardSuggestedDoctors,
-          cardSuggestions, cardSummary, cardSymptoms, cardVitals, etReviewNotes, gridVitals,
-          layoutDoctorItems, layoutExtractionBadges, layoutFileInfo, layoutLabItems,
-          layoutPatientGrid, layoutSuggestionItems, swipeRefresh, switchDoctorEdit, toolbar,
-          tvAbnormal, tvAnalyzedAt, tvDiagnoses, tvDiagnosesCount, tvDoctorNotes,
+      return new ActivityReportDetailBinding((CoordinatorLayout) rootView, btnAnalyze, btnAskAI,
+          btnChat, btnDelete, btnSubmitReview, cardAbnormal, cardDiagnoses, cardDoctorNotes,
+          cardExtraction, cardLabResults, cardMedications, cardPatientInfo, cardReview,
+          cardSuggestedDoctors, cardSuggestions, cardSummary, cardSymptoms, cardVitals,
+          etReviewNotes, gridVitals, layoutDoctorItems, layoutExtractionBadges, layoutFileInfo,
+          layoutLabItems, layoutPatientGrid, layoutSuggestionItems, swipeRefresh, switchDoctorEdit,
+          toolbar, tvAbnormal, tvAnalyzedAt, tvDiagnoses, tvDiagnosesCount, tvDoctorNotes,
           tvExtractionPreview, tvFileName, tvFileSize, tvFileType, tvLabCount, tvMedications,
           tvModelUsed, tvSeverity, tvSpecialty, tvStatus, tvSummary, tvSymptoms, tvUploadDate);
     }

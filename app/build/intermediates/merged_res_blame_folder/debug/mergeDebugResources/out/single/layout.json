@@ -1,9 +1,5 @@
 [
     {
-        "merged": "com.medreport.ai.app-mergeDebugResources-49:/layout/activity_main.xml",
-        "source": "com.medreport.ai.app-main-52:/layout/activity_main.xml"
-    },
-    {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\item_message_recv.xml",
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\item_message_recv.xml"
     },
@@ -64,6 +60,10 @@
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\activity_notifications.xml"
     },
     {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\item_ai_chat_message.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\item_ai_chat_message.xml"
+    },
+    {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\activity_register.xml",
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\activity_register.xml"
     },
@@ -84,6 +84,10 @@
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\item_chat.xml"
     },
     {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\bottom_sheet_ai_chat.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\bottom_sheet_ai_chat.xml"
+    },
+    {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\activity_login.xml",
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\activity_login.xml"
     },
@@ -98,5 +102,9 @@
     {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\item_report.xml",
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\item_report.xml"
+    },
+    {
+        "merged": "com.medreport.ai.app-mergeDebugResources-49:/layout/item_ai_chat_message.xml",
+        "source": "com.medreport.ai.app-main-52:/layout/item_ai_chat_message.xml"
     }
 ]

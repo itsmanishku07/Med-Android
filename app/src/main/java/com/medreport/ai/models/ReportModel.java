@@ -16,6 +16,7 @@ public class ReportModel {
     @SerializedName("status")               public String status;
     @SerializedName("medical_specialty")     public String medicalSpecialty;
     @SerializedName("ai_analysis")           public JsonObject aiAnalysis;
+    @SerializedName("extracted_text")        public String extractedText;
     @SerializedName("doctor_notes")          public String doctorNotes;
     @SerializedName("uploaded_at")           public String uploadedAt;
     @SerializedName("analyzed_at")           public String analyzedAt;

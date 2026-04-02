@@ -560,6 +560,12 @@
             android:layout_height="48dp" android:text="Analyze with AI"
             android:textAllCaps="false" app:cornerRadius="12dp" android:visibility="gone"/>
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAskAI" android:layout_width="match_parent"
+            android:layout_height="48dp" android:text="✨ Ask AI Assistant"
+            android:textAllCaps="false" app:cornerRadius="12dp"
+            app:backgroundTint="#EFF6FF" android:textColor="#1D4ED8"
+            android:layout_marginTop="6dp" android:visibility="gone"/>
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnChat" android:layout_width="match_parent"
             android:layout_height="48dp" android:text="Chat with Doctor"
             android:textAllCaps="false" app:cornerRadius="12dp"

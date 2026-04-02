@@ -3033,6 +3033,7 @@ drawable abc_vector_test
 drawable avd_hide_password
 drawable avd_show_password
 drawable bg_badge
+drawable bg_bottom_sheet
 drawable bg_bubble_recv
 drawable bg_bubble_sent
 drawable bg_disclaimer
@@ -3301,6 +3302,7 @@ id btnActive
 id btnAnalyze
 id btnArchiveToggle
 id btnArchived
+id btnAskAI
 id btnAuditLogs
 id btnChat
 id btnChatPatient
@@ -3432,6 +3434,7 @@ id etMessage
 id etName
 id etNotes
 id etPassword
+id etQuestion
 id etReviewNotes
 id exitUntilCollapsed
 id expand_activities_button
@@ -3509,6 +3512,8 @@ id layoutExtractionBadges
 id layoutFileInfo
 id layoutLabItems
 id layoutPatientGrid
+id layoutReceived
+id layoutSent
 id layoutSuggestionItems
 id left
 id leftToRight
@@ -3640,6 +3645,7 @@ id position
 id postLayout
 id pressed
 id progressBar
+id progressLoading
 id progress_circular
 id progress_horizontal
 id radio
@@ -3657,6 +3663,7 @@ id right_icon
 id right_side
 id rounded
 id row_index_key
+id rvChat
 id rvDashboardItems
 id save_non_transition_alpha
 id save_overlay_view
@@ -3803,8 +3810,12 @@ id tvName
 id tvNotes
 id tvPatientName
 id tvPhone
+id tvReceivedContent
+id tvReceivedTime
 id tvRegister
 id tvRole
+id tvSentContent
+id tvSentTime
 id tvSeverity
 id tvSeverityBadge
 id tvSpecializations
@@ -3979,6 +3990,7 @@ layout activity_notifications
 layout activity_profile
 layout activity_register
 layout activity_report_detail
+layout bottom_sheet_ai_chat
 layout browser_actions_context_menu_page
 layout browser_actions_context_menu_row
 layout custom_dialog
@@ -4007,6 +4019,7 @@ layout fragment_reminders
 layout fragment_reports
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
+layout item_ai_chat_message
 layout item_chat
 layout item_dashboard_report
 layout item_message_recv
