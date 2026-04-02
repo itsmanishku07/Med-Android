@@ -5,12 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
@@ -33,10 +36,22 @@ public final class ActivityChatBinding implements ViewBinding {
   public final LinearLayout bottomLayout;
 
   @NonNull
+  public final ImageButton btnAttach;
+
+  @NonNull
+  public final ImageButton btnRemoveImage;
+
+  @NonNull
   public final FloatingActionButton btnSend;
 
   @NonNull
+  public final CardView cvImagePreview;
+
+  @NonNull
   public final EditText etMessage;
+
+  @NonNull
+  public final ImageView ivPreview;
 
   @NonNull
   public final ProgressBar progressBar;
@@ -52,14 +67,19 @@ public final class ActivityChatBinding implements ViewBinding {
 
   private ActivityChatBinding(@NonNull ConstraintLayout rootView,
       @NonNull AppBarLayout appBarLayout, @NonNull LinearLayout bottomLayout,
-      @NonNull FloatingActionButton btnSend, @NonNull EditText etMessage,
-      @NonNull ProgressBar progressBar, @NonNull RecyclerView recyclerView,
-      @NonNull Toolbar toolbar, @NonNull TextView tvTyping) {
+      @NonNull ImageButton btnAttach, @NonNull ImageButton btnRemoveImage,
+      @NonNull FloatingActionButton btnSend, @NonNull CardView cvImagePreview,
+      @NonNull EditText etMessage, @NonNull ImageView ivPreview, @NonNull ProgressBar progressBar,
+      @NonNull RecyclerView recyclerView, @NonNull Toolbar toolbar, @NonNull TextView tvTyping) {
     this.rootView = rootView;
     this.appBarLayout = appBarLayout;
     this.bottomLayout = bottomLayout;
+    this.btnAttach = btnAttach;
+    this.btnRemoveImage = btnRemoveImage;
     this.btnSend = btnSend;
+    this.cvImagePreview = cvImagePreview;
     this.etMessage = etMessage;
+    this.ivPreview = ivPreview;
     this.progressBar = progressBar;
     this.recyclerView = recyclerView;
     this.toolbar = toolbar;
@@ -105,15 +125,39 @@ public final class ActivityChatBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.btnAttach;
+      ImageButton btnAttach = ViewBindings.findChildViewById(rootView, id);
+      if (btnAttach == null) {
+        break missingId;
+      }
+
+      id = R.id.btnRemoveImage;
+      ImageButton btnRemoveImage = ViewBindings.findChildViewById(rootView, id);
+      if (btnRemoveImage == null) {
+        break missingId;
+      }
+
       id = R.id.btnSend;
       FloatingActionButton btnSend = ViewBindings.findChildViewById(rootView, id);
       if (btnSend == null) {
         break missingId;
       }
 
+      id = R.id.cvImagePreview;
+      CardView cvImagePreview = ViewBindings.findChildViewById(rootView, id);
+      if (cvImagePreview == null) {
+        break missingId;
+      }
+
       id = R.id.etMessage;
       EditText etMessage = ViewBindings.findChildViewById(rootView, id);
       if (etMessage == null) {
+        break missingId;
+      }
+
+      id = R.id.ivPreview;
+      ImageView ivPreview = ViewBindings.findChildViewById(rootView, id);
+      if (ivPreview == null) {
         break missingId;
       }
 
@@ -142,7 +186,8 @@ public final class ActivityChatBinding implements ViewBinding {
       }
 
       return new ActivityChatBinding((ConstraintLayout) rootView, appBarLayout, bottomLayout,
-          btnSend, etMessage, progressBar, recyclerView, toolbar, tvTyping);
+          btnAttach, btnRemoveImage, btnSend, cvImagePreview, etMessage, ivPreview, progressBar,
+          recyclerView, toolbar, tvTyping);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

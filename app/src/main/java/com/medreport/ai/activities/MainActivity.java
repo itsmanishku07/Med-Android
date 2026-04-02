@@ -19,13 +19,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         try {
             b = ActivityMainBinding.inflate(getLayoutInflater());
             setContentView(b.getRoot());
         } catch (Exception e) {
             e.printStackTrace();
-            android.widget.Toast.makeText(this, "Layout Init Err: " + e.getMessage(), android.widget.Toast.LENGTH_LONG).show();
+            android.widget.Toast.makeText(this, "Layout Init Err: " + e.getMessage(), android.widget.Toast.LENGTH_LONG)
+                    .show();
             return;
         }
 
@@ -44,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            android.widget.Toast.makeText(this, "Logic Init Err: " + e.getMessage(), android.widget.Toast.LENGTH_LONG).show();
+            android.widget.Toast.makeText(this, "Logic Init Err: " + e.getMessage(), android.widget.Toast.LENGTH_LONG)
+                    .show();
         }
     }
 
@@ -61,26 +63,35 @@ public class MainActivity extends AppCompatActivity {
                 if (remindersItem != null) {
                     remindersItem.setTitle("Admin");
                     remindersItem.setIcon(R.drawable.ic_admin);
-                    // We'll reuse the reminders ID for Admin for simplicity, or we can use the actual ID.
-                    // Let's use the actual ID by removing and adding, but careful with the 5-item limit.
+                    // We'll reuse the reminders ID for Admin for simplicity, or we can use the
+                    // actual ID.
+                    // Let's use the actual ID by removing and adding, but careful with the 5-item
+                    // limit.
                     b.bottomNav.getMenu().removeItem(R.id.nav_reminders);
                     b.bottomNav.getMenu().add(android.view.Menu.NONE, R.id.nav_admin, 10, "Admin")
-                        .setIcon(R.drawable.ic_admin);
+                            .setIcon(R.drawable.ic_admin);
                 }
             } else if (user != null && user.isDoctor()) {
                 // Doctors don't use personal reminders usually
                 MenuItem remindersItem = b.bottomNav.getMenu().findItem(R.id.nav_reminders);
-                if (remindersItem != null) remindersItem.setVisible(false);
+                if (remindersItem != null)
+                    remindersItem.setVisible(false);
             }
 
             b.bottomNav.setOnItemSelectedListener(item -> {
                 int id = item.getItemId();
-                if (id == R.id.nav_dashboard)   loadFragment(new DashboardFragment());
-                else if (id == R.id.nav_reports) loadFragment(new ReportsFragment());
-                else if (id == R.id.nav_chats)   loadFragment(new ChatsFragment());
-                else if (id == R.id.nav_reminders) loadFragment(new RemindersFragment());
-                else if (id == R.id.nav_profile)   loadFragment(new ProfileFragment());
-                else if (id == R.id.nav_admin)     loadFragment(new AdminDashboardFragment());
+                if (id == R.id.nav_dashboard)
+                    loadFragment(new DashboardFragment());
+                else if (id == R.id.nav_reports)
+                    loadFragment(new ReportsFragment());
+                else if (id == R.id.nav_chats)
+                    loadFragment(new ChatsFragment());
+                else if (id == R.id.nav_reminders)
+                    loadFragment(new RemindersFragment());
+                else if (id == R.id.nav_profile)
+                    loadFragment(new ProfileFragment());
+                else if (id == R.id.nav_admin)
+                    loadFragment(new AdminDashboardFragment());
                 return true;
             });
         } catch (Exception e) {
@@ -91,10 +102,11 @@ public class MainActivity extends AppCompatActivity {
     private void loadFragment(Fragment f) {
         try {
             getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainer, f).commit();
+                    .replace(R.id.fragmentContainer, f).commit();
         } catch (Exception e) {
             e.printStackTrace();
-            android.widget.Toast.makeText(this, "Nav Error: " + e.getMessage(), android.widget.Toast.LENGTH_LONG).show();
+            android.widget.Toast.makeText(this, "Nav Error: " + e.getMessage(), android.widget.Toast.LENGTH_LONG)
+                    .show();
         }
     }
 }

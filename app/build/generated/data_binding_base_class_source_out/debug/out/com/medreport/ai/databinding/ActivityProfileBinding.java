@@ -4,12 +4,21 @@ package com.medreport.ai.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.medreport.ai.R;
 import java.lang.NullPointerException;
 import java.lang.Override;
@@ -17,32 +26,86 @@ import java.lang.String;
 
 public final class ActivityProfileBinding implements ViewBinding {
   @NonNull
-  private final ScrollView rootView;
+  private final CoordinatorLayout rootView;
 
   @NonNull
-  public final TextView tvEmail;
+  public final AppBarLayout appBar;
+
+  @NonNull
+  public final MaterialButton btnSave;
+
+  @NonNull
+  public final MaterialCardView cardSpecializations;
+
+  @NonNull
+  public final CollapsingToolbarLayout collapsingToolbar;
+
+  @NonNull
+  public final TextInputEditText etBio;
+
+  @NonNull
+  public final TextInputEditText etLocation;
+
+  @NonNull
+  public final TextInputEditText etName;
+
+  @NonNull
+  public final TextInputEditText etPhone;
+
+  @NonNull
+  public final TextInputEditText etSpecializations;
+
+  @NonNull
+  public final FloatingActionButton fabEditPic;
+
+  @NonNull
+  public final ImageView ivProfilePic;
+
+  @NonNull
+  public final ProgressBar progressBar;
+
+  @NonNull
+  public final Toolbar toolbar;
+
+  @NonNull
+  public final TextView tvHeaderName;
+
+  @NonNull
+  public final TextView tvHeaderRole;
 
   @NonNull
   public final TextView tvInitial;
 
-  @NonNull
-  public final TextView tvName;
-
-  @NonNull
-  public final TextView tvRole;
-
-  private ActivityProfileBinding(@NonNull ScrollView rootView, @NonNull TextView tvEmail,
-      @NonNull TextView tvInitial, @NonNull TextView tvName, @NonNull TextView tvRole) {
+  private ActivityProfileBinding(@NonNull CoordinatorLayout rootView, @NonNull AppBarLayout appBar,
+      @NonNull MaterialButton btnSave, @NonNull MaterialCardView cardSpecializations,
+      @NonNull CollapsingToolbarLayout collapsingToolbar, @NonNull TextInputEditText etBio,
+      @NonNull TextInputEditText etLocation, @NonNull TextInputEditText etName,
+      @NonNull TextInputEditText etPhone, @NonNull TextInputEditText etSpecializations,
+      @NonNull FloatingActionButton fabEditPic, @NonNull ImageView ivProfilePic,
+      @NonNull ProgressBar progressBar, @NonNull Toolbar toolbar, @NonNull TextView tvHeaderName,
+      @NonNull TextView tvHeaderRole, @NonNull TextView tvInitial) {
     this.rootView = rootView;
-    this.tvEmail = tvEmail;
+    this.appBar = appBar;
+    this.btnSave = btnSave;
+    this.cardSpecializations = cardSpecializations;
+    this.collapsingToolbar = collapsingToolbar;
+    this.etBio = etBio;
+    this.etLocation = etLocation;
+    this.etName = etName;
+    this.etPhone = etPhone;
+    this.etSpecializations = etSpecializations;
+    this.fabEditPic = fabEditPic;
+    this.ivProfilePic = ivProfilePic;
+    this.progressBar = progressBar;
+    this.toolbar = toolbar;
+    this.tvHeaderName = tvHeaderName;
+    this.tvHeaderRole = tvHeaderRole;
     this.tvInitial = tvInitial;
-    this.tvName = tvName;
-    this.tvRole = tvRole;
   }
 
   @Override
   @NonNull
-  public ScrollView getRoot() {
+  public CoordinatorLayout getRoot() {
     return rootView;
   }
 
@@ -67,9 +130,93 @@ public final class ActivityProfileBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.tvEmail;
-      TextView tvEmail = ViewBindings.findChildViewById(rootView, id);
-      if (tvEmail == null) {
+      id = R.id.appBar;
+      AppBarLayout appBar = ViewBindings.findChildViewById(rootView, id);
+      if (appBar == null) {
+        break missingId;
+      }
+
+      id = R.id.btnSave;
+      MaterialButton btnSave = ViewBindings.findChildViewById(rootView, id);
+      if (btnSave == null) {
+        break missingId;
+      }
+
+      id = R.id.cardSpecializations;
+      MaterialCardView cardSpecializations = ViewBindings.findChildViewById(rootView, id);
+      if (cardSpecializations == null) {
+        break missingId;
+      }
+
+      id = R.id.collapsingToolbar;
+      CollapsingToolbarLayout collapsingToolbar = ViewBindings.findChildViewById(rootView, id);
+      if (collapsingToolbar == null) {
+        break missingId;
+      }
+
+      id = R.id.etBio;
+      TextInputEditText etBio = ViewBindings.findChildViewById(rootView, id);
+      if (etBio == null) {
+        break missingId;
+      }
+
+      id = R.id.etLocation;
+      TextInputEditText etLocation = ViewBindings.findChildViewById(rootView, id);
+      if (etLocation == null) {
+        break missingId;
+      }
+
+      id = R.id.etName;
+      TextInputEditText etName = ViewBindings.findChildViewById(rootView, id);
+      if (etName == null) {
+        break missingId;
+      }
+
+      id = R.id.etPhone;
+      TextInputEditText etPhone = ViewBindings.findChildViewById(rootView, id);
+      if (etPhone == null) {
+        break missingId;
+      }
+
+      id = R.id.etSpecializations;
+      TextInputEditText etSpecializations = ViewBindings.findChildViewById(rootView, id);
+      if (etSpecializations == null) {
+        break missingId;
+      }
+
+      id = R.id.fabEditPic;
+      FloatingActionButton fabEditPic = ViewBindings.findChildViewById(rootView, id);
+      if (fabEditPic == null) {
+        break missingId;
+      }
+
+      id = R.id.ivProfilePic;
+      ImageView ivProfilePic = ViewBindings.findChildViewById(rootView, id);
+      if (ivProfilePic == null) {
+        break missingId;
+      }
+
+      id = R.id.progressBar;
+      ProgressBar progressBar = ViewBindings.findChildViewById(rootView, id);
+      if (progressBar == null) {
+        break missingId;
+      }
+
+      id = R.id.toolbar;
+      Toolbar toolbar = ViewBindings.findChildViewById(rootView, id);
+      if (toolbar == null) {
+        break missingId;
+      }
+
+      id = R.id.tvHeaderName;
+      TextView tvHeaderName = ViewBindings.findChildViewById(rootView, id);
+      if (tvHeaderName == null) {
+        break missingId;
+      }
+
+      id = R.id.tvHeaderRole;
+      TextView tvHeaderRole = ViewBindings.findChildViewById(rootView, id);
+      if (tvHeaderRole == null) {
         break missingId;
       }
 
@@ -79,19 +226,10 @@ public final class ActivityProfileBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.tvName;
-      TextView tvName = ViewBindings.findChildViewById(rootView, id);
-      if (tvName == null) {
-        break missingId;
-      }
-
-      id = R.id.tvRole;
-      TextView tvRole = ViewBindings.findChildViewById(rootView, id);
-      if (tvRole == null) {
-        break missingId;
-      }
-
-      return new ActivityProfileBinding((ScrollView) rootView, tvEmail, tvInitial, tvName, tvRole);
+      return new ActivityProfileBinding((CoordinatorLayout) rootView, appBar, btnSave,
+          cardSpecializations, collapsingToolbar, etBio, etLocation, etName, etPhone,
+          etSpecializations, fabEditPic, ivProfilePic, progressBar, toolbar, tvHeaderName,
+          tvHeaderRole, tvInitial);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

@@ -42,6 +42,7 @@ drawable bg_bubble_recv
 drawable bg_bubble_sent
 drawable bg_disclaimer
 drawable bg_dot_green
+drawable bg_gradient_blue
 drawable bg_input_field
 drawable bg_stat_icon
 drawable bg_time_badge
@@ -63,6 +64,8 @@ drawable ic_pill
 drawable ic_stop
 drawable ic_upload
 drawable ic_user
+id action_delete
+id appBar
 id appBarLayout
 id bottomLayout
 id bottomNav
@@ -72,6 +75,7 @@ id btnAnalyze
 id btnArchiveToggle
 id btnArchived
 id btnAskAI
+id btnAttach
 id btnAuditLogs
 id btnChat
 id btnChatPatient
@@ -83,6 +87,8 @@ id btnLogout
 id btnMarkAll
 id btnNotifs
 id btnRegister
+id btnRemoveImage
+id btnSave
 id btnSend
 id btnSubmitReview
 id btnUploadBox
@@ -95,6 +101,7 @@ id cardLabResults
 id cardMedications
 id cardPatientInfo
 id cardReview
+id cardSpecializations
 id cardSuggestedDoctors
 id cardSuggestions
 id cardSummary
@@ -114,18 +121,28 @@ id chipFilterCritical
 id chipFilterHigh
 id chipFilterPending
 id chipRole
+id collapsingToolbar
+id cvImagePreview
+id etBio
 id etDosage
 id etEmail
+id etLocation
 id etMedicineName
 id etMessage
 id etName
 id etNotes
 id etPassword
+id etPhone
 id etQuestion
 id etReviewNotes
+id etSpecializations
 id fab
+id fabEditPic
 id fragmentContainer
 id gridVitals
+id ivImage
+id ivPreview
+id ivProfilePic
 id ivStat1Icon
 id ivStat2Icon
 id ivStat3Icon
@@ -185,6 +202,8 @@ id tvExtractionPreview
 id tvFileName
 id tvFileSize
 id tvFileType
+id tvHeaderName
+id tvHeaderRole
 id tvInitial
 id tvInitials
 id tvLabCount
@@ -201,7 +220,6 @@ id tvPhone
 id tvReceivedContent
 id tvReceivedTime
 id tvRegister
-id tvRole
 id tvSentContent
 id tvSentTime
 id tvSeverity
@@ -257,6 +275,7 @@ layout item_notification
 layout item_reminder
 layout item_report
 menu bottom_nav
+menu menu_chat
 string admin
 string app_name
 string chats

@@ -438,8 +438,15 @@ public class ReportDetailActivity extends AppCompatActivity {
             b.cardDoctorNotes.setVisibility(View.GONE);
         }
 
-        // ── ACTIONS ──
-        b.btnChat.setVisibility(report.assignedDoctorId != null ? View.VISIBLE : View.GONE);
+        // ── 14. CHAT ACTION ──
+        if (isDoctor) {
+            b.btnChat.setText("Chat with Patient");
+            b.btnChat.setVisibility(View.VISIBLE); // Doctors can always chat with the owner
+        } else {
+            b.btnChat.setText("Chat with Doctor");
+            b.btnChat.setVisibility(report.assignedDoctorId != null ? View.VISIBLE : View.GONE);
+        }
+
         b.btnChat.setOnClickListener(v -> {
             Intent i = new Intent(this, ChatActivity.class);
             i.putExtra(ChatActivity.EXTRA_REPORT_ID, reportId);

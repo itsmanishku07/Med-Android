@@ -20,12 +20,12 @@
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\activity_main.xml"
     },
     {
-        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\fragment_reminders.xml",
-        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\fragment_reminders.xml"
-    },
-    {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\dialog_reminder.xml",
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\dialog_reminder.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\fragment_reminders.xml",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\fragment_reminders.xml"
     },
     {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\fragment_profile.xml",
@@ -46,6 +46,10 @@
     {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\activity_medicine_reminders.xml",
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\activity_medicine_reminders.xml"
+    },
+    {
+        "merged": "com.medreport.ai.app-mergeDebugResources-49:/layout/fragment_profile.xml",
+        "source": "com.medreport.ai.app-main-52:/layout/fragment_profile.xml"
     },
     {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\activity_chat.xml",
@@ -102,9 +106,5 @@
     {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-mergeDebugResources-49:\\layout\\item_report.xml",
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\item_report.xml"
-    },
-    {
-        "merged": "com.medreport.ai.app-mergeDebugResources-49:/layout/item_ai_chat_message.xml",
-        "source": "com.medreport.ai.app-main-52:/layout/item_ai_chat_message.xml"
     }
 ]

@@ -1,9 +1,5 @@
 [
     {
-        "merged": "com.medreport.ai.app-debug-50:/drawable_bg_bottom_sheet.xml.flat",
-        "source": "com.medreport.ai.app-main-52:/drawable/bg_bottom_sheet.xml"
-    },
-    {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\layout_activity_notifications.xml.flat",
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\activity_notifications.xml"
     },
@@ -32,28 +28,32 @@
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\drawable\\ic_stop.xml"
     },
     {
-        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\drawable_bg_disclaimer.xml.flat",
-        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\drawable\\bg_disclaimer.xml"
-    },
-    {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\drawable_ic_user.xml.flat",
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\drawable\\ic_user.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\drawable_bg_disclaimer.xml.flat",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\drawable\\bg_disclaimer.xml"
     },
     {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\menu_bottom_nav.xml.flat",
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\menu\\bottom_nav.xml"
     },
     {
-        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\layout_fragment_reminders.xml.flat",
-        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\fragment_reminders.xml"
-    },
-    {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\layout_item_ai_chat_message.xml.flat",
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\item_ai_chat_message.xml"
     },
     {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\layout_fragment_reminders.xml.flat",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\fragment_reminders.xml"
+    },
+    {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\layout_activity_chat.xml.flat",
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\activity_chat.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\drawable_bg_gradient_blue.xml.flat",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\drawable\\bg_gradient_blue.xml"
     },
     {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\drawable_ic_home.xml.flat",
@@ -70,6 +70,10 @@
     {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\drawable_bg_upload_zone.xml.flat",
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\drawable\\bg_upload_zone.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\menu_menu_chat.xml.flat",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\menu\\menu_chat.xml"
     },
     {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\drawable_ic_archive.xml.flat",
@@ -90,6 +94,10 @@
     {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\layout_fragment_reports.xml.flat",
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\fragment_reports.xml"
+    },
+    {
+        "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\drawable_bg_bottom_sheet.xml.flat",
+        "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\drawable\\bg_bottom_sheet.xml"
     },
     {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\layout_fragment_dashboard.xml.flat",
@@ -134,6 +142,10 @@
     {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\layout_fragment_admin_dashboard.xml.flat",
         "source": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-main-52:\\layout\\fragment_admin_dashboard.xml"
+    },
+    {
+        "merged": "com.medreport.ai.app-debug-50:/layout_fragment_profile.xml.flat",
+        "source": "com.medreport.ai.app-main-52:/layout/fragment_profile.xml"
     },
     {
         "merged": "C:\\Users\\Manish\\.gradle\\daemon\\8.9\\com.medreport.ai.app-debug-50:\\layout_dialog_reminder.xml.flat",

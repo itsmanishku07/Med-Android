@@ -4,6 +4,7 @@ package com.medreport.ai.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -33,6 +34,9 @@ public final class FragmentProfileBinding implements ViewBinding {
   public final Chip chipRole;
 
   @NonNull
+  public final ImageView ivProfilePic;
+
+  @NonNull
   public final LinearLayout layoutDoctorOnly;
 
   @NonNull
@@ -58,13 +62,15 @@ public final class FragmentProfileBinding implements ViewBinding {
 
   private FragmentProfileBinding(@NonNull CoordinatorLayout rootView,
       @NonNull MaterialButton btnEdit, @NonNull MaterialButton btnLogout, @NonNull Chip chipRole,
-      @NonNull LinearLayout layoutDoctorOnly, @NonNull Toolbar toolbar, @NonNull TextView tvEmail,
-      @NonNull TextView tvInitials, @NonNull TextView tvName, @NonNull TextView tvPhone,
-      @NonNull TextView tvSpecializations, @NonNull TextView tvVersion) {
+      @NonNull ImageView ivProfilePic, @NonNull LinearLayout layoutDoctorOnly,
+      @NonNull Toolbar toolbar, @NonNull TextView tvEmail, @NonNull TextView tvInitials,
+      @NonNull TextView tvName, @NonNull TextView tvPhone, @NonNull TextView tvSpecializations,
+      @NonNull TextView tvVersion) {
     this.rootView = rootView;
     this.btnEdit = btnEdit;
     this.btnLogout = btnLogout;
     this.chipRole = chipRole;
+    this.ivProfilePic = ivProfilePic;
     this.layoutDoctorOnly = layoutDoctorOnly;
     this.toolbar = toolbar;
     this.tvEmail = tvEmail;
@@ -120,6 +126,12 @@ public final class FragmentProfileBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.ivProfilePic;
+      ImageView ivProfilePic = ViewBindings.findChildViewById(rootView, id);
+      if (ivProfilePic == null) {
+        break missingId;
+      }
+
       id = R.id.layoutDoctorOnly;
       LinearLayout layoutDoctorOnly = ViewBindings.findChildViewById(rootView, id);
       if (layoutDoctorOnly == null) {
@@ -169,8 +181,8 @@ public final class FragmentProfileBinding implements ViewBinding {
       }
 
       return new FragmentProfileBinding((CoordinatorLayout) rootView, btnEdit, btnLogout, chipRole,
-          layoutDoctorOnly, toolbar, tvEmail, tvInitials, tvName, tvPhone, tvSpecializations,
-          tvVersion);
+          ivProfilePic, layoutDoctorOnly, toolbar, tvEmail, tvInitials, tvName, tvPhone,
+          tvSpecializations, tvVersion);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

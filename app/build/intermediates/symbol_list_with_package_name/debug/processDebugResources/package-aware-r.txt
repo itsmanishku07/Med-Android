@@ -3038,6 +3038,7 @@ drawable bg_bubble_recv
 drawable bg_bubble_sent
 drawable bg_disclaimer
 drawable bg_dot_green
+drawable bg_gradient_blue
 drawable bg_input_field
 drawable bg_stat_icon
 drawable bg_time_badge
@@ -3249,6 +3250,7 @@ id action_bar_subtitle
 id action_bar_title
 id action_container
 id action_context_bar
+id action_delete
 id action_divider
 id action_image
 id action_menu_divider
@@ -3271,6 +3273,7 @@ id animateToEnd
 id animateToStart
 id antiClockwise
 id anticipate
+id appBar
 id appBarLayout
 id arc
 id asConfigured
@@ -3303,6 +3306,7 @@ id btnAnalyze
 id btnArchiveToggle
 id btnArchived
 id btnAskAI
+id btnAttach
 id btnAuditLogs
 id btnChat
 id btnChatPatient
@@ -3314,6 +3318,8 @@ id btnLogout
 id btnMarkAll
 id btnNotifs
 id btnRegister
+id btnRemoveImage
+id btnSave
 id btnSend
 id btnSubmitReview
 id btnUploadBox
@@ -3330,6 +3336,7 @@ id cardLabResults
 id cardMedications
 id cardPatientInfo
 id cardReview
+id cardSpecializations
 id cardSuggestedDoctors
 id cardSuggestions
 id cardSummary
@@ -3368,6 +3375,7 @@ id clip_vertical
 id clockwise
 id closest
 id collapseActionView
+id collapsingToolbar
 id compress
 id confirm_button
 id constraint
@@ -3384,6 +3392,7 @@ id currentState
 id custom
 id customPanel
 id cut
+id cvImagePreview
 id dark
 id date_picker_actions
 id decelerate
@@ -3427,19 +3436,24 @@ id end
 id endToStart
 id enterAlways
 id enterAlwaysCollapsed
+id etBio
 id etDosage
 id etEmail
+id etLocation
 id etMedicineName
 id etMessage
 id etName
 id etNotes
 id etPassword
+id etPhone
 id etQuestion
 id etReviewNotes
+id etSpecializations
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
 id fab
+id fabEditPic
 id fade
 id fill
 id fill_horizontal
@@ -3491,6 +3505,9 @@ id inward
 id is_pooling_container_tag
 id italic
 id item_touch_helper_previous_elevation
+id ivImage
+id ivPreview
+id ivProfilePic
 id ivStat1Icon
 id ivStat2Icon
 id ivStat3Icon
@@ -3797,6 +3814,8 @@ id tvExtractionPreview
 id tvFileName
 id tvFileSize
 id tvFileType
+id tvHeaderName
+id tvHeaderRole
 id tvInitial
 id tvInitials
 id tvLabCount
@@ -3813,7 +3832,6 @@ id tvPhone
 id tvReceivedContent
 id tvReceivedTime
 id tvRegister
-id tvRole
 id tvSentContent
 id tvSentTime
 id tvSeverity
@@ -4089,6 +4107,7 @@ layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
 menu bottom_nav
+menu menu_chat
 plurals mtrl_badge_content_description
 raw firebase_common_keep
 string abc_action_bar_home_description

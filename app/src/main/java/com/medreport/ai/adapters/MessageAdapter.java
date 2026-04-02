@@ -1,6 +1,10 @@
 package com.medreport.ai.adapters;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.*;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,18 +32,40 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.VH> {
 
     @Override public void onBindViewHolder(@NonNull VH h, int pos) {
         MessageModel m = items.get(pos);
-        h.tvMessage.setText(m.content);
+        if (m.content != null && !m.content.isEmpty()) {
+            h.tvMessage.setVisibility(View.VISIBLE);
+            h.tvMessage.setText(m.content);
+        } else {
+            h.tvMessage.setVisibility(View.GONE);
+        }
         h.tvTime.setText(DateUtils.timeAgo(m.timestamp));
+
+        if ("IMAGE".equals(m.messageType) && m.imageData != null && m.imageData.startsWith("data:image")) {
+            h.ivImage.setVisibility(View.VISIBLE);
+            try {
+                String base64Image = m.imageData.split(",")[1];
+                byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                h.ivImage.setImageBitmap(decodedByte);
+            } catch (Exception e) {
+                e.printStackTrace();
+                h.ivImage.setVisibility(View.GONE);
+            }
+        } else {
+            h.ivImage.setVisibility(View.GONE);
+        }
     }
 
     @Override public int getItemCount() { return items.size(); }
 
     static class VH extends RecyclerView.ViewHolder {
         TextView tvMessage, tvTime;
+        ImageView ivImage;
         VH(View v) {
             super(v);
             tvMessage = v.findViewById(R.id.tvMessage);
             tvTime    = v.findViewById(R.id.tvTime);
+            ivImage   = v.findViewById(R.id.ivImage);
         }
     }
 }

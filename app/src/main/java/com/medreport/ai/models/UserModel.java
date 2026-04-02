@@ -22,6 +22,17 @@ public class UserModel {
     public boolean isActive;
     @SerializedName("created_at")
     public String createdAt;
+    @SerializedName("profile_picture")
+    public String profilePicture;
+    @SerializedName("profile")
+    public ProfileData profile;
+
+    public static class ProfileData {
+        @SerializedName("location")
+        public String location;
+        @SerializedName("bio")
+        public String bio;
+    }
 
     public boolean isPatient() {
         return "PATIENT".equals(role);

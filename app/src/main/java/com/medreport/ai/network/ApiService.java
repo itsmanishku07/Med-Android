@@ -82,6 +82,9 @@ public interface ApiService {
     @POST("chats/{chatId}/messages")
     Call<ApiResponse<MessageModel>> sendMessage(@Path("chatId") String chatId, @Body Map<String, String> body);
 
+    @DELETE("chats/{chatId}")
+    Call<ApiResponse<Void>> deleteChat(@Path("chatId") String chatId);
+
     // ── Medicine Reminders ────────────────────────────────────────────────────
     @GET("medicine-reminders/")
     Call<ResponseModels.RemindersResponse> getReminders();
