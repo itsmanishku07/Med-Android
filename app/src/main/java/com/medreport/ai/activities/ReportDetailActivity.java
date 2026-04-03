@@ -57,7 +57,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         b = ActivityReportDetailBinding.inflate(getLayoutInflater());
         setContentView(b.getRoot());
-        
+
         setSupportActionBar(b.toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,7 +65,10 @@ public class ReportDetailActivity extends AppCompatActivity {
         }
 
         reportId = getIntent().getStringExtra(EXTRA_REPORT_ID);
-        b.swipeRefresh.setOnRefreshListener(() -> { stopPolling(); loadReport(); });
+        b.swipeRefresh.setOnRefreshListener(() -> {
+            stopPolling();
+            loadReport();
+        });
         loadReport();
     }
 
@@ -76,19 +79,26 @@ public class ReportDetailActivity extends AppCompatActivity {
     private void loadReport() {
         b.swipeRefresh.setRefreshing(true);
         ApiClient.get().getReport(reportId).enqueue(new Callback<ApiResponse<ReportModel>>() {
-            @Override public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
+            @Override
+            public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
                 b.swipeRefresh.setRefreshing(false);
                 if (r.isSuccessful() && r.body() != null && r.body().report != null) {
                     report = r.body().report;
-                    Log.d(TAG, "Report loaded. Status=" + report.status + " aiAnalysis=" + (report.aiAnalysis != null ? "present" : "null"));
+                    Log.d(TAG, "Report loaded. Status=" + report.status + " aiAnalysis="
+                            + (report.aiAnalysis != null ? "present" : "null"));
                     bindReport();
-                    if ("ANALYZING".equals(report.status)) startPolling(); else stopPolling();
+                    if ("ANALYZING".equals(report.status))
+                        startPolling();
+                    else
+                        stopPolling();
                 } else {
                     Log.e(TAG, "Load failed. Code=" + r.code());
                     Toast.makeText(ReportDetailActivity.this, "Failed to load report", Toast.LENGTH_SHORT).show();
                 }
             }
-            @Override public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {
+
+            @Override
+            public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {
                 b.swipeRefresh.setRefreshing(false);
                 Log.e(TAG, "Network error", t);
                 Toast.makeText(ReportDetailActivity.this, "Connection failed", Toast.LENGTH_SHORT).show();
@@ -101,26 +111,33 @@ public class ReportDetailActivity extends AppCompatActivity {
     // ══════════════════════════════════════════════════════════════════
 
     private void startPolling() {
-        if (isPolling) return;
+        if (isPolling)
+            return;
         isPolling = true;
         b.btnAnalyze.setEnabled(false);
         b.btnAnalyze.setText("Analyzing...");
         pollRunnable = () -> ApiClient.get().getReport(reportId).enqueue(new Callback<ApiResponse<ReportModel>>() {
-            @Override public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
+            @Override
+            public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
                 if (r.isSuccessful() && r.body() != null && r.body().report != null) {
                     report = r.body().report;
                     bindReport();
                     if ("ANALYZING".equals(report.status)) {
-                        if (isPolling) pollHandler.postDelayed(pollRunnable, 5000);
+                        if (isPolling)
+                            pollHandler.postDelayed(pollRunnable, 5000);
                     } else {
                         stopPolling();
                         Toast.makeText(ReportDetailActivity.this, "Analysis complete!", Toast.LENGTH_SHORT).show();
                         loadReport(); // Force fresh reload
                     }
-                } else if (isPolling) pollHandler.postDelayed(pollRunnable, 5000);
+                } else if (isPolling)
+                    pollHandler.postDelayed(pollRunnable, 5000);
             }
-            @Override public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {
-                if (isPolling) pollHandler.postDelayed(pollRunnable, 5000);
+
+            @Override
+            public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {
+                if (isPolling)
+                    pollHandler.postDelayed(pollRunnable, 5000);
             }
         });
         pollHandler.postDelayed(pollRunnable, 5000);
@@ -128,23 +145,29 @@ public class ReportDetailActivity extends AppCompatActivity {
 
     private void stopPolling() {
         isPolling = false;
-        if (pollRunnable != null) pollHandler.removeCallbacks(pollRunnable);
+        if (pollRunnable != null)
+            pollHandler.removeCallbacks(pollRunnable);
         b.btnAnalyze.setEnabled(true);
         b.btnAnalyze.setText("Re-analyze with AI");
     }
 
-    @Override protected void onDestroy() { super.onDestroy(); stopPolling(); }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopPolling();
+    }
 
     // ══════════════════════════════════════════════════════════════════
     // BIND ALL DATA FROM API RESPONSE
     // ══════════════════════════════════════════════════════════════════
 
     private void bindReport() {
-        if (report == null) return;
-        
+        if (report == null)
+            return;
+
         UserModel me = AuthManager.getInstance().getCurrentUser();
         boolean isPatient = me != null && me.isPatient();
-        boolean isDoctor  = me != null && me.isDoctor();
+        boolean isDoctor = me != null && me.isDoctor();
         canEdit = isPatient || (isDoctor && report.doctorEditPermission);
 
         String status = report.status != null ? report.status : "PENDING";
@@ -163,10 +186,18 @@ public class ReportDetailActivity extends AppCompatActivity {
             b.tvSeverity.setVisibility(View.VISIBLE);
             b.tvSeverity.setText(sev);
             switch (sev) {
-                case "CRITICAL": applyBadgeColor(b.tvSeverity, "red"); break;
-                case "HIGH":     applyBadgeColor(b.tvSeverity, "orange"); break;
-                case "MEDIUM":   applyBadgeColor(b.tvSeverity, "amber"); break;
-                default:         applyBadgeColor(b.tvSeverity, "green"); break;
+                case "CRITICAL":
+                    applyBadgeColor(b.tvSeverity, "red");
+                    break;
+                case "HIGH":
+                    applyBadgeColor(b.tvSeverity, "orange");
+                    break;
+                case "MEDIUM":
+                    applyBadgeColor(b.tvSeverity, "amber");
+                    break;
+                default:
+                    applyBadgeColor(b.tvSeverity, "green");
+                    break;
             }
         } else {
             b.tvSeverity.setVisibility(View.GONE);
@@ -188,10 +219,11 @@ public class ReportDetailActivity extends AppCompatActivity {
         if (report.fileSize != null) {
             try {
                 long bytes = Long.parseLong(report.fileSize);
-                fileSizeStr = bytes > 1024 * 1024 ?
-                    String.format(Locale.US, "%.1f MB", bytes / (1024.0 * 1024.0)) :
-                    String.format(Locale.US, "%.0f KB", bytes / 1024.0);
-            } catch (Exception e) { fileSizeStr = report.fileSize; }
+                fileSizeStr = bytes > 1024 * 1024 ? String.format(Locale.US, "%.1f MB", bytes / (1024.0 * 1024.0))
+                        : String.format(Locale.US, "%.0f KB", bytes / 1024.0);
+            } catch (Exception e) {
+                fileSizeStr = report.fileSize;
+            }
         }
         b.tvFileSize.setText(fileSizeStr);
 
@@ -202,7 +234,7 @@ public class ReportDetailActivity extends AppCompatActivity {
 
         // ── AI ANALYSIS SECTIONS ──
         JsonObject ai = report.aiAnalysis;
-        
+
         // Reset all AI cards
         b.cardSummary.setVisibility(View.GONE);
         b.cardExtraction.setVisibility(View.GONE);
@@ -218,7 +250,7 @@ public class ReportDetailActivity extends AppCompatActivity {
 
         if (ai != null && !status.equals("ANALYZING") && !status.equals("PENDING")) {
             Log.d(TAG, "AI Analysis keys: " + ai.keySet());
-            
+
             // ── 2. AI SUMMARY ──
             String summary = report.getAiSummary();
             if (summary != null && !summary.isEmpty()) {
@@ -236,26 +268,33 @@ public class ReportDetailActivity extends AppCompatActivity {
             if (extraction != null) {
                 b.cardExtraction.setVisibility(View.VISIBLE);
                 b.layoutExtractionBadges.removeAllViews();
-                
+
                 String ft = safeStr(extraction, "file_type", null);
-                if (ft != null) addExtractionBadge("📄 " + ft.toUpperCase(), "#F1F5F9", "@color/text_secondary");
+                if (ft != null)
+                    addExtractionBadge("📄 " + ft.toUpperCase(), "#F1F5F9", "@color/text_secondary");
 
                 String tl = safeStr(extraction, "text_length", null);
-                if (tl != null) addExtractionBadge(tl + " chars", "#F1F5F9", "@color/text_secondary");
+                if (tl != null)
+                    addExtractionBadge(tl + " chars", "#F1F5F9", "@color/text_secondary");
 
                 boolean success = false;
-                try { success = extraction.get("extraction_successful").getAsBoolean(); } catch (Exception e) {}
+                try {
+                    success = extraction.get("extraction_successful").getAsBoolean();
+                } catch (Exception e) {
+                }
                 addExtractionBadge(success ? "✅ Extracted" : "❌ Failed",
-                    success ? "#F0FDF4" : "#FEF2F2", success ? "@color/badge_text_green" : "@color/badge_text_red");
+                        success ? "#F0FDF4" : "#FEF2F2", success ? "@color/badge_text_green" : "@color/badge_text_red");
 
                 String ocrScore = safeStr(extraction, "ocr_quality_score", null);
                 if (ocrScore != null) {
                     try {
-                        int pct = (int)(Double.parseDouble(ocrScore) * 100);
+                        int pct = (int) (Double.parseDouble(ocrScore) * 100);
                         addExtractionBadge("OCR " + pct + "%",
-                            pct >= 80 ? "#F0FDF4" : pct >= 50 ? "#FFFBEB" : "#FEF2F2",
-                            pct >= 80 ? "@color/badge_text_green" : pct >= 50 ? "@color/badge_text_amber" : "@color/badge_text_red");
-                    } catch (Exception e) {}
+                                pct >= 80 ? "#F0FDF4" : pct >= 50 ? "#FFFBEB" : "#FEF2F2",
+                                pct >= 80 ? "@color/badge_text_green"
+                                        : pct >= 50 ? "@color/badge_text_amber" : "@color/badge_text_red");
+                    } catch (Exception e) {
+                    }
                 }
 
                 String preview = safeStr(extraction, "extracted_text_preview", null);
@@ -270,7 +309,8 @@ public class ReportDetailActivity extends AppCompatActivity {
             if (pi != null && pi.entrySet().size() > 0) {
                 b.cardPatientInfo.setVisibility(View.VISIBLE);
                 b.layoutPatientGrid.removeAllViews();
-                if (canEdit) injectEditButton(b.cardPatientInfo, "patient_info");
+                if (canEdit)
+                    injectEditButton(b.cardPatientInfo, "patient_info");
                 addPatientField(b.layoutPatientGrid, "Name", safeStr(pi, "name", null), "blue");
                 String age = safeStr(pi, "age", null);
                 String gender = safeStr(pi, "gender", null);
@@ -288,13 +328,17 @@ public class ReportDetailActivity extends AppCompatActivity {
             JsonArray diagnoses = smartParseArray(ai.get("diagnoses"));
             if (diagnoses != null) {
                 b.cardDiagnoses.setVisibility(View.VISIBLE);
-                if (canEdit) injectEditButton(b.cardDiagnoses, "diagnoses");
+                if (canEdit)
+                    injectEditButton(b.cardDiagnoses, "diagnoses");
                 b.tvDiagnosesCount.setText(diagnoses.size() + " identified");
                 if (diagnoses.size() > 0) {
                     StringBuilder sb = new StringBuilder();
                     for (JsonElement e : diagnoses) {
-                        try { sb.append("• ").append(e.getAsString()).append("\n"); }
-                        catch (Exception ex) { sb.append("• ").append(e.toString()).append("\n"); }
+                        try {
+                            sb.append("• ").append(e.getAsString()).append("\n");
+                        } catch (Exception ex) {
+                            sb.append("• ").append(e.toString()).append("\n");
+                        }
                     }
                     b.tvDiagnoses.setText(sb.toString().trim());
                 } else {
@@ -307,12 +351,16 @@ public class ReportDetailActivity extends AppCompatActivity {
             JsonArray symptoms = smartParseArray(ai.get("symptoms"));
             if (symptoms != null) {
                 b.cardSymptoms.setVisibility(View.VISIBLE);
-                if (canEdit) injectEditButton(b.cardSymptoms, "symptoms");
+                if (canEdit)
+                    injectEditButton(b.cardSymptoms, "symptoms");
                 if (symptoms.size() > 0) {
                     StringBuilder sb = new StringBuilder();
                     for (JsonElement e : symptoms) {
-                        try { sb.append("• ").append(e.getAsString()).append("\n"); }
-                        catch (Exception ex) { sb.append("• ").append(e.toString()).append("\n"); }
+                        try {
+                            sb.append("• ").append(e.getAsString()).append("\n");
+                        } catch (Exception ex) {
+                            sb.append("• ").append(e.toString()).append("\n");
+                        }
                     }
                     b.tvSymptoms.setText(sb.toString().trim());
                 } else {
@@ -325,12 +373,18 @@ public class ReportDetailActivity extends AppCompatActivity {
             JsonObject vitals = smartParseObj(ai.get("vital_signs"));
             if (vitals != null) {
                 b.gridVitals.removeAllViews();
-                if (canEdit) injectEditButton(b.cardVitals, "vital_signs");
+                if (canEdit)
+                    injectEditButton(b.cardVitals, "vital_signs");
                 boolean hasAnyVital = false;
                 for (Map.Entry<String, JsonElement> entry : vitals.entrySet()) {
                     String val = "";
-                    try { val = entry.getValue().isJsonNull() ? "" : entry.getValue().getAsString(); } catch (Exception ex) { val = ""; }
-                    if (val.isEmpty() || val.equals("null")) continue;
+                    try {
+                        val = entry.getValue().isJsonNull() ? "" : entry.getValue().getAsString();
+                    } catch (Exception ex) {
+                        val = "";
+                    }
+                    if (val.isEmpty() || val.equals("null"))
+                        continue;
                     hasAnyVital = true;
                     addVitalItem(b.gridVitals, formatKey(entry.getKey()), val);
                 }
@@ -341,12 +395,14 @@ public class ReportDetailActivity extends AppCompatActivity {
             JsonArray labs = smartParseArray(ai.get("lab_results"));
             if (labs != null) {
                 b.cardLabResults.setVisibility(View.VISIBLE);
-                if (canEdit) injectEditButton(b.cardLabResults, "lab_results");
+                if (canEdit)
+                    injectEditButton(b.cardLabResults, "lab_results");
                 b.tvLabCount.setText(labs.size() + " tests analyzed");
                 b.layoutLabItems.removeAllViews();
                 if (labs.size() > 0) {
                     for (JsonElement e : labs) {
-                        if (e.isJsonObject()) addLabItem(b.layoutLabItems, e.getAsJsonObject());
+                        if (e.isJsonObject())
+                            addLabItem(b.layoutLabItems, e.getAsJsonObject());
                     }
                 } else {
                     TextView tv = new TextView(this);
@@ -361,7 +417,8 @@ public class ReportDetailActivity extends AppCompatActivity {
             JsonArray meds = smartParseArray(ai.get("current_medications"));
             if (meds != null) {
                 b.cardMedications.setVisibility(View.VISIBLE);
-                if (canEdit) injectEditButton(b.cardMedications, "medications");
+                if (canEdit)
+                    injectEditButton(b.cardMedications, "medications");
                 if (meds.size() > 0) {
                     StringBuilder sb = new StringBuilder();
                     for (JsonElement e : meds) {
@@ -369,13 +426,18 @@ public class ReportDetailActivity extends AppCompatActivity {
                             JsonObject obj = e.getAsJsonObject();
                             String mName = safeStr(obj, "name", safeStr(obj, "medication", "Unknown"));
                             String mDose = safeStr(obj, "dosage", safeStr(obj, "dose", ""));
-                            String freq  = safeStr(obj, "frequency", "");
+                            String freq = safeStr(obj, "frequency", "");
                             sb.append("• ").append(mName);
-                            if (mDose != null && !mDose.isEmpty()) sb.append("  —  ").append(mDose);
-                            if (freq != null && !freq.isEmpty()) sb.append("  (").append(freq).append(")");
+                            if (mDose != null && !mDose.isEmpty())
+                                sb.append("  —  ").append(mDose);
+                            if (freq != null && !freq.isEmpty())
+                                sb.append("  (").append(freq).append(")");
                             sb.append("\n");
                         } else {
-                            try { sb.append("• ").append(e.getAsString()).append("\n"); } catch (Exception ex) {}
+                            try {
+                                sb.append("• ").append(e.getAsString()).append("\n");
+                            } catch (Exception ex) {
+                            }
                         }
                     }
                     b.tvMedications.setText(sb.toString().trim());
@@ -396,10 +458,14 @@ public class ReportDetailActivity extends AppCompatActivity {
                         String finding = safeStr(obj, "finding", safeStr(obj, "test_name", e.toString()));
                         String significance = safeStr(obj, "significance", safeStr(obj, "severity", ""));
                         sb.append("⚠ ").append(finding);
-                        if (significance != null && !significance.isEmpty()) sb.append("  [").append(significance).append("]");
+                        if (significance != null && !significance.isEmpty())
+                            sb.append("  [").append(significance).append("]");
                         sb.append("\n");
                     } else {
-                        try { sb.append("⚠ ").append(e.getAsString()).append("\n"); } catch (Exception ex) {}
+                        try {
+                            sb.append("⚠ ").append(e.getAsString()).append("\n");
+                        } catch (Exception ex) {
+                        }
                     }
                 }
                 b.tvAbnormal.setText(sb.toString().trim());
@@ -415,7 +481,10 @@ public class ReportDetailActivity extends AppCompatActivity {
                     if (e.isJsonObject()) {
                         addSuggestionItem(b.layoutSuggestionItems, e.getAsJsonObject(), i);
                     } else {
-                        try { addSimpleText(b.layoutSuggestionItems, (i+1) + ". " + e.getAsString()); } catch (Exception ex) {}
+                        try {
+                            addSimpleText(b.layoutSuggestionItems, (i + 1) + ". " + e.getAsString());
+                        } catch (Exception ex) {
+                        }
                     }
                 }
             }
@@ -438,7 +507,6 @@ public class ReportDetailActivity extends AppCompatActivity {
             b.cardDoctorNotes.setVisibility(View.GONE);
         }
 
-        // ── 14. CHAT ACTION ──
         if (isDoctor) {
             b.btnChat.setText("Chat with Patient");
             b.btnChat.setVisibility(View.VISIBLE); // Doctors can always chat with the owner
@@ -475,19 +543,25 @@ public class ReportDetailActivity extends AppCompatActivity {
         b.btnAnalyze.setOnClickListener(v -> triggerAnalysis());
         b.btnAskAI.setOnClickListener(v -> {
             com.medreport.ai.fragments.AIChatBottomSheet.newInstance(reportId)
-                .show(getSupportFragmentManager(), "ai_chat");
+                    .show(getSupportFragmentManager(), "ai_chat");
         });
 
         b.switchDoctorEdit.setChecked(report.doctorEditPermission);
         b.switchDoctorEdit.setOnCheckedChangeListener((sw, checked) -> {
-            if (!sw.isPressed()) return;
+            if (!sw.isPressed())
+                return;
             Map<String, Boolean> body = new HashMap<>();
             body.put("allow", checked);
             ApiClient.get().setDoctorEditPermission(reportId, body).enqueue(new Callback<ApiResponse<ReportModel>>() {
-                @Override public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
-                    Toast.makeText(ReportDetailActivity.this, checked ? "Doctor can now edit" : "Edit access revoked", Toast.LENGTH_SHORT).show();
+                @Override
+                public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
+                    Toast.makeText(ReportDetailActivity.this, checked ? "Doctor can now edit" : "Edit access revoked",
+                            Toast.LENGTH_SHORT).show();
                 }
-                @Override public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {}
+
+                @Override
+                public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {
+                }
             });
         });
 
@@ -504,13 +578,18 @@ public class ReportDetailActivity extends AppCompatActivity {
      * The button opens the EditSectionDialog for the given section key.
      */
     private void injectEditButton(com.google.android.material.card.MaterialCardView card, String sectionKey) {
-        // Find the header LinearLayout (first horizontal LL with gravity center_vertical)
+        // Find the header LinearLayout (first horizontal LL with gravity
+        // center_vertical)
         LinearLayout cardRoot = null;
         for (int i = 0; i < card.getChildCount(); i++) {
             View child = card.getChildAt(i);
-            if (child instanceof LinearLayout) { cardRoot = (LinearLayout) child; break; }
+            if (child instanceof LinearLayout) {
+                cardRoot = (LinearLayout) child;
+                break;
+            }
         }
-        if (cardRoot == null) return;
+        if (cardRoot == null)
+            return;
 
         // Find first horizontal LinearLayout (header row)
         LinearLayout headerRow = null;
@@ -518,13 +597,18 @@ public class ReportDetailActivity extends AppCompatActivity {
             View child = cardRoot.getChildAt(i);
             if (child instanceof LinearLayout) {
                 LinearLayout ll = (LinearLayout) child;
-                if (ll.getOrientation() == LinearLayout.HORIZONTAL) { headerRow = ll; break; }
+                if (ll.getOrientation() == LinearLayout.HORIZONTAL) {
+                    headerRow = ll;
+                    break;
+                }
             }
         }
-        if (headerRow == null) return;
+        if (headerRow == null)
+            return;
 
         // Check if we've already injected (tag-based)
-        if (headerRow.getTag() != null && headerRow.getTag().equals("edit_injected")) return;
+        if (headerRow.getTag() != null && headerRow.getTag().equals("edit_injected"))
+            return;
         headerRow.setTag("edit_injected");
 
         // Build small edit button
@@ -535,7 +619,8 @@ public class ReportDetailActivity extends AppCompatActivity {
         btnEdit.setTextColor(ContextCompat.getColor(this, R.color.primary));
         btnEdit.setBackgroundResource(R.drawable.bg_badge);
         btnEdit.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.badge_bg_blue)));
-        int hp = dpToPx(12); int vp = dpToPx(6);
+        int hp = dpToPx(12);
+        int vp = dpToPx(6);
         btnEdit.setPadding(hp, vp, hp, vp);
         btnEdit.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_edit, 0, 0, 0);
         btnEdit.setCompoundDrawablePadding(dpToPx(4));
@@ -545,7 +630,8 @@ public class ReportDetailActivity extends AppCompatActivity {
     }
 
     private void openEditDialog(String sectionKey) {
-        if (report == null || report.aiAnalysis == null) return;
+        if (report == null || report.aiAnalysis == null)
+            return;
         new EditSectionDialog(this, sectionKey, report.aiAnalysis, (section, updatedAnalysis) -> {
             saveEditedAnalysis(updatedAnalysis);
         }).show();
@@ -553,13 +639,14 @@ public class ReportDetailActivity extends AppCompatActivity {
 
     private void saveEditedAnalysis(JsonObject updatedAnalysis) {
         Toast.makeText(this, "Saving changes...", Toast.LENGTH_SHORT).show();
-        
+
         // Convert JsonObject to Map for Retrofit
         Map<String, Object> body = new HashMap<>();
         body.put("ai_analysis", new com.google.gson.Gson().fromJson(updatedAnalysis, Map.class));
-        
+
         ApiClient.get().updateAiAnalysis(reportId, body).enqueue(new Callback<ApiResponse<ReportModel>>() {
-            @Override public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
+            @Override
+            public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
                 if (r.isSuccessful() && r.body() != null && r.body().report != null) {
                     report = r.body().report;
                     bindReport();
@@ -568,7 +655,9 @@ public class ReportDetailActivity extends AppCompatActivity {
                     Toast.makeText(ReportDetailActivity.this, "Failed to save changes", Toast.LENGTH_SHORT).show();
                 }
             }
-            @Override public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {
+
+            @Override
+            public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {
                 Log.e(TAG, "Save edit failed", t);
                 Toast.makeText(ReportDetailActivity.this, "Network error", Toast.LENGTH_SHORT).show();
             }
@@ -579,27 +668,37 @@ public class ReportDetailActivity extends AppCompatActivity {
     // DYNAMIC VIEW BUILDERS
     // ══════════════════════════════════════════════════════════════════
 
-
     private void addPatientField(LinearLayout container, String label, String value, String color) {
-        if (value == null || value.isEmpty() || value.equals("null")) return;
-        
+        if (value == null || value.isEmpty() || value.equals("null"))
+            return;
+
         LinearLayout row = new LinearLayout(this);
         row.setOrientation(LinearLayout.VERTICAL);
         row.setBackgroundResource(R.drawable.bg_badge);
         int bgColor;
         int txtColor;
         switch (color) {
-            case "green": bgColor = ContextCompat.getColor(this, R.color.badge_bg_green); txtColor = ContextCompat.getColor(this, R.color.badge_text_green); break;
-            case "red":   bgColor = ContextCompat.getColor(this, R.color.badge_bg_red);   txtColor = ContextCompat.getColor(this, R.color.badge_text_red);   break;
-            default:      bgColor = ContextCompat.getColor(this, R.color.badge_bg_blue);  txtColor = ContextCompat.getColor(this, R.color.badge_text_blue);  break;
+            case "green":
+                bgColor = ContextCompat.getColor(this, R.color.badge_bg_green);
+                txtColor = ContextCompat.getColor(this, R.color.badge_text_green);
+                break;
+            case "red":
+                bgColor = ContextCompat.getColor(this, R.color.badge_bg_red);
+                txtColor = ContextCompat.getColor(this, R.color.badge_text_red);
+                break;
+            default:
+                bgColor = ContextCompat.getColor(this, R.color.badge_bg_blue);
+                txtColor = ContextCompat.getColor(this, R.color.badge_text_blue);
+                break;
         }
         row.setBackgroundTintList(ColorStateList.valueOf(bgColor));
         int pad = dpToPx(12);
         row.setPadding(pad, pad, pad, pad);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.bottomMargin = dpToPx(8);
         row.setLayoutParams(lp);
-        
+
         TextView tvLabel = new TextView(this);
         tvLabel.setText(label.toUpperCase());
         tvLabel.setTextSize(10);
@@ -607,7 +706,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         tvLabel.setLetterSpacing(0.05f);
         tvLabel.setTextColor(txtColor);
         row.addView(tvLabel);
-        
+
         TextView tvVal = new TextView(this);
         tvVal.setText(value);
         tvVal.setTextSize(15);
@@ -615,7 +714,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         tvVal.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
         tvVal.setPadding(0, dpToPx(4), 0, 0);
         row.addView(tvVal);
-        
+
         container.addView(row);
     }
 
@@ -627,16 +726,26 @@ public class ReportDetailActivity extends AppCompatActivity {
         badge.setBackgroundTintList(ColorStateList.valueOf(android.graphics.Color.parseColor(bgHex)));
         int txtColor;
         switch (textColorRes) {
-            case "@color/badge_text_green": txtColor = ContextCompat.getColor(this, R.color.badge_text_green); break;
-            case "@color/badge_text_red":   txtColor = ContextCompat.getColor(this, R.color.badge_text_red); break;
-            case "@color/badge_text_amber": txtColor = ContextCompat.getColor(this, R.color.badge_text_amber); break;
-            default: txtColor = ContextCompat.getColor(this, R.color.text_secondary); break;
+            case "@color/badge_text_green":
+                txtColor = ContextCompat.getColor(this, R.color.badge_text_green);
+                break;
+            case "@color/badge_text_red":
+                txtColor = ContextCompat.getColor(this, R.color.badge_text_red);
+                break;
+            case "@color/badge_text_amber":
+                txtColor = ContextCompat.getColor(this, R.color.badge_text_amber);
+                break;
+            default:
+                txtColor = ContextCompat.getColor(this, R.color.text_secondary);
+                break;
         }
         badge.setTextColor(txtColor);
         badge.setTypeface(null, Typeface.BOLD);
-        int hp = dpToPx(8); int vp = dpToPx(4);
+        int hp = dpToPx(8);
+        int vp = dpToPx(4);
         badge.setPadding(hp, vp, hp, vp);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.rightMargin = dpToPx(8);
         lp.bottomMargin = dpToPx(4);
         badge.setLayoutParams(lp);
@@ -655,7 +764,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         lp.setMargins(dpToPx(4), dpToPx(4), dpToPx(4), dpToPx(4));
         lp.width = 0;
         item.setLayoutParams(lp);
-        
+
         TextView tvLabel = new TextView(this);
         tvLabel.setText(label.toUpperCase());
         tvLabel.setTextSize(10);
@@ -663,14 +772,14 @@ public class ReportDetailActivity extends AppCompatActivity {
         tvLabel.setTextColor(ContextCompat.getColor(this, R.color.badge_text_green));
         tvLabel.setLetterSpacing(0.05f);
         item.addView(tvLabel);
-        
+
         TextView tvVal = new TextView(this);
         tvVal.setText(value);
         tvVal.setTextSize(16);
         tvVal.setTypeface(null, Typeface.BOLD);
         tvVal.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
         item.addView(tvVal);
-        
+
         grid.addView(item);
     }
 
@@ -682,14 +791,15 @@ public class ReportDetailActivity extends AppCompatActivity {
         row.setBackgroundTintList(ColorStateList.valueOf(0x08000000));
         int pad = dpToPx(12);
         row.setPadding(pad, pad, pad, pad);
-        LinearLayout.LayoutParams rlp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams rlp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
         rlp.bottomMargin = dpToPx(8);
         row.setLayoutParams(rlp);
-        
+
         LinearLayout left = new LinearLayout(this);
         left.setOrientation(LinearLayout.VERTICAL);
         left.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-        
+
         String testName = safeStr(lab, "test_name", safeStr(lab, "name", "Test"));
         TextView tvName = new TextView(this);
         tvName.setText(testName);
@@ -697,11 +807,11 @@ public class ReportDetailActivity extends AppCompatActivity {
         tvName.setTypeface(null, Typeface.BOLD);
         tvName.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
         left.addView(tvName);
-        
+
         String value = safeStr(lab, "value", "");
         String unit = safeStr(lab, "unit", safeStr(lab, "units", ""));
         String refRange = safeStr(lab, "reference_range", safeStr(lab, "normal_range", ""));
-        
+
         if (value != null && !value.isEmpty()) {
             TextView tvVal = new TextView(this);
             tvVal.setText("Value: " + value + (unit != null && !unit.isEmpty() ? " " + unit : ""));
@@ -717,7 +827,7 @@ public class ReportDetailActivity extends AppCompatActivity {
             left.addView(tvRef);
         }
         row.addView(left);
-        
+
         String labStatus = safeStr(lab, "status", safeStr(lab, "flag", ""));
         if (labStatus != null && !labStatus.isEmpty()) {
             TextView badge = new TextView(this);
@@ -726,7 +836,8 @@ public class ReportDetailActivity extends AppCompatActivity {
             badge.setTypeface(null, Typeface.BOLD);
             badge.setBackgroundResource(R.drawable.bg_badge);
             badge.setPadding(dpToPx(8), dpToPx(3), dpToPx(8), dpToPx(3));
-            boolean isAbn = labStatus.equalsIgnoreCase("abnormal") || labStatus.equalsIgnoreCase("high") || labStatus.equalsIgnoreCase("low") || labStatus.equalsIgnoreCase("critical");
+            boolean isAbn = labStatus.equalsIgnoreCase("abnormal") || labStatus.equalsIgnoreCase("high")
+                    || labStatus.equalsIgnoreCase("low") || labStatus.equalsIgnoreCase("critical");
             applyBadgeColor(badge, isAbn ? "red" : "green");
             row.addView(badge);
         }
@@ -740,15 +851,16 @@ public class ReportDetailActivity extends AppCompatActivity {
         item.setBackgroundTintList(ColorStateList.valueOf(0x08000000));
         int pad = dpToPx(14);
         item.setPadding(pad, pad, pad, pad);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.bottomMargin = dpToPx(10);
         item.setLayoutParams(lp);
-        
+
         // Priority + Title
         LinearLayout header = new LinearLayout(this);
         header.setOrientation(LinearLayout.HORIZONTAL);
         header.setGravity(android.view.Gravity.CENTER_VERTICAL);
-        
+
         String priority = safeStr(s, "priority", "MEDIUM");
         TextView tvPri = new TextView(this);
         tvPri.setText(priority);
@@ -757,14 +869,23 @@ public class ReportDetailActivity extends AppCompatActivity {
         tvPri.setBackgroundResource(R.drawable.bg_badge);
         tvPri.setPadding(dpToPx(8), dpToPx(3), dpToPx(8), dpToPx(3));
         switch (priority) {
-            case "CRITICAL": applyBadgeColor(tvPri, "red"); break;
-            case "HIGH":     applyBadgeColor(tvPri, "orange"); break;
-            case "MEDIUM":   applyBadgeColor(tvPri, "amber"); break;
-            default:         applyBadgeColor(tvPri, "green"); break;
+            case "CRITICAL":
+                applyBadgeColor(tvPri, "red");
+                break;
+            case "HIGH":
+                applyBadgeColor(tvPri, "orange");
+                break;
+            case "MEDIUM":
+                applyBadgeColor(tvPri, "amber");
+                break;
+            default:
+                applyBadgeColor(tvPri, "green");
+                break;
         }
         header.addView(tvPri);
-        
-        String title = safeStr(s, "suggestion", safeStr(s, "title", safeStr(s, "recommendation", "Suggestion " + (index + 1))));
+
+        String title = safeStr(s, "suggestion",
+                safeStr(s, "title", safeStr(s, "recommendation", "Suggestion " + (index + 1))));
         TextView tvTitle = new TextView(this);
         tvTitle.setText(title);
         tvTitle.setTextSize(14);
@@ -775,7 +896,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         tvTitle.setLayoutParams(tlp);
         header.addView(tvTitle);
         item.addView(header);
-        
+
         // Category
         String category = safeStr(s, "category", null);
         if (category != null && !category.isEmpty()) {
@@ -787,7 +908,7 @@ public class ReportDetailActivity extends AppCompatActivity {
             tvCat.setPadding(0, dpToPx(6), 0, 0);
             item.addView(tvCat);
         }
-        
+
         // Reasoning
         String reason = safeStr(s, "reasoning", safeStr(s, "reason", safeStr(s, "rationale", null)));
         if (reason != null && !reason.isEmpty()) {
@@ -798,7 +919,7 @@ public class ReportDetailActivity extends AppCompatActivity {
             tvReason.setPadding(0, dpToPx(4), 0, 0);
             item.addView(tvReason);
         }
-        
+
         // Confidence
         String confStr = safeStr(s, "confidence", null);
         if (confStr != null) {
@@ -811,9 +932,10 @@ public class ReportDetailActivity extends AppCompatActivity {
                 tvConf.setTextColor(ContextCompat.getColor(this, R.color.accent));
                 tvConf.setPadding(0, dpToPx(4), 0, 0);
                 item.addView(tvConf);
-            } catch (Exception ex) {}
+            } catch (Exception ex) {
+            }
         }
-        
+
         container.addView(item);
     }
 
@@ -825,7 +947,8 @@ public class ReportDetailActivity extends AppCompatActivity {
         item.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.badge_bg_green)));
         int pad = dpToPx(14);
         item.setPadding(pad, pad, pad, pad);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.bottomMargin = dpToPx(8);
         item.setLayoutParams(lp);
 
@@ -854,7 +977,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         tvName.setTextColor(ContextCompat.getColor(this, R.color.text_primary));
         info.addView(tvName);
 
-        int score = (int)(doc.matchScore * 100);
+        int score = (int) (doc.matchScore * 100);
         TextView tvScore = new TextView(this);
         tvScore.setText("Match: " + score + "%");
         tvScore.setTextSize(12);
@@ -865,7 +988,8 @@ public class ReportDetailActivity extends AppCompatActivity {
         if (doc.specializations != null && !doc.specializations.isEmpty()) {
             TextView tvSpecs = new TextView(this);
             StringBuilder sb = new StringBuilder();
-            for (String spec : doc.specializations) sb.append(spec).append(", ");
+            for (String spec : doc.specializations)
+                sb.append(spec).append(", ");
             tvSpecs.setText(sb.toString().replaceAll(", $", ""));
             tvSpecs.setTextSize(11);
             tvSpecs.setTextColor(ContextCompat.getColor(this, R.color.text_tertiary));
@@ -875,7 +999,8 @@ public class ReportDetailActivity extends AppCompatActivity {
 
         // Assign button (only if no doctor assigned yet)
         if (report.assignedDoctorId == null) {
-            com.google.android.material.button.MaterialButton btn = new com.google.android.material.button.MaterialButton(this);
+            com.google.android.material.button.MaterialButton btn = new com.google.android.material.button.MaterialButton(
+                    this);
             btn.setText("Assign");
             btn.setTextSize(11);
             btn.setAllCaps(false);
@@ -907,7 +1032,8 @@ public class ReportDetailActivity extends AppCompatActivity {
         b.btnAnalyze.setEnabled(false);
         b.btnAnalyze.setText("Starting...");
         ApiClient.get().analyzeReport(reportId).enqueue(new Callback<ApiResponse<ReportModel>>() {
-            @Override public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
+            @Override
+            public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
                 if (r.isSuccessful() && r.body() != null && r.body().report != null) {
                     report = r.body().report;
                     bindReport();
@@ -919,7 +1045,9 @@ public class ReportDetailActivity extends AppCompatActivity {
                     Toast.makeText(ReportDetailActivity.this, "Failed to start", Toast.LENGTH_SHORT).show();
                 }
             }
-            @Override public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {
+
+            @Override
+            public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {
                 b.btnAnalyze.setEnabled(true);
                 b.btnAnalyze.setText("Analyze with AI");
             }
@@ -930,13 +1058,17 @@ public class ReportDetailActivity extends AppCompatActivity {
         Map<String, String> body = new HashMap<>();
         body.put("doctor_id", doctorId);
         ApiClient.get().assignDoctor(reportId, body).enqueue(new Callback<ApiResponse<ReportModel>>() {
-            @Override public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
+            @Override
+            public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
                 if (r.isSuccessful()) {
-                    Toast.makeText(ReportDetailActivity.this, "Dr. " + doctorName + " assigned!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReportDetailActivity.this, "Dr. " + doctorName + " assigned!", Toast.LENGTH_SHORT)
+                            .show();
                     loadReport();
                 }
             }
-            @Override public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {
+
+            @Override
+            public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {
                 Toast.makeText(ReportDetailActivity.this, "Assignment failed", Toast.LENGTH_SHORT).show();
             }
         });
@@ -947,28 +1079,36 @@ public class ReportDetailActivity extends AppCompatActivity {
         Map<String, String> body = new HashMap<>();
         body.put("notes", notes);
         ApiClient.get().reviewReport(reportId, body).enqueue(new Callback<ApiResponse<ReportModel>>() {
-            @Override public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
+            @Override
+            public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
                 if (r.isSuccessful()) {
                     Toast.makeText(ReportDetailActivity.this, "Review saved!", Toast.LENGTH_SHORT).show();
                     loadReport();
                 }
             }
-            @Override public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {}
+
+            @Override
+            public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {
+            }
         });
     }
 
     private void confirmDelete() {
         new AlertDialog.Builder(this).setTitle("Delete Report")
-            .setMessage("This cannot be undone.")
-            .setPositiveButton("Delete", (d, w) -> {
-                ApiClient.get().deleteReport(reportId).enqueue(new Callback<ApiResponse<Void>>() {
-                    @Override public void onResponse(Call<ApiResponse<Void>> c, Response<ApiResponse<Void>> r) {
-                        Toast.makeText(ReportDetailActivity.this, "Report deleted", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                    @Override public void onFailure(Call<ApiResponse<Void>> c, Throwable t) {}
-                });
-            }).setNegativeButton("Cancel", null).show();
+                .setMessage("This cannot be undone.")
+                .setPositiveButton("Delete", (d, w) -> {
+                    ApiClient.get().deleteReport(reportId).enqueue(new Callback<ApiResponse<Void>>() {
+                        @Override
+                        public void onResponse(Call<ApiResponse<Void>> c, Response<ApiResponse<Void>> r) {
+                            Toast.makeText(ReportDetailActivity.this, "Report deleted", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure(Call<ApiResponse<Void>> c, Throwable t) {
+                        }
+                    });
+                }).setNegativeButton("Cancel", null).show();
     }
 
     // ══════════════════════════════════════════════════════════════════
@@ -978,11 +1118,26 @@ public class ReportDetailActivity extends AppCompatActivity {
     private void applyBadgeColor(TextView tv, String color) {
         int bgRes, txtRes;
         switch (color) {
-            case "red":    bgRes = R.color.badge_bg_red;    txtRes = R.color.badge_text_red;    break;
-            case "orange": bgRes = R.color.badge_bg_orange; txtRes = R.color.badge_text_orange; break;
-            case "amber":  bgRes = R.color.badge_bg_amber;  txtRes = R.color.badge_text_amber;  break;
-            case "green":  bgRes = R.color.badge_bg_green;  txtRes = R.color.badge_text_green;  break;
-            default:       bgRes = R.color.badge_bg_blue;   txtRes = R.color.badge_text_blue;   break;
+            case "red":
+                bgRes = R.color.badge_bg_red;
+                txtRes = R.color.badge_text_red;
+                break;
+            case "orange":
+                bgRes = R.color.badge_bg_orange;
+                txtRes = R.color.badge_text_orange;
+                break;
+            case "amber":
+                bgRes = R.color.badge_bg_amber;
+                txtRes = R.color.badge_text_amber;
+                break;
+            case "green":
+                bgRes = R.color.badge_bg_green;
+                txtRes = R.color.badge_text_green;
+                break;
+            default:
+                bgRes = R.color.badge_bg_blue;
+                txtRes = R.color.badge_text_blue;
+                break;
         }
         tv.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, bgRes)));
         tv.setTextColor(ContextCompat.getColor(this, txtRes));
@@ -994,48 +1149,69 @@ public class ReportDetailActivity extends AppCompatActivity {
     }
 
     private String formatDate(String iso) {
-        if (iso == null) return "";
+        if (iso == null)
+            return "";
         try {
             SimpleDateFormat sdfIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
             Date d = sdfIn.parse(iso);
-            if (d != null) return new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(d);
-        } catch (Exception e) {}
+            if (d != null)
+                return new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(d);
+        } catch (Exception e) {
+        }
         return iso;
     }
 
-    private int dpToPx(int dp) { return Math.round(dp * getResources().getDisplayMetrics().density); }
+    private int dpToPx(int dp) {
+        return Math.round(dp * getResources().getDisplayMetrics().density);
+    }
 
     private JsonObject smartParseObj(JsonElement el) {
-        if (el == null || el.isJsonNull()) return null;
-        if (el.isJsonObject()) return el.getAsJsonObject();
+        if (el == null || el.isJsonNull())
+            return null;
+        if (el.isJsonObject())
+            return el.getAsJsonObject();
         if (el.isJsonPrimitive() && el.getAsJsonPrimitive().isString()) {
             try {
-                String str = el.getAsString().trim().replace("'", "\"").replace("None", "null").replace("False", "false").replace("True", "true");
+                String str = el.getAsString().trim().replace("'", "\"").replace("None", "null")
+                        .replace("False", "false").replace("True", "true");
                 return new JsonParser().parse(str).getAsJsonObject();
-            } catch (Exception e) { Log.e(TAG, "Obj parse fail", e); }
+            } catch (Exception e) {
+                Log.e(TAG, "Obj parse fail", e);
+            }
         }
         return null;
     }
 
     private JsonArray smartParseArray(JsonElement el) {
-        if (el == null || el.isJsonNull()) return null;
-        if (el.isJsonArray()) return el.getAsJsonArray();
+        if (el == null || el.isJsonNull())
+            return null;
+        if (el.isJsonArray())
+            return el.getAsJsonArray();
         if (el.isJsonPrimitive() && el.getAsJsonPrimitive().isString()) {
             try {
                 String str = el.getAsString().trim().replace("'", "\"");
                 return new JsonParser().parse(str).getAsJsonArray();
-            } catch (Exception e) { Log.e(TAG, "Array parse fail", e); }
+            } catch (Exception e) {
+                Log.e(TAG, "Array parse fail", e);
+            }
         }
         return null;
     }
 
     private String safeStr(JsonObject obj, String key, String fallback) {
-        if (obj == null) return fallback;
+        if (obj == null)
+            return fallback;
         try {
-            if (obj.has(key) && !obj.get(key).isJsonNull()) return obj.get(key).getAsString();
-        } catch (Exception e) {}
+            if (obj.has(key) && !obj.get(key).isJsonNull())
+                return obj.get(key).getAsString();
+        } catch (Exception e) {
+        }
         return fallback;
     }
 
-    @Override public boolean onSupportNavigateUp() { finish(); return true; }
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 }
