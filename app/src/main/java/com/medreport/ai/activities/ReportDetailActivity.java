@@ -45,6 +45,7 @@ public class ReportDetailActivity extends AppCompatActivity {
     private ActivityReportDetailBinding b;
     private ReportModel report;
     private String reportId;
+    private io.noties.markwon.Markwon markwon;
     private boolean canEdit = false;
 
     private final Handler pollHandler = new Handler(Looper.getMainLooper());
@@ -57,6 +58,8 @@ public class ReportDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         b = ActivityReportDetailBinding.inflate(getLayoutInflater());
         setContentView(b.getRoot());
+
+        markwon = io.noties.markwon.Markwon.create(this);
 
         setSupportActionBar(b.toolbar);
         if (getSupportActionBar() != null) {
@@ -233,7 +236,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         }
 
         // ── AI ANALYSIS SECTIONS ──
-        JsonObject ai = report.aiAnalysis;
+        JsonObject ai = (report.aiAnalysis != null && report.aiAnalysis.isJsonObject()) ? report.aiAnalysis.getAsJsonObject() : null;
 
         // Reset all AI cards
         b.cardSummary.setVisibility(View.GONE);
@@ -255,7 +258,7 @@ public class ReportDetailActivity extends AppCompatActivity {
             String summary = report.getAiSummary();
             if (summary != null && !summary.isEmpty()) {
                 b.cardSummary.setVisibility(View.VISIBLE);
-                b.tvSummary.setText(summary);
+                markwon.setMarkdown(b.tvSummary, summary);
                 String model = report.getModelUsed();
                 if (model != null) {
                     b.tvModelUsed.setVisibility(View.VISIBLE);
@@ -334,11 +337,8 @@ public class ReportDetailActivity extends AppCompatActivity {
                 if (diagnoses.size() > 0) {
                     StringBuilder sb = new StringBuilder();
                     for (JsonElement e : diagnoses) {
-                        try {
-                            sb.append("• ").append(e.getAsString()).append("\n");
-                        } catch (Exception ex) {
-                            sb.append("• ").append(e.toString()).append("\n");
-                        }
+                        String displayDiag = com.medreport.ai.utils.MedicalDataUtils.getDisplayString(e);
+                        sb.append("• ").append(displayDiag).append("\n");
                     }
                     b.tvDiagnoses.setText(sb.toString().trim());
                 } else {
@@ -630,9 +630,9 @@ public class ReportDetailActivity extends AppCompatActivity {
     }
 
     private void openEditDialog(String sectionKey) {
-        if (report == null || report.aiAnalysis == null)
+        if (report == null || report.aiAnalysis == null || !report.aiAnalysis.isJsonObject())
             return;
-        new EditSectionDialog(this, sectionKey, report.aiAnalysis, (section, updatedAnalysis) -> {
+        new EditSectionDialog(this, sectionKey, report.aiAnalysis.getAsJsonObject(), (section, updatedAnalysis) -> {
             saveEditedAnalysis(updatedAnalysis);
         }).show();
     }

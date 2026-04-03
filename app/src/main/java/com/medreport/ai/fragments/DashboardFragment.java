@@ -238,6 +238,9 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
     private void uploadReport(Uri uri) {
         b.uploadProgress.setVisibility(View.VISIBLE);
         try {
+            String fileName = getFileName(uri);
+            if (fileName == null) fileName = "uploaded_report.pdf";
+
             InputStream is = requireContext().getContentResolver().openInputStream(uri);
             File f = new File(requireContext().getCacheDir(), "upload_temp");
             FileOutputStream fos = new FileOutputStream(f);
@@ -247,8 +250,11 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
             is.close();
             fos.close();
 
-            RequestBody reqFile = RequestBody.create(MediaType.parse(requireContext().getContentResolver().getType(uri)), f);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("file", "uploaded_doc", reqFile);
+            String mimeType = requireContext().getContentResolver().getType(uri);
+            if (mimeType == null) mimeType = "application/octet-stream";
+
+            RequestBody reqFile = RequestBody.create(MediaType.parse(mimeType), f);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("file", fileName, reqFile);
             RequestBody type = RequestBody.create(MediaType.parse("text/plain"), "GENERAL");
 
             ApiClient.get().uploadReport(body, type).enqueue(new Callback<ApiResponse<ReportModel>>() {
@@ -264,7 +270,8 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
                 }
                 @Override public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {
                     b.uploadProgress.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "Network error during upload", Toast.LENGTH_SHORT).show();
+                    t.printStackTrace(); // Log the exact error to Logcat
+                    Toast.makeText(getContext(), "Network error during upload: " + t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -273,6 +280,24 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
             e.printStackTrace();
             Toast.makeText(getContext(), "Error preparing file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            try (android.database.Cursor cursor = requireContext().getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    int idx = cursor.getColumnIndex(android.provider.OpenableColumns.DISPLAY_NAME);
+                    if (idx != -1) result = cursor.getString(idx);
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) result = result.substring(cut + 1);
+        }
+        return result;
     }
 
     private int toNumber(Object o) {

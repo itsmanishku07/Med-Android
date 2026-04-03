@@ -90,16 +90,18 @@ public class ReportDashboardAdapter extends RecyclerView.Adapter<ReportDashboard
         h.b.layoutAbnormalAlert.setVisibility(View.GONE);
         h.b.layoutDoctorAssigned.setVisibility(View.GONE);
 
-        if (r.aiAnalysis != null && !status.equals("ANALYZING") && !status.equals("PENDING")) {
+        if (r.aiAnalysis != null && r.aiAnalysis.isJsonObject() && !status.equals("ANALYZING") && !status.equals("PENDING")) {
             h.b.layoutAiSummary.setVisibility(View.VISIBLE);
+            com.google.gson.JsonObject aiObj = r.aiAnalysis.getAsJsonObject();
             
             // Render diagnoses
-            if (r.aiAnalysis.has("diagnoses") && r.aiAnalysis.get("diagnoses").isJsonArray()) {
-                com.google.gson.JsonArray diagObj = r.aiAnalysis.get("diagnoses").getAsJsonArray();
+            if (aiObj.has("diagnoses") && aiObj.get("diagnoses").isJsonArray()) {
+                com.google.gson.JsonArray diagObj = aiObj.get("diagnoses").getAsJsonArray();
                 if (diagObj.size() > 0) {
                     StringBuilder sb = new StringBuilder();
                     for(int i = 0; i < diagObj.size(); i++) {
-                        sb.append(diagObj.get(i).getAsString());
+                        String displayDiag = com.medreport.ai.utils.MedicalDataUtils.getDisplayString(diagObj.get(i));
+                        sb.append(displayDiag);
                         if (i < diagObj.size() - 1) sb.append(", ");
                     }
                     h.b.tvDiagnosesPreview.setText("Diagnoses: " + sb.toString());
@@ -109,8 +111,8 @@ public class ReportDashboardAdapter extends RecyclerView.Adapter<ReportDashboard
             }
 
             // Abnormal alert
-            if (r.aiAnalysis.has("abnormal_findings") && r.aiAnalysis.get("abnormal_findings").isJsonArray()) {
-                com.google.gson.JsonArray abnormalObj = r.aiAnalysis.get("abnormal_findings").getAsJsonArray();
+            if (aiObj.has("abnormal_findings") && aiObj.get("abnormal_findings").isJsonArray()) {
+                com.google.gson.JsonArray abnormalObj = aiObj.get("abnormal_findings").getAsJsonArray();
                 if (abnormalObj.size() > 0) {
                     h.b.layoutAbnormalAlert.setVisibility(View.VISIBLE);
                     h.b.tvAbnormalText.setText(abnormalObj.size() + " Abnormal finding(s) detected");

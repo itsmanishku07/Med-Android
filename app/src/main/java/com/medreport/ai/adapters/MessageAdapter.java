@@ -17,8 +17,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.VH> {
     private static final int VIEW_SENT = 0, VIEW_RECV = 1;
     private final List<MessageModel> items;
     private final String myUserId;
+    private final io.noties.markwon.Markwon markwon;
 
-    public MessageAdapter(List<MessageModel> items, String myUserId) { this.items = items; this.myUserId = myUserId; }
+    public MessageAdapter(List<MessageModel> items, String myUserId) {
+        this.items = items;
+        this.myUserId = myUserId;
+        this.markwon = io.noties.markwon.Markwon.create(null); // Will be initialized by the first VH
+    }
 
     @Override public int getItemViewType(int pos) {
         return myUserId.equals(items.get(pos).senderId) ? VIEW_SENT : VIEW_RECV;
@@ -34,7 +39,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.VH> {
         MessageModel m = items.get(pos);
         if (m.content != null && !m.content.isEmpty()) {
             h.tvMessage.setVisibility(View.VISIBLE);
-            h.tvMessage.setText(m.content);
+            h.markwon.setMarkdown(h.tvMessage, m.content);
         } else {
             h.tvMessage.setVisibility(View.GONE);
         }
@@ -61,11 +66,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.VH> {
     static class VH extends RecyclerView.ViewHolder {
         TextView tvMessage, tvTime;
         ImageView ivImage;
+        io.noties.markwon.Markwon markwon;
         VH(View v) {
             super(v);
             tvMessage = v.findViewById(R.id.tvMessage);
             tvTime    = v.findViewById(R.id.tvTime);
             ivImage   = v.findViewById(R.id.ivImage);
+            markwon   = io.noties.markwon.Markwon.create(v.getContext());
         }
     }
 }
