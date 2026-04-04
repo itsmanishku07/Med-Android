@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.medreport.ai.R;
 import com.medreport.ai.activities.ReportDetailActivity;
 import com.medreport.ai.adapters.ReportAdapter;
 import com.medreport.ai.databinding.FragmentReportsBinding;
@@ -56,17 +57,36 @@ public class ReportsFragment extends Fragment implements ReportAdapter.Listener 
     }
 
     private void loadReports() {
-        b.swipeRefresh.setRefreshing(true);
+        if (!b.swipeRefresh.isRefreshing()) {
+            b.layoutSkeleton.getRoot().setVisibility(View.VISIBLE);
+            b.recyclerView.setVisibility(View.GONE);
+        }
+        
         ApiClient.get().getMyReports().enqueue(new Callback<ResponseModels.ReportsResponse>() {
             @Override public void onResponse(Call<ResponseModels.ReportsResponse> c, Response<ResponseModels.ReportsResponse> r) {
                 b.swipeRefresh.setRefreshing(false);
+                b.layoutSkeleton.getRoot().setVisibility(View.GONE);
+                b.recyclerView.setVisibility(View.VISIBLE);
+                
                 if (r.isSuccessful() && r.body() != null && r.body().reports != null) {
-                    reports.clear(); reports.addAll(r.body().reports);
+                    reports.clear(); 
+                    reports.addAll(r.body().reports);
                     adapter.notifyDataSetChanged();
+                    
+                    // Apply staggered animation
+                    android.view.animation.LayoutAnimationController controller = 
+                        android.view.animation.AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_animation_fall_down);
+                    b.recyclerView.setLayoutAnimation(controller);
+                    b.recyclerView.scheduleLayoutAnimation();
+                    
                     b.tvEmpty.setVisibility(reports.isEmpty() ? View.VISIBLE : View.GONE);
                 }
             }
-            @Override public void onFailure(Call<ResponseModels.ReportsResponse> c, Throwable t) { b.swipeRefresh.setRefreshing(false); }
+            @Override public void onFailure(Call<ResponseModels.ReportsResponse> c, Throwable t) { 
+                b.swipeRefresh.setRefreshing(false); 
+                b.layoutSkeleton.getRoot().setVisibility(View.GONE);
+                b.recyclerView.setVisibility(View.VISIBLE);
+            }
         });
     }
 

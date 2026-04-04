@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="12dp"
     android:layout_marginVertical="4dp"
+    android:stateListAnimator="@animator/card_press_animator"
     app:cardCornerRadius="14dp"
     app:cardElevation="0dp"
     app:strokeWidth="0dp"

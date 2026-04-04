@@ -15,6 +15,7 @@ import com.medreport.ai.models.UserModel;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding b;
+    private int currentTabId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,13 +101,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadFragment(Fragment f) {
+        int newTabId = b.bottomNav.getSelectedItemId();
+        int oldIndex = getTabIndex(currentTabId);
+        int newIndex = getTabIndex(newTabId);
+
         try {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, f).commit();
+            androidx.fragment.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            
+            if (currentTabId != -1) {
+                if (newIndex > oldIndex) {
+                    ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
+                } else if (newIndex < oldIndex) {
+                    ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+                }
+            }
+            
+            ft.replace(R.id.fragmentContainer, f);
+            ft.commit();
+            currentTabId = newTabId;
         } catch (Exception e) {
             e.printStackTrace();
             android.widget.Toast.makeText(this, "Nav Error: " + e.getMessage(), android.widget.Toast.LENGTH_LONG)
                     .show();
         }
+    }
+
+    private int getTabIndex(int itemId) {
+        if (itemId == R.id.nav_dashboard) return 0;
+        if (itemId == R.id.nav_reports) return 1;
+        if (itemId == R.id.nav_chats) return 2;
+        if (itemId == R.id.nav_reminders || itemId == R.id.nav_admin) return 3;
+        if (itemId == R.id.nav_profile) return 4;
+        return -1;
     }
 }

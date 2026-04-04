@@ -115,6 +115,9 @@ public interface ApiService {
     @GET("medical-reports/{id}/ai-chat")
     Call<ResponseModels.AIChatResponse> getAIChatHistory(@Path("id") String reportId);
 
+    @DELETE("medical-reports/{id}/ai-chat")
+    Call<ApiResponse<Void>> deleteAIChatHistory(@Path("id") String reportId);
+
     @POST("medical-reports/{id}/ask")
     Call<ResponseModels.AIAskResponse> askAIQuestion(@Path("id") String reportId, @Body Map<String, String> body);
 }

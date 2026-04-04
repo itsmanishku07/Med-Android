@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/bg_bottom_sheet"
+    android:layout_margin="12dp"
     android:paddingTop="8dp">
 
     <!-- Handle -->
@@ -58,6 +59,20 @@
                 android:textSize="12sp"
                 android:textColor="@color/text_tertiary" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/btnClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clear"
+            android:textColor="@color/badge_text_red"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:background="@drawable/bg_badge"
+            android:backgroundTint="@color/badge_bg_red"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/progressLoading"
@@ -113,6 +128,17 @@
                 android:maxLines="4"
                 android:textColor="@color/text_primary"
                 android:textColorHint="@color/text_tertiary" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMic"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                app:icon="@drawable/ic_mic"
+                app:iconTint="@color/primary"
+                app:backgroundTint="@color/primary_light"
+                app:cornerRadius="12dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSend"

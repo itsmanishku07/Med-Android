@@ -66,6 +66,13 @@
                 android:background="@color/divider"
                 android:layout_marginHorizontal="16dp" />
 
+            <include
+                android:id="@+id/layoutSkeleton"
+                layout="@layout/layout_loading_skeleton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
@@ -73,7 +80,7 @@
                 android:layout_weight="1"
                 android:clipToPadding="false"
                 android:paddingTop="8dp"
-                android:paddingBottom="80dp" />
+                android:paddingBottom="100dp" />
 
             <!-- Improved empty state -->
             <LinearLayout
@@ -121,7 +128,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="96dp"
         android:contentDescription="Upload Report"
         app:srcCompat="@drawable/ic_upload"
         app:tint="@android:color/white"

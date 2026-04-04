@@ -174,22 +174,35 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
     }
 
     private void loadReports() {
+        b.layoutSkeleton.getRoot().setVisibility(View.VISIBLE);
+        b.rvDashboardItems.setVisibility(View.GONE);
         loadReportsSilently();
     }
 
     private void loadReportsSilently() {
         ApiClient.get().getMyReports().enqueue(new Callback<ResponseModels.ReportsResponse>() {
             @Override public void onResponse(Call<ResponseModels.ReportsResponse> call, Response<ResponseModels.ReportsResponse> r) {
+                b.layoutSkeleton.getRoot().setVisibility(View.GONE);
+                b.rvDashboardItems.setVisibility(View.VISIBLE);
+                
                 if (r.isSuccessful() && r.body() != null && r.body().reports != null) {
                     fullReportList = r.body().reports;
                     filterList();
+                    
+                    // Simple fade animation for content appearance
+                    b.rvDashboardItems.setAlpha(0f);
+                    b.rvDashboardItems.animate().alpha(1f).setDuration(400).start();
+                    
                     checkIfPollingNeeded();
                 } else {
                     fullReportList.clear();
                     filterList();
                 }
             }
-            @Override public void onFailure(Call<ResponseModels.ReportsResponse> call, Throwable t) {}
+            @Override public void onFailure(Call<ResponseModels.ReportsResponse> call, Throwable t) {
+                b.layoutSkeleton.getRoot().setVisibility(View.GONE);
+                b.rvDashboardItems.setVisibility(View.VISIBLE);
+            }
         });
     }
 

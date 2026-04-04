@@ -236,7 +236,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         }
 
         // ── AI ANALYSIS SECTIONS ──
-        JsonObject ai = (report.aiAnalysis != null && report.aiAnalysis.isJsonObject()) ? report.aiAnalysis.getAsJsonObject() : null;
+        JsonObject ai = smartParseObj(report.aiAnalysis);
 
         // Reset all AI cards
         b.cardSummary.setVisibility(View.GONE);
@@ -1037,8 +1037,14 @@ public class ReportDetailActivity extends AppCompatActivity {
                 if (r.isSuccessful() && r.body() != null && r.body().report != null) {
                     report = r.body().report;
                     bindReport();
-                    Toast.makeText(ReportDetailActivity.this, "AI Analysis started!", Toast.LENGTH_SHORT).show();
-                    startPolling();
+                    
+                    if ("ANALYZED".equals(report.status)) {
+                        stopPolling();
+                        Toast.makeText(ReportDetailActivity.this, "Analysis complete!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ReportDetailActivity.this, "AI Analysis started!", Toast.LENGTH_SHORT).show();
+                        startPolling();
+                    }
                 } else {
                     b.btnAnalyze.setEnabled(true);
                     b.btnAnalyze.setText("Analyze with AI");

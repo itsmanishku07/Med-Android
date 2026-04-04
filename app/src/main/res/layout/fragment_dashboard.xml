@@ -90,11 +90,12 @@
                 android:layout_marginBottom="8dp">
 
                 <!-- Stat: Total -->
-                <com.google.android.material.card.MaterialCardView
+                <com.google.android.material.card.MaterialCardView android:id="@+id/cardStatTotal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="4dp"
+                    android:stateListAnimator="@animator/card_press_animator"
                     app:cardCornerRadius="14dp"
                     app:cardElevation="0dp"
                     app:strokeWidth="1dp"
@@ -144,11 +145,12 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- Stat: Pending -->
-                <com.google.android.material.card.MaterialCardView
+                <com.google.android.material.card.MaterialCardView android:id="@+id/cardStatPending"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="4dp"
+                    android:stateListAnimator="@animator/card_press_animator"
                     app:cardCornerRadius="14dp"
                     app:cardElevation="0dp"
                     app:strokeWidth="1dp"
@@ -205,11 +207,12 @@
                 android:orientation="horizontal">
 
                 <!-- Stat: Reviewed -->
-                <com.google.android.material.card.MaterialCardView
+                <com.google.android.material.card.MaterialCardView android:id="@+id/cardStatReviewed"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="4dp"
+                    android:stateListAnimator="@animator/card_press_animator"
                     app:cardCornerRadius="14dp"
                     app:cardElevation="0dp"
                     app:strokeWidth="1dp"
@@ -259,11 +262,12 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- Stat: Critical -->
-                <com.google.android.material.card.MaterialCardView
+                <com.google.android.material.card.MaterialCardView android:id="@+id/cardStatCritical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="4dp"
+                    android:stateListAnimator="@animator/card_press_animator"
                     app:cardCornerRadius="14dp"
                     app:cardElevation="0dp"
                     app:strokeWidth="1dp"
@@ -385,6 +389,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:stateListAnimator="@animator/card_press_animator"
             app:cardCornerRadius="14dp"
             app:cardElevation="0dp"
             app:strokeWidth="1dp"
@@ -536,6 +541,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/divider" />
+
+                <include
+                    android:id="@+id/layoutSkeleton"
+                    layout="@layout/layout_loading_skeleton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvDashboardItems"

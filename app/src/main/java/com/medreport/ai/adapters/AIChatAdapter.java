@@ -17,8 +17,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import io.noties.markwon.Markwon;
+import io.noties.markwon.ext.tables.TablePlugin;
 
 public class AIChatAdapter extends RecyclerView.Adapter<AIChatAdapter.ChatViewHolder> {
 
@@ -51,55 +52,6 @@ public class AIChatAdapter extends RecyclerView.Adapter<AIChatAdapter.ChatViewHo
     @Override
     public int getItemCount() { return messages.size(); }
 
-    // ── Markdown helpers ───────────────────────────────────────────────────────
-
-    /** Converts a Markdown-lite string (bold + bullets + numbered lists) to SpannableStringBuilder. */
-    private static SpannableStringBuilder renderMarkdown(String raw) {
-        SpannableStringBuilder sb = new SpannableStringBuilder();
-        String[] lines = raw.split("\n", -1);
-
-        for (int i = 0; i < lines.length; i++) {
-            String line = lines[i];
-            String trimmed = line.trim();
-            if (trimmed.isEmpty()) {
-                if (sb.length() > 0) sb.append("\n");
-                continue;
-            }
-
-            boolean isBullet  = trimmed.startsWith("* ") || trimmed.startsWith("- ") || trimmed.startsWith("• ");
-            boolean isNumered = trimmed.matches("^\\d+\\.\\s.*");
-
-            String content = trimmed;
-            if (isBullet)  content = trimmed.substring(2);
-            else if (isNumered) content = trimmed.replaceFirst("^\\d+\\.\\s", "");
-
-            int start = sb.length();
-            appendBoldMarkdown(sb, content);
-
-            if (isBullet) {
-                sb.setSpan(new BulletSpan(16), start, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-
-            if (i < lines.length - 1) sb.append("\n");
-        }
-        return sb;
-    }
-
-    /** Renders **bold** segments inside a line. */
-    private static void appendBoldMarkdown(SpannableStringBuilder sb, String text) {
-        Pattern p = Pattern.compile("\\*\\*(.*?)\\*\\*");
-        Matcher m = p.matcher(text);
-        int last = 0;
-        while (m.find()) {
-            if (m.start() > last) sb.append(text, last, m.start());
-            int boldStart = sb.length();
-            sb.append(m.group(1));
-            sb.setSpan(new StyleSpan(Typeface.BOLD), boldStart, sb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            last = m.end();
-        }
-        if (last < text.length()) sb.append(text, last, text.length());
-    }
-
     // ── ViewHolder ─────────────────────────────────────────────────────────────
 
     static class ChatViewHolder extends RecyclerView.ViewHolder {
@@ -107,9 +59,14 @@ public class AIChatAdapter extends RecyclerView.Adapter<AIChatAdapter.ChatViewHo
         private final SimpleDateFormat displayFmt = new SimpleDateFormat("HH:mm", Locale.US);
         private final SimpleDateFormat isoFmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
 
+        private final Markwon markwon;
+
         ChatViewHolder(ItemAiChatMessageBinding binding) {
             super(binding.getRoot());
             this.b = binding;
+            this.markwon = Markwon.builder(binding.getRoot().getContext())
+                    .usePlugin(TablePlugin.create(binding.getRoot().getContext()))
+                    .build();
         }
 
         void bind(AIChatMessage msg) {
@@ -127,8 +84,8 @@ public class AIChatAdapter extends RecyclerView.Adapter<AIChatAdapter.ChatViewHo
                 b.tvSentContent.setText(msg.content);
                 b.tvSentTime.setText(timeStr);
             } else {
-                // Render Markdown for AI responses
-                b.tvReceivedContent.setText(renderMarkdown(msg.content));
+                // Render Markdown for AI responses using Markwon
+                markwon.setMarkdown(b.tvReceivedContent, msg.content);
                 b.tvReceivedTime.setText(timeStr);
             }
         }
