@@ -147,4 +147,45 @@ public interface ApiService {
 
     @POST("medical-reports/{id}/ask")
     Call<ResponseModels.AIAskResponse> askAIQuestion(@Path("id") String reportId, @Body Map<String, String> body);
+
+    // ── Doctor Availability ───────────────────────────────────────────────────
+    @GET("availability/slots")
+    Call<ResponseModels.AvailabilitySlotsResponse> getMyAvailabilitySlots();
+
+    @POST("availability/slots")
+    Call<ApiResponse<AvailabilitySlot>> createAvailabilitySlot(@Body Map<String, Object> body);
+
+    @PUT("availability/slots/{id}")
+    Call<ApiResponse<AvailabilitySlot>> updateAvailabilitySlot(@Path("id") String slotId, @Body Map<String, Object> body);
+
+    @DELETE("availability/slots/{id}")
+    Call<ApiResponse<Void>> deleteAvailabilitySlot(@Path("id") String slotId);
+
+    @GET("availability/blocked-dates")
+    Call<ResponseModels.BlockedDatesResponse> getMyBlockedDates();
+
+    @POST("availability/block-date")
+    Call<ApiResponse<BlockedDate>> createBlockedDate(@Body Map<String, Object> body);
+
+    @DELETE("availability/blocked-dates/{id}")
+    Call<ApiResponse<Void>> deleteBlockedDate(@Path("id") String blockedDateId);
+
+    @GET("availability/doctor/{doctorId}")
+    Call<ResponseModels.DoctorAvailabilityResponse> getDoctorAvailability(@Path("doctorId") String doctorId);
+
+    // ── Doctor Reviews ────────────────────────────────────────────────────────
+    @GET("reviews/doctor/{doctorId}")
+    Call<ResponseModels.DoctorReviewsResponse> getDoctorReviews(@Path("doctorId") String doctorId);
+
+    @GET("reviews/doctor/{doctorId}/my-review")
+    Call<ResponseModels.MyReviewResponse> getMyReview(@Path("doctorId") String doctorId);
+
+    @POST("reviews/doctor/{doctorId}")
+    Call<ResponseModels.SubmitReviewResponse> submitReview(@Path("doctorId") String doctorId, @Body Map<String, Object> body);
+
+    @DELETE("reviews/{reviewId}")
+    Call<ApiResponse<Void>> deleteReview(@Path("reviewId") String reviewId);
+
+    @GET("reviews/all-stats")
+    Call<ResponseModels.AllReviewStatsResponse> getAllReviewStats();
 }

@@ -78,6 +78,22 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
                     b.tvAvailability.setText("Consult for timing");
                 }
             }
+            
+            // Display rating
+            if (doctor.averageRating != null && doctor.averageRating > 0) {
+                b.ratingBar.setRating(doctor.averageRating.floatValue());
+                b.ratingBar.setVisibility(android.view.View.VISIBLE);
+                if (doctor.totalReviews != null && doctor.totalReviews > 0) {
+                    b.tvRating.setText(String.format(java.util.Locale.US, "%.1f (%d)", 
+                        doctor.averageRating, doctor.totalReviews));
+                    b.tvRating.setVisibility(android.view.View.VISIBLE);
+                } else {
+                    b.tvRating.setVisibility(android.view.View.GONE);
+                }
+            } else {
+                b.ratingBar.setVisibility(android.view.View.GONE);
+                b.tvRating.setVisibility(android.view.View.GONE);
+            }
 
             if (doctor.profilePicture != null && !doctor.profilePicture.isEmpty()) {
                 Glide.with(context)

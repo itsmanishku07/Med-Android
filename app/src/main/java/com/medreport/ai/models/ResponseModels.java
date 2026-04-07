@@ -69,4 +69,38 @@ public class ResponseModels {
         @SerializedName("success")      public boolean success;
         @SerializedName("appointments") public List<AppointmentModel> appointments;
     }
+
+    public static class AvailabilitySlotsResponse {
+        @SerializedName("success") public boolean success;
+        @SerializedName("slots")   public List<AvailabilitySlot> slots;
+    }
+
+    public static class BlockedDatesResponse {
+        @SerializedName("success")       public boolean success;
+        @SerializedName("blocked_dates") public List<BlockedDate> blockedDates;
+    }
+
+    public static class DoctorAvailabilityResponse {
+        @SerializedName("success")       public boolean success;
+        @SerializedName("slots")         public List<AvailabilitySlot> slots;
+        @SerializedName("blocked_dates") public List<BlockedDate> blockedDates;
+    }
+
+    public static class DoctorReviewsResponse extends ApiResponse<Void> {
+        public List<DoctorReview> reviews;
+        public ReviewStats stats;
+    }
+
+    public static class MyReviewResponse extends ApiResponse<Void> {
+        public DoctorReview review;
+    }
+
+    public static class SubmitReviewResponse extends ApiResponse<Void> {
+        public DoctorReview review;
+        public ReviewStats stats;
+    }
+
+    public static class AllReviewStatsResponse extends ApiResponse<Void> {
+        public Map<String, ReviewStats> stats;
+    }
 }

@@ -2,6 +2,7 @@ package com.medreport.ai.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -79,14 +80,17 @@ public class DoctorListingFragment extends Fragment implements DoctorAdapter.OnD
 
     private void loadDoctors() {
         b.progressBar.setVisibility(View.VISIBLE);
+        
+        // Load doctors and rating stats in parallel
         ApiClient.get().getDoctors().enqueue(new Callback<ResponseModels.DoctorsResponse>() {
             @Override
             public void onResponse(Call<ResponseModels.DoctorsResponse> call, Response<ResponseModels.DoctorsResponse> response) {
-                b.progressBar.setVisibility(View.GONE);
-                b.swipeRefresh.setRefreshing(false);
                 if (response.isSuccessful() && response.body() != null) {
                     fullDoctorList = response.body().doctors;
-                    filterList();
+                    loadRatingStats();
+                } else {
+                    b.progressBar.setVisibility(View.GONE);
+                    b.swipeRefresh.setRefreshing(false);
                 }
             }
 
@@ -95,6 +99,36 @@ public class DoctorListingFragment extends Fragment implements DoctorAdapter.OnD
                 b.progressBar.setVisibility(View.GONE);
                 b.swipeRefresh.setRefreshing(false);
                 Toast.makeText(getContext(), "Error loading doctors", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    
+    private void loadRatingStats() {
+        ApiClient.get().getAllReviewStats().enqueue(new Callback<ResponseModels.AllReviewStatsResponse>() {
+            @Override
+            public void onResponse(Call<ResponseModels.AllReviewStatsResponse> call, Response<ResponseModels.AllReviewStatsResponse> response) {
+                b.progressBar.setVisibility(View.GONE);
+                b.swipeRefresh.setRefreshing(false);
+                
+                if (response.isSuccessful() && response.body() != null && response.body().stats != null) {
+                    // Merge rating stats with doctor list
+                    for (UserModel doctor : fullDoctorList) {
+                        ReviewStats stats = response.body().stats.get(doctor.id);
+                        if (stats != null) {
+                            doctor.averageRating = stats.average_rating;
+                            doctor.totalReviews = stats.total_reviews;
+                        }
+                    }
+                }
+                filterList();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModels.AllReviewStatsResponse> call, Throwable t) {
+                b.progressBar.setVisibility(View.GONE);
+                b.swipeRefresh.setRefreshing(false);
+                // Still show doctors even if rating stats fail
+                filterList();
             }
         });
     }
@@ -125,8 +159,9 @@ public class DoctorListingFragment extends Fragment implements DoctorAdapter.OnD
 
     @Override
     public void onDetails(UserModel doctor) {
-        // Future: Show detailed profile fragment
-        showBookingDialog(doctor);
+        Intent intent = new Intent(getContext(), com.medreport.ai.activities.DoctorProfileActivity.class);
+        intent.putExtra(com.medreport.ai.activities.DoctorProfileActivity.EXTRA_DOCTOR_ID, doctor.id);
+        startActivity(intent);
     }
 
     private void showBookingDialog(UserModel doctor) {

@@ -51,7 +51,15 @@ public class ReportsFragment extends Fragment implements ReportAdapter.Listener 
         adapter = new ReportAdapter(reports, this);
         b.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         b.recyclerView.setAdapter(adapter);
-        b.fab.setOnClickListener(v -> filePicker.launch(new String[]{"application/pdf", "image/*"}));
+        
+        // Hide upload FAB for doctors
+        UserModel currentUser = com.medreport.ai.utils.AuthManager.getInstance().getCurrentUser();
+        if (currentUser != null && "DOCTOR".equals(currentUser.role)) {
+            b.fab.setVisibility(View.GONE);
+        } else {
+            b.fab.setOnClickListener(v -> filePicker.launch(new String[]{"application/pdf", "image/*"}));
+        }
+        
         b.swipeRefresh.setOnRefreshListener(this::loadReports);
         loadReports();
     }

@@ -26,6 +26,12 @@ public class UserModel {
     public String profilePicture;
     @SerializedName("profile")
     public ProfileData profile;
+    
+    // Rating fields
+    @SerializedName("average_rating")
+    public Double averageRating;
+    @SerializedName("total_reviews")
+    public Integer totalReviews;
 
     public static class ProfileData {
         @SerializedName("location")

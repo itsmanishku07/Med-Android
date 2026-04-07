@@ -57,6 +57,7 @@
         <activity android:name=".activities.MedicineRemindersActivity" android:exported="false" android:screenOrientation="portrait" />
         <activity android:name=".activities.AdminDashboardActivity" android:exported="false" android:screenOrientation="portrait" />
         <activity android:name=".activities.WaterReminderSettingsActivity" android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".activities.DoctorProfileActivity" android:exported="false" android:screenOrientation="portrait" />
 
         <!-- FCM Service -->
         <service android:name=".services.FcmService"
