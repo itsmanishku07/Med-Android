@@ -59,4 +59,14 @@ public class ResponseModels {
         @SerializedName("question") public AIChatMessage question;
         @SerializedName("answer")   public AIChatMessage answer;
     }
+
+    public static class DoctorsResponse {
+        @SerializedName("success") public boolean success;
+        @SerializedName("doctors") public List<UserModel> doctors;
+    }
+
+    public static class AppointmentsResponse {
+        @SerializedName("success")      public boolean success;
+        @SerializedName("appointments") public List<AppointmentModel> appointments;
+    }
 }

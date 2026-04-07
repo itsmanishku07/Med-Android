@@ -12,6 +12,15 @@ public interface ApiService {
     @POST("auth/register")
     Call<ApiResponse<UserModel>> register(@Body Map<String, String> body);
 
+    @POST("auth/auto-register")
+    Call<ApiResponse<UserModel>> autoRegister(@Body Map<String, String> body);
+
+    @POST("auth/signup/request")
+    Call<ApiResponse<Map<String, Object>>> signupRequest(@Body Map<String, String> body);
+
+    @POST("auth/signup/verify")
+    Call<ApiResponse<UserModel>> signupVerify(@Body Map<String, String> body);
+
     @GET("auth/profile")
     Call<ApiResponse<UserModel>> getProfile();
 
@@ -110,6 +119,21 @@ public interface ApiService {
 
     @PUT("admin/users/{uid}/status")
     Call<ApiResponse<UserModel>> updateUserStatus(@Path("uid") String uid, @Body Map<String, Boolean> body);
+
+    @GET("auth/doctors")
+    Call<ResponseModels.DoctorsResponse> getDoctors();
+
+    @POST("appointments/request")
+    Call<ApiResponse<AppointmentModel>> requestAppointment(@Body Map<String, Object> body);
+
+    @GET("appointments/patient")
+    Call<ResponseModels.AppointmentsResponse> getPatientAppointments();
+
+    @GET("appointments/doctor")
+    Call<ResponseModels.AppointmentsResponse> getDoctorAppointments();
+
+    @PUT("appointments/{id}/status")
+    Call<ApiResponse<AppointmentModel>> updateAppointmentStatus(@Path("id") String id, @Body Map<String, Object> body);
 
     // ── AI Q&A ────────────────────────────────────────────────────────────────
     @GET("medical-reports/{id}/ai-chat")

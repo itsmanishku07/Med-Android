@@ -161,6 +161,7 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
     private void loadStats() {
         ApiClient.get().getStats().enqueue(new Callback<ResponseModels.StatsResponse>() {
             @Override public void onResponse(Call<ResponseModels.StatsResponse> call, Response<ResponseModels.StatsResponse> r) {
+                if (!isAdded() || getContext() == null) return;
                 if (r.isSuccessful() && r.body() != null && r.body().stats != null) {
                     Map<String, Object> s = r.body().stats;
                     b.tvStat1Value.setText(String.valueOf(toNumber(s.get("totalReports"))));
@@ -169,7 +170,9 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
                     b.tvStat4Value.setText(String.valueOf(toNumber(s.get("criticalAlerts"))));
                 }
             }
-            @Override public void onFailure(Call<ResponseModels.StatsResponse> call, Throwable t) {}
+            @Override public void onFailure(Call<ResponseModels.StatsResponse> call, Throwable t) {
+                if (!isAdded() || getContext() == null) return;
+            }
         });
     }
 
@@ -182,6 +185,8 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
     private void loadReportsSilently() {
         ApiClient.get().getMyReports().enqueue(new Callback<ResponseModels.ReportsResponse>() {
             @Override public void onResponse(Call<ResponseModels.ReportsResponse> call, Response<ResponseModels.ReportsResponse> r) {
+                if (!isAdded() || getContext() == null) return;
+                
                 b.layoutSkeleton.getRoot().setVisibility(View.GONE);
                 b.rvDashboardItems.setVisibility(View.VISIBLE);
                 
@@ -200,6 +205,8 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
                 }
             }
             @Override public void onFailure(Call<ResponseModels.ReportsResponse> call, Throwable t) {
+                if (!isAdded() || getContext() == null) return;
+                
                 b.layoutSkeleton.getRoot().setVisibility(View.GONE);
                 b.rvDashboardItems.setVisibility(View.VISIBLE);
             }
@@ -254,6 +261,8 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
             String fileName = getFileName(uri);
             if (fileName == null) fileName = "uploaded_report.pdf";
 
+            android.util.Log.d("DashboardFragment", "Starting upload for file: " + fileName);
+
             InputStream is = requireContext().getContentResolver().openInputStream(uri);
             File f = new File(requireContext().getCacheDir(), "upload_temp");
             FileOutputStream fos = new FileOutputStream(f);
@@ -263,8 +272,12 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
             is.close();
             fos.close();
 
+            android.util.Log.d("DashboardFragment", "File size: " + f.length() + " bytes");
+
             String mimeType = requireContext().getContentResolver().getType(uri);
             if (mimeType == null) mimeType = "application/octet-stream";
+            
+            android.util.Log.d("DashboardFragment", "MIME type: " + mimeType);
 
             RequestBody reqFile = RequestBody.create(MediaType.parse(mimeType), f);
             MultipartBody.Part body = MultipartBody.Part.createFormData("file", fileName, reqFile);
@@ -273,25 +286,36 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
             ApiClient.get().uploadReport(body, type).enqueue(new Callback<ApiResponse<ReportModel>>() {
                 @Override public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
                     b.uploadProgress.setVisibility(View.GONE);
+                    android.util.Log.d("DashboardFragment", "Upload response code: " + r.code());
+                    
                     if (r.isSuccessful()) {
                         Toast.makeText(getContext(), "Report uploaded successfully!", Toast.LENGTH_SHORT).show();
                         loadReports();
                         loadStats();
                     } else {
-                        Toast.makeText(getContext(), "Upload failed.", Toast.LENGTH_SHORT).show();
+                        String errorMsg = "Upload failed";
+                        try {
+                            if (r.errorBody() != null) {
+                                errorMsg = r.errorBody().string();
+                                android.util.Log.e("DashboardFragment", "Error body: " + errorMsg);
+                            }
+                        } catch (Exception e) {
+                            android.util.Log.e("DashboardFragment", "Error reading error body", e);
+                        }
+                        Toast.makeText(getContext(), "Upload failed: " + r.code(), Toast.LENGTH_LONG).show();
                     }
                 }
                 @Override public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {
                     b.uploadProgress.setVisibility(View.GONE);
-                    t.printStackTrace(); // Log the exact error to Logcat
-                    Toast.makeText(getContext(), "Network error during upload: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    android.util.Log.e("DashboardFragment", "Upload failed", t);
+                    Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
 
         } catch (Exception e) {
             b.uploadProgress.setVisibility(View.GONE);
-            e.printStackTrace();
-            Toast.makeText(getContext(), "Error preparing file: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            android.util.Log.e("DashboardFragment", "Error preparing file", e);
+            Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 

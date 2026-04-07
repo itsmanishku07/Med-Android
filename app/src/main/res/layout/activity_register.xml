@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:fillViewport="true">
+    android:background="@color/background">
 
-    <LinearLayout
+    <!-- Registration Form -->
+    <ScrollView
+        android:id="@+id/layoutRegisterForm"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingHorizontal="28dp"
-        android:paddingTop="60dp"
-        android:paddingBottom="40dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="28dp"
+            android:paddingTop="60dp"
+            android:paddingBottom="40dp">
 
         <!-- Title -->
         <TextView
@@ -31,7 +37,56 @@
             android:textSize="15sp"
             android:textColor="@color/text_tertiary"
             android:layout_marginTop="6dp"
-            android:layout_marginBottom="36dp" />
+            android:layout_marginBottom="32dp" />
+
+        <!-- Google Sign Up Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGoogleSignUp"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Sign up with Google"
+            android:textSize="15sp"
+            android:textAllCaps="false"
+            android:textColor="@color/text_primary"
+            app:cornerRadius="12dp"
+            app:strokeColor="@color/divider"
+            app:strokeWidth="1dp"
+            app:backgroundTint="#FFFFFF"
+            app:icon="@drawable/ic_google"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconTint="@null"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Divider with OR -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp">
+            
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="@color/divider" />
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Or register with email"
+                android:textSize="12sp"
+                android:textColor="@color/text_tertiary"
+                android:paddingHorizontal="12dp"
+                android:textStyle="bold" />
+            
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="@color/divider" />
+        </LinearLayout>
 
         <!-- Full Name -->
         <com.google.android.material.textfield.TextInputLayout
@@ -114,26 +169,30 @@
             <RadioButton
                 android:id="@+id/rbPatient"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="52dp"
                 android:layout_weight="1"
                 android:text="Patient"
                 android:textSize="15sp"
+                android:textStyle="bold"
                 android:checked="true"
                 android:button="@null"
                 android:gravity="center"
-                android:background="@drawable/bg_badge"
+                android:textColor="@color/radio_button_text_color"
+                android:background="@drawable/bg_radio_button"
                 android:layout_marginEnd="8dp" />
 
             <RadioButton
                 android:id="@+id/rbDoctor"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="52dp"
                 android:layout_weight="1"
                 android:text="Doctor"
                 android:textSize="15sp"
+                android:textStyle="bold"
                 android:button="@null"
                 android:gravity="center"
-                android:background="@drawable/bg_badge" />
+                android:textColor="@color/radio_button_text_color"
+                android:background="@drawable/bg_radio_button" />
         </RadioGroup>
 
         <!-- Progress -->
@@ -176,5 +235,129 @@
             android:padding="8dp"
             android:layout_gravity="center" />
 
-    </LinearLayout>
-</ScrollView>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Verification Sent Screen -->
+    <ScrollView
+        android:id="@+id/layoutVerificationSent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="60dp">
+
+            <!-- Email Icon -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                app:cardCornerRadius="48dp"
+                app:cardBackgroundColor="@color/primary"
+                app:cardElevation="4dp"
+                android:layout_marginBottom="24dp">
+                
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="📧"
+                    android:textSize="48sp"
+                    android:gravity="center" />
+                    
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Check Your Email"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Description -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="We've sent a verification link to"
+                android:textSize="16sp"
+                android:textColor="@color/text_secondary"
+                android:gravity="center"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Email Address -->
+            <TextView
+                android:id="@+id/tvVerificationEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="user@example.com"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary"
+                android:gravity="center"
+                android:layout_marginBottom="32dp" />
+
+            <!-- Info Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/divider"
+                android:layout_marginBottom="32dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📧 Check your inbox"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📂 Check spam folder if not found"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="✅ Click the link to verify your account"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_secondary" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Go to Login Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGoToLogin"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Go to Login"
+                android:textSize="16sp"
+                android:textAllCaps="false"
+                app:cornerRadius="12dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

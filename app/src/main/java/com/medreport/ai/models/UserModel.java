@@ -32,6 +32,12 @@ public class UserModel {
         public String location;
         @SerializedName("bio")
         public String bio;
+        @SerializedName("experience")
+        public String experience;
+        @SerializedName("education")
+        public String education;
+        @SerializedName("availability")
+        public String availability;
     }
 
     public boolean isPatient() {

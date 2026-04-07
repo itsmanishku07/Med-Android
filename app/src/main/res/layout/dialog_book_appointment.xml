@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/bg_bottom_sheet">
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/divider"
+        android:layout_marginBottom="24dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Request Consultation"
+        android:textColor="@color/text_primary"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvDoctorTarget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="With Dr. Manish Kumar"
+        android:textColor="@color/text_tertiary"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SUGGESTED DATE &amp; TIME"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary"
+        android:letterSpacing="0.1"
+        android:layout_marginBottom="8dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnPickDateTime"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Date and Time"
+        android:textAlignment="viewStart"
+        app:icon="@drawable/ic_calendar"
+        app:cornerRadius="16dp" />
+
+    <TextView
+        android:id="@+id/tvSelectedDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No time selected yet"
+        android:textSize="12sp"
+        android:textColor="@color/text_tertiary"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="REASON FOR VISIT"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary"
+        android:letterSpacing="0.1"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="8dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxCornerRadiusBottomEnd="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusTopStart="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Briefly describe your symptoms..."
+            android:gravity="top"
+            android:minLines="3"
+            android:textSize="14sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSubmitRequest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Submit Booking Request"
+        android:padding="16dp"
+        app:cornerRadius="16dp"
+        android:textStyle="bold" />
+
+    <ProgressBar
+        android:id="@+id/progressSubmit"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="-40dp"
+        android:visibility="gone" />
+
+</LinearLayout>

@@ -15,6 +15,7 @@ import com.medreport.ai.activities.LoginActivity;
 import com.medreport.ai.databinding.FragmentProfileBinding;
 import com.medreport.ai.models.UserModel;
 import com.medreport.ai.utils.AuthManager;
+import com.medreport.ai.R;
 
 public class ProfileFragment extends Fragment {
 
@@ -76,11 +77,15 @@ public class ProfileFragment extends Fragment {
 
         if (user.isDoctor() || user.isAdmin()) {
             b.layoutDoctorOnly.setVisibility(View.VISIBLE);
+            b.layoutPatientServices.setVisibility(View.GONE);
             if (user.specializations != null && !user.specializations.isEmpty()) {
                 b.tvSpecializations.setText(String.join(", ", user.specializations));
             } else {
                 b.tvSpecializations.setText("No specializations added");
             }
+        } else {
+            b.layoutDoctorOnly.setVisibility(View.GONE);
+            b.layoutPatientServices.setVisibility(View.VISIBLE);
         }
     }
 
@@ -90,6 +95,18 @@ public class ProfileFragment extends Fragment {
             Intent intent = new Intent(getContext(), com.medreport.ai.activities.ProfileActivity.class);
             startActivity(intent);
         });
+
+        b.btnFindDoctors.setOnClickListener(v -> replaceFragment(new DoctorListingFragment()));
+        b.btnMyAppointments.setOnClickListener(v -> replaceFragment(new MyAppointmentsFragment()));
+        b.btnManageAppointments.setOnClickListener(v -> replaceFragment(new DoctorAppointmentsFragment()));
+    }
+
+    private void replaceFragment(Fragment f) {
+        getParentFragmentManager().beginTransaction()
+            .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
+            .replace(R.id.fragmentContainer, f)
+            .addToBackStack(null)
+            .commit();
     }
 
     private void handleLogout() {

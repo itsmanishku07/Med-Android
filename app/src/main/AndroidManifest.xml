@@ -33,6 +33,22 @@
         </activity>
         <activity android:name=".activities.LoginActivity" android:exported="false" android:screenOrientation="portrait" />
         <activity android:name=".activities.RegisterActivity" android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".activities.VerifyEmailActivity" 
+            android:exported="true" 
+            android:screenOrientation="portrait">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Update this with your actual domain -->
+                <data android:scheme="https"
+                    android:host="yourapp.com"
+                    android:pathPrefix="/verify-email" />
+                <!-- For local testing -->
+                <data android:scheme="medreport"
+                    android:host="verify" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.MainActivity" android:exported="false" android:screenOrientation="portrait" />
         <activity android:name=".activities.ReportDetailActivity" android:exported="false" android:screenOrientation="portrait" />
         <activity android:name=".activities.ChatActivity" android:exported="false" android:screenOrientation="portrait" />
