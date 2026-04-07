@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import com.medreport.ai.network.ApiClient;
 import com.medreport.ai.models.ResponseModels;
+import com.medreport.ai.models.WaterReminderSettings;
 import com.medreport.ai.utils.AuthManager;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -15,6 +16,8 @@ public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context ctx, Intent intent) {
         if (!Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) return;
+        
+        // Reschedule medicine reminders
         AuthManager.getInstance().refreshToken(new AuthManager.TokenCallback() {
             @Override public void onToken(String token) {
                 ApiClient.get().getReminders().enqueue(new Callback<ResponseModels.RemindersResponse>() {
@@ -28,5 +31,11 @@ public class BootReceiver extends BroadcastReceiver {
             }
             @Override public void onError(Exception e) {}
         });
+        
+        // Reschedule water reminders
+        WaterReminderSettings waterSettings = WaterReminderSettings.load(ctx);
+        if (waterSettings.isEnabled()) {
+            WaterReminderScheduler.schedule(ctx, waterSettings);
+        }
     }
 }

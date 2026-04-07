@@ -565,6 +565,10 @@ public class ReportDetailActivity extends AppCompatActivity {
             });
         });
 
+        // ── VIEW ORIGINAL REPORT ──
+        b.btnViewOriginal.setVisibility(View.VISIBLE);
+        b.btnViewOriginal.setOnClickListener(v -> viewOriginalReport());
+
         b.cardReview.setVisibility(isDoctor ? View.VISIBLE : View.GONE);
         b.btnSubmitReview.setOnClickListener(v -> submitReview());
     }
@@ -1115,6 +1119,148 @@ public class ReportDetailActivity extends AppCompatActivity {
                         }
                     });
                 }).setNegativeButton("Cancel", null).show();
+    }
+
+    private void viewOriginalReport() {
+        if (report == null) return;
+
+        // Check if we have a file URL from the backend
+        if (report.fileUrl != null && !report.fileUrl.isEmpty()) {
+            // Open URL directly in browser or download
+            openFileUrl(report.fileUrl);
+        } else {
+            // Fallback: try to download from API
+            downloadAndOpenFile();
+        }
+    }
+
+    private void openFileUrl(String url) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(android.net.Uri.parse(url));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (Exception e) {
+            Log.e(TAG, "Error opening URL", e);
+            Toast.makeText(this, "Failed to open file", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void downloadAndOpenFile() {
+        Toast.makeText(this, "Loading original report...", Toast.LENGTH_SHORT).show();
+
+        ApiClient.get().downloadReport(reportId).enqueue(new Callback<okhttp3.ResponseBody>() {
+            @Override
+            public void onResponse(Call<okhttp3.ResponseBody> call, Response<okhttp3.ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        java.io.File cacheDir = getCacheDir();
+                        String fileName = report.fileName != null ? report.fileName : "report_" + reportId;
+                        java.io.File file = new java.io.File(cacheDir, fileName);
+
+                        java.io.InputStream inputStream = response.body().byteStream();
+                        java.io.FileOutputStream outputStream = new java.io.FileOutputStream(file);
+                        byte[] buffer = new byte[4096];
+                        int bytesRead;
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
+                        }
+                        outputStream.close();
+                        inputStream.close();
+
+                        openFile(file);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error saving file", e);
+                        Toast.makeText(ReportDetailActivity.this, "Failed to open file", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(ReportDetailActivity.this, "File not available", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<okhttp3.ResponseBody> call, Throwable t) {
+                Log.e(TAG, "Download failed", t);
+                Toast.makeText(ReportDetailActivity.this, "File not available", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void openFile(java.io.File file) {
+        try {
+            android.net.Uri uri;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                uri = androidx.core.content.FileProvider.getUriForFile(
+                        this,
+                        getApplicationContext().getPackageName() + ".provider",
+                        file
+                );
+            } else {
+                uri = android.net.Uri.fromFile(file);
+            }
+
+            String mimeType = getMimeType(file.getName());
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(uri, mimeType);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            try {
+                startActivity(intent);
+            } catch (android.content.ActivityNotFoundException e) {
+                // No app to handle this file type
+                Toast.makeText(this, "No app found to open this file type", Toast.LENGTH_LONG).show();
+                // Offer to share/save instead
+                shareFile(uri, mimeType);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error opening file", e);
+            Toast.makeText(this, "Failed to open file", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void shareFile(android.net.Uri uri, String mimeType) {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType(mimeType);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(shareIntent, "Open with"));
+    }
+
+    private String getMimeType(String fileName) {
+        String extension = "";
+        int i = fileName.lastIndexOf('.');
+        if (i > 0) {
+            extension = fileName.substring(i + 1).toLowerCase();
+        }
+
+        switch (extension) {
+            case "pdf":
+                return "application/pdf";
+            case "jpg":
+            case "jpeg":
+                return "image/jpeg";
+            case "png":
+                return "image/png";
+            case "gif":
+                return "image/gif";
+            case "bmp":
+                return "image/bmp";
+            case "webp":
+                return "image/webp";
+            case "doc":
+                return "application/msword";
+            case "docx":
+                return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+            case "xls":
+                return "application/vnd.ms-excel";
+            case "xlsx":
+                return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            case "txt":
+                return "text/plain";
+            default:
+                return "*/*";
+        }
     }
 
     // ══════════════════════════════════════════════════════════════════

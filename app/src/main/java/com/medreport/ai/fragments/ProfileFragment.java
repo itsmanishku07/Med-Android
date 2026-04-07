@@ -99,6 +99,10 @@ public class ProfileFragment extends Fragment {
         b.btnFindDoctors.setOnClickListener(v -> replaceFragment(new DoctorListingFragment()));
         b.btnMyAppointments.setOnClickListener(v -> replaceFragment(new MyAppointmentsFragment()));
         b.btnManageAppointments.setOnClickListener(v -> replaceFragment(new DoctorAppointmentsFragment()));
+        b.btnWaterReminder.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), com.medreport.ai.activities.WaterReminderSettingsActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void replaceFragment(Fragment f) {

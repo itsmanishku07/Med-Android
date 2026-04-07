@@ -65,6 +65,9 @@ public interface ApiService {
     @PUT("medical-reports/{id}/ai-analysis")
     Call<ApiResponse<ReportModel>> updateAiAnalysis(@Path("id") String reportId, @Body Map<String, Object> body);
 
+    @GET("medical-reports/{id}/file")
+    Call<okhttp3.ResponseBody> downloadReport(@Path("id") String reportId);
+
     // ── Notifications ─────────────────────────────────────────────────────────
     @GET("notifications/")
     Call<ResponseModels.NotificationsResponse> getNotifications(@Query("unread_only") boolean unreadOnly, @Query("limit") int limit);

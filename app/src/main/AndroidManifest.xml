@@ -56,6 +56,7 @@
         <activity android:name=".activities.ProfileActivity" android:exported="false" android:screenOrientation="portrait" />
         <activity android:name=".activities.MedicineRemindersActivity" android:exported="false" android:screenOrientation="portrait" />
         <activity android:name=".activities.AdminDashboardActivity" android:exported="false" android:screenOrientation="portrait" />
+        <activity android:name=".activities.WaterReminderSettingsActivity" android:exported="false" android:screenOrientation="portrait" />
 
         <!-- FCM Service -->
         <service android:name=".services.FcmService"
@@ -65,8 +66,23 @@
             </intent-filter>
         </service>
 
+        <!-- FileProvider for sharing files -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <!-- Alarm Receiver -->
         <receiver android:name=".services.AlarmReceiver"
+            android:exported="false" />
+
+        <!-- Water Reminder Receiver -->
+        <receiver android:name=".services.WaterReminderReceiver"
             android:exported="false" />
 
         <!-- Boot receiver to reschedule alarms -->
