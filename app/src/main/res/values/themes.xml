@@ -30,7 +30,7 @@
     </style>
     
     <style name="Theme.MedReportAI.Splash" parent="Theme.MedReportAI">
-        <item name="android:windowBackground">@color/primary</item>
+        <item name="android:windowBackground">@drawable/splash_background</item>
         <item name="android:statusBarColor">@color/primary</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>

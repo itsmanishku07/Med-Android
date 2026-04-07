@@ -17,17 +17,17 @@
 
         <!-- Logo Icon -->
         <FrameLayout
-            android:layout_width="72dp"
-            android:layout_height="72dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:background="@drawable/bg_stat_icon"
             android:backgroundTint="@color/primary_light"
             android:layout_marginBottom="24dp">
             <ImageView
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="120dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_pill"
-                app:tint="@color/primary" />
+                android:src="@drawable/bg"
+                 />
         </FrameLayout>
 
         <!-- Title -->
