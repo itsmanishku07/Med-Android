@@ -30,6 +30,7 @@ public class WaterReminderSettingsActivity extends AppCompatActivity {
         updateIntervalDisplay();
         updateAmountDisplay();
         updateTimeDisplay();
+        updateDailyGoal();
     }
 
     private void setupListeners() {
@@ -45,6 +46,7 @@ public class WaterReminderSettingsActivity extends AppCompatActivity {
             if (current > 15) {
                 settings.setIntervalMinutes(current - 15);
                 updateIntervalDisplay();
+                updateDailyGoal();
             }
         });
 
@@ -53,6 +55,7 @@ public class WaterReminderSettingsActivity extends AppCompatActivity {
             if (current < 480) {
                 settings.setIntervalMinutes(current + 15);
                 updateIntervalDisplay();
+                updateDailyGoal();
             }
         });
 
@@ -61,6 +64,7 @@ public class WaterReminderSettingsActivity extends AppCompatActivity {
             if (current > 100) {
                 settings.setWaterAmountMl(current - 50);
                 updateAmountDisplay();
+                updateDailyGoal();
             }
         });
 
@@ -69,6 +73,7 @@ public class WaterReminderSettingsActivity extends AppCompatActivity {
             if (current < 1000) {
                 settings.setWaterAmountMl(current + 50);
                 updateAmountDisplay();
+                updateDailyGoal();
             }
         });
 
@@ -94,6 +99,38 @@ public class WaterReminderSettingsActivity extends AppCompatActivity {
     private void updateTimeDisplay() {
         b.tvStartTime.setText(formatTime(settings.getStartTime()));
         b.tvEndTime.setText(formatTime(settings.getEndTime()));
+    }
+
+    private void updateDailyGoal() {
+        try {
+            // Calculate active hours
+            String[] startParts = settings.getStartTime().split(":");
+            String[] endParts = settings.getEndTime().split(":");
+            int startMinutes = Integer.parseInt(startParts[0]) * 60 + Integer.parseInt(startParts[1]);
+            int endMinutes = Integer.parseInt(endParts[0]) * 60 + Integer.parseInt(endParts[1]);
+            
+            int activeMinutes = endMinutes - startMinutes;
+            if (activeMinutes < 0) activeMinutes += 24 * 60; // Handle overnight
+            
+            // Calculate number of reminders
+            int reminders = activeMinutes / settings.getIntervalMinutes();
+            
+            // Calculate total water
+            int totalMl = reminders * settings.getWaterAmountMl();
+            
+            // Format display
+            String goalText;
+            if (totalMl >= 1000) {
+                float liters = totalMl / 1000f;
+                goalText = String.format("You'll drink ~%.1fL per day (%d reminders)", liters, reminders);
+            } else {
+                goalText = String.format("You'll drink ~%dml per day (%d reminders)", totalMl, reminders);
+            }
+            
+            b.tvDailyGoal.setText(goalText);
+        } catch (Exception e) {
+            b.tvDailyGoal.setText("Configure your settings above");
+        }
     }
 
     private String formatTime(String time24) {
@@ -124,6 +161,7 @@ public class WaterReminderSettingsActivity extends AppCompatActivity {
                     settings.setEndTime(time24);
                 }
                 updateTimeDisplay();
+                updateDailyGoal();
             }, hour, minute, false);
         
         picker.setTitle(isStartTime ? "Select Start Time" : "Select End Time");

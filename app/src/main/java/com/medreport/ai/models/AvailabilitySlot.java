@@ -6,12 +6,17 @@ public class AvailabilitySlot {
     @SerializedName("id")           public String id;
     @SerializedName("doctor_id")    public String doctorId;
     @SerializedName("day_of_week")  public String dayOfWeek;
+    @SerializedName("date")         public String date;
     @SerializedName("start_time")   public String startTime;
     @SerializedName("end_time")     public String endTime;
+    @SerializedName("max_appointments") public String maxAppointments;
     @SerializedName("is_available") public Boolean isAvailable;
     @SerializedName("slot_duration") public Integer slotDuration;
     @SerializedName("created_at")   public String createdAt;
     @SerializedName("updated_at")   public String updatedAt;
+    
+    // Transient field for UI
+    public transient boolean isTemplate = false;
 
     public String getTimeRange() {
         return formatTime(startTime) + " - " + formatTime(endTime);

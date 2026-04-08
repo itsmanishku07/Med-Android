@@ -12,11 +12,31 @@
         android:background="@color/surface"
         app:elevation="0dp">
         
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:titleTextColor="@color/text_primary" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:titleTextColor="@color/text_primary" />
+            
+            <!-- Calendar View Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCalendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Calendar View"
+                android:textSize="14sp"
+                app:icon="@drawable/ic_calendar"
+                app:iconGravity="textStart"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="8dp"/>
+                
+        </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

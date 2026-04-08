@@ -84,6 +84,13 @@ public class ProfileFragment extends Fragment {
             b.layoutDoctorOnly.setVisibility(View.GONE);
             b.layoutPatientServices.setVisibility(View.VISIBLE);
         }
+
+        // Show admin section for admins
+        if (user.isAdmin()) {
+            b.layoutAdminOnly.setVisibility(View.VISIBLE);
+        } else {
+            b.layoutAdminOnly.setVisibility(View.GONE);
+        }
     }
 
     private void setupListeners() {
@@ -96,10 +103,22 @@ public class ProfileFragment extends Fragment {
         b.btnFindDoctors.setOnClickListener(v -> replaceFragment(new DoctorListingFragment()));
         b.btnMyAppointments.setOnClickListener(v -> replaceFragment(new MyAppointmentsFragment()));
         b.btnManageAppointments.setOnClickListener(v -> replaceFragment(new DoctorAppointmentsFragment()));
+        b.btnManageAvailability.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), com.medreport.ai.activities.DoctorAvailabilityActivity.class);
+            startActivity(intent);
+        });
         b.btnWaterReminder.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), com.medreport.ai.activities.WaterReminderSettingsActivity.class);
             startActivity(intent);
         });
+        
+        // Admin dashboard button
+        if (b.btnAdminDashboard != null) {
+            b.btnAdminDashboard.setOnClickListener(v -> {
+                Intent intent = new Intent(getContext(), com.medreport.ai.activities.AdminDashboardActivity.class);
+                startActivity(intent);
+            });
+        }
     }
 
     private void replaceFragment(Fragment f) {

@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "128047057243-lnkc0nddqfa0fpo39l4ul98qu2f2ua4q.apps.googleusercontent.com",
+          "client_id": "128047057243-87k8feenuakt0dvv2uqtln7c6gdb92tj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.medreport.ai",
-            "certificate_hash": "b87fed994964e5038ace5693afdf14cc2101077c"
+            "certificate_hash": "943ae020164672104a3e7deba096c09b9fe60bec"
           }
         },
         {

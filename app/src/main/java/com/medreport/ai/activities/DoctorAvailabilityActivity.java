@@ -76,6 +76,11 @@ public class DoctorAvailabilityActivity extends AppCompatActivity {
         b.fabAddSlot.setOnClickListener(v -> showAddSlotDialog());
         b.fabAddBlockedDate.setOnClickListener(v -> showAddBlockedDateDialog());
         b.swipeRefresh.setOnRefreshListener(this::loadData);
+        
+        // Calendar view button
+        b.btnCalendarView.setOnClickListener(v -> {
+            startActivity(new android.content.Intent(this, DoctorAvailabilityCalendarActivity.class));
+        });
     }
 
     private void loadData() {

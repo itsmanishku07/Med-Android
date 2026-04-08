@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_error_item"
+    android:padding="12dp"
+    android:layout_marginBottom="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tvErrorType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Error Type"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="#991B1B" />
+
+        <TextView
+            android:id="@+id/tvErrorTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12:00 PM"
+            android:textSize="11sp"
+            android:textColor="#DC2626" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvErrorMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Error message"
+        android:textSize="12sp"
+        android:textColor="#B91C1C"
+        android:layout_marginTop="4dp"
+        android:maxLines="2"
+        android:ellipsize="end" />
+
+    <TextView
+        android:id="@+id/tvErrorPath"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Path: /api/endpoint"
+        android:textSize="11sp"
+        android:textColor="#DC2626"
+        android:layout_marginTop="4dp"
+        android:visibility="gone" />
+
+</LinearLayout>

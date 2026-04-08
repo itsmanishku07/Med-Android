@@ -43,6 +43,58 @@ public class ResponseModels {
         @SerializedName("users")   public List<UserModel> users;
     }
 
+    public static class SystemLogsResponse {
+        @SerializedName("success") public boolean success;
+        @SerializedName("logs")    public List<SystemLog> logs;
+        @SerializedName("pagination") public LogPagination pagination;
+        @SerializedName("logging_enabled") public boolean loggingEnabled;
+    }
+    
+    public static class LogPagination {
+        @SerializedName("total") public int total;
+        @SerializedName("page") public int page;
+        @SerializedName("per_page") public int perPage;
+        @SerializedName("total_pages") public int totalPages;
+    }
+
+    public static class LogStatisticsResponse {
+        @SerializedName("success") public boolean success;
+        @SerializedName("statistics") public LogStatistics statistics;
+        @SerializedName("hours") public int hours;
+        @SerializedName("logging_enabled") public boolean loggingEnabled;
+    }
+
+    public static class LogStatistics {
+        @SerializedName("total_requests") public int totalRequests;
+        @SerializedName("total_errors") public int totalErrors;
+        @SerializedName("total_warnings") public int totalWarnings;
+        @SerializedName("avg_response_time") public double avgResponseTime;
+        @SerializedName("requests_by_hour") public Map<String, Integer> requestsByHour;
+        @SerializedName("requests_by_endpoint") public Map<String, Integer> requestsByEndpoint;
+        @SerializedName("status_codes") public Map<String, Integer> statusCodes;
+        @SerializedName("recent_errors") public List<RecentError> recentErrors;
+    }
+
+    public static class RecentError {
+        @SerializedName("timestamp") public String timestamp;
+        @SerializedName("error_type") public String errorType;
+        @SerializedName("error") public String error;
+        @SerializedName("path") public String path;
+    }
+
+    public static class LogSettingsResponse {
+        @SerializedName("success") public boolean success;
+        @SerializedName("settings") public LogSettings settings;
+        @SerializedName("message") public String message;
+    }
+
+    public static class LogSettings {
+        @SerializedName("enabled") public boolean enabled;
+        @SerializedName("console_enabled") public boolean consoleEnabled;
+        @SerializedName("log_level") public String logLevel;
+        @SerializedName("log_file_path") public String logFilePath;
+    }
+
     public static class AdminDashboardResponse {
         @SerializedName("success") public boolean success;
         @SerializedName("stats")   public Map<String, Object> stats;
@@ -102,5 +154,56 @@ public class ResponseModels {
 
     public static class AllReviewStatsResponse extends ApiResponse<Void> {
         public Map<String, ReviewStats> stats;
+    }
+
+    public static class CalendarSlotsResponse {
+        @SerializedName("success") public boolean success;
+        @SerializedName("slots") public List<AvailabilitySlot> slots;
+        @SerializedName("weekly_template") public List<AvailabilitySlot> weeklyTemplate;
+        @SerializedName("blocked_dates") public List<BlockedDate> blockedDates;
+    }
+
+    public static class ApplyTemplateResponse {
+        @SerializedName("success") public boolean success;
+        @SerializedName("message") public String message;
+        @SerializedName("slots_created") public int slotsCreated;
+    }
+
+    // Database Admin Models
+    public static class DatabaseTable {
+        @SerializedName("name") public String name;
+        @SerializedName("row_count") public int rowCount;
+    }
+
+    public static class DatabaseTablesResponse {
+        @SerializedName("success") public boolean success;
+        @SerializedName("tables") public List<DatabaseTable> tables;
+    }
+
+    public static class TableData {
+        @SerializedName("columns") public List<String> columns;
+        @SerializedName("rows") public List<Map<String, Object>> rows;
+        @SerializedName("total") public int total;
+        @SerializedName("page") public int page;
+        @SerializedName("per_page") public int perPage;
+        @SerializedName("total_pages") public int totalPages;
+    }
+
+    public static class TableDataResponse {
+        @SerializedName("success") public boolean success;
+        @SerializedName("data") public TableData data;
+    }
+
+    public static class ClearTableResponse {
+        @SerializedName("success") public boolean success;
+        @SerializedName("message") public String message;
+        @SerializedName("deleted_count") public int deletedCount;
+    }
+
+    public static class DeleteUserResponse {
+        @SerializedName("success") public boolean success;
+        @SerializedName("message") public String message;
+        @SerializedName("deleted_from_db") public boolean deletedFromDb;
+        @SerializedName("deleted_from_firebase") public boolean deletedFromFirebase;
     }
 }

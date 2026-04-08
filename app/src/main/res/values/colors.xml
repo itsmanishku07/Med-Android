@@ -51,4 +51,10 @@
     <color name="badge_text_red">#991B1B</color>
     <color name="badge_border_red">#FECACA</color>
     
+    <!-- Water Reminder Colors -->
+    <color name="water_blue">#2196F3</color>
+    <color name="water_blue_light">#E3F2FD</color>
+    <color name="water_blue_dark">#1976D2</color>
+    <color name="background_light">#F5F9FF</color>
+    
 </resources>

@@ -78,7 +78,18 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
 
     private void setupUI() {
         String firstName = (user.name != null && !user.name.trim().isEmpty()) ? user.name.split(" ")[0] : "User";
-        if (user.isDoctor()) {
+        if (user.isAdmin()) {
+            b.tvWelcomeHeader.setText("Admin Dashboard");
+            b.tvWelcomeSub.setText("Welcome, " + firstName);
+            b.cardUpload.setVisibility(View.GONE);
+            b.layoutDoctorFilters.setVisibility(View.GONE);
+            b.tvListHeader.setText("All Medical Reports");
+            
+            b.tvStat1Label.setText("TOTAL REPORTS");
+            b.tvStat2Label.setText("PENDING REVIEWS");
+            b.tvStat3Label.setText("REVIEWED");
+            b.tvStat4Label.setText("CRITICAL ALERTS");
+        } else if (user.isDoctor()) {
             b.tvWelcomeHeader.setText("Doctor Dashboard");
             b.tvWelcomeSub.setText("Dr. " + firstName);
             b.cardUpload.setVisibility(View.GONE);

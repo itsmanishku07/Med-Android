@@ -111,6 +111,24 @@ public interface ApiService {
     @GET("admin/users")
     Call<ResponseModels.UsersResponse> getAllUsers();
 
+    @GET("logs/list")
+    Call<ResponseModels.SystemLogsResponse> getSystemLogs(@Query("page") int page, @Query("per_page") int perPage);
+
+    @GET("logs/statistics")
+    Call<ResponseModels.LogStatisticsResponse> getLogStatistics(@Query("hours") int hours);
+
+    @GET("logs/settings")
+    Call<ResponseModels.LogSettingsResponse> getLogSettings();
+
+    @PUT("logs/settings")
+    Call<ResponseModels.LogSettingsResponse> updateLogSettings(@Body Map<String, Boolean> settings);
+
+    @DELETE("logs/clear")
+    Call<ApiResponse<Void>> clearLogs();
+
+    @GET("logs/download")
+    Call<okhttp3.ResponseBody> downloadLogs();
+
     @PUT("admin/users/{uid}/role")
     Call<ApiResponse<UserModel>> updateUserRole(@Path("uid") String uid, @Body Map<String, String> body);
 
@@ -162,6 +180,18 @@ public interface ApiService {
     @DELETE("availability/blocked-dates/{id}")
     Call<ApiResponse<Void>> deleteBlockedDate(@Path("id") String blockedDateId);
 
+    @GET("availability/calendar-slots")
+    Call<ResponseModels.CalendarSlotsResponse> getCalendarSlots(@Query("start_date") String startDate, @Query("end_date") String endDate);
+
+    @POST("availability/calendar-slots")
+    Call<ApiResponse<AvailabilitySlot>> createCalendarSlot(@Body Map<String, Object> body);
+
+    @DELETE("availability/calendar-slots/{id}")
+    Call<ApiResponse<Void>> deleteCalendarSlot(@Path("id") String slotId);
+
+    @POST("availability/apply-template")
+    Call<ResponseModels.ApplyTemplateResponse> applyWeeklyTemplate(@Body Map<String, Object> body);
+
     @GET("availability/doctor/{doctorId}")
     Call<ResponseModels.DoctorAvailabilityResponse> getDoctorAvailability(@Path("doctorId") String doctorId);
 
@@ -179,4 +209,20 @@ public interface ApiService {
 
     @GET("reviews/all-stats")
     Call<ResponseModels.AllReviewStatsResponse> getAllReviewStats();
+
+    // Database Admin endpoints
+    @GET("database-admin/tables")
+    Call<ResponseModels.DatabaseTablesResponse> getDatabaseTables();
+
+    @GET("database-admin/tables/{tableName}")
+    Call<ResponseModels.TableDataResponse> getTableData(@Path("tableName") String tableName, @Query("page") int page, @Query("per_page") int perPage);
+
+    @DELETE("database-admin/tables/{tableName}/record/{recordId}")
+    Call<ApiResponse<Void>> deleteRecord(@Path("tableName") String tableName, @Path("recordId") String recordId);
+
+    @DELETE("database-admin/tables/{tableName}/clear")
+    Call<ResponseModels.ClearTableResponse> clearTable(@Path("tableName") String tableName, @Query("confirm") String confirm);
+
+    @DELETE("database-admin/users/{userId}")
+    Call<ResponseModels.DeleteUserResponse> deleteUserCompletely(@Path("userId") String userId);
 }
