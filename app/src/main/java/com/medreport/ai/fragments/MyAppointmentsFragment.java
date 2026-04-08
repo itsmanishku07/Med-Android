@@ -97,11 +97,9 @@ public class MyAppointmentsFragment extends Fragment implements AppointmentAdapt
 
     @Override
     public void onManage(AppointmentModel appointment) {
-        // Patients can't manage appointments in this view
     }
 
     @Override
     public void onItemClicked(AppointmentModel appointment) {
-        // Future: Show appointment details fragment
     }
 }

@@ -52,7 +52,6 @@ public class ReportsFragment extends Fragment implements ReportAdapter.Listener 
         b.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         b.recyclerView.setAdapter(adapter);
         
-        // Hide upload FAB for doctors
         UserModel currentUser = com.medreport.ai.utils.AuthManager.getInstance().getCurrentUser();
         if (currentUser != null && "DOCTOR".equals(currentUser.role)) {
             b.fab.setVisibility(View.GONE);
@@ -81,7 +80,6 @@ public class ReportsFragment extends Fragment implements ReportAdapter.Listener 
                     reports.addAll(r.body().reports);
                     adapter.notifyDataSetChanged();
                     
-                    // Apply staggered animation
                     android.view.animation.LayoutAnimationController controller = 
                         android.view.animation.AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_animation_fall_down);
                     b.recyclerView.setLayoutAnimation(controller);

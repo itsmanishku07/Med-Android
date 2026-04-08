@@ -42,14 +42,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(b.getRoot());
         auth = FirebaseAuth.getInstance();
 
-        // Configure Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        // Register activity result launcher for Google Sign-In
         googleSignInLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -83,7 +81,6 @@ public class LoginActivity extends AppCompatActivity {
             android.util.Log.e("LoginActivity", "Google sign-in failed with code: " + e.getStatusCode(), e);
             String errorMessage = "Google sign-in failed";
             
-            // Provide more specific error messages
             switch (e.getStatusCode()) {
                 case 10:
                     errorMessage = "Google Sign-In configuration error. Please check your setup.";
@@ -118,7 +115,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void autoRegisterAndFetchProfile() {
-        // Try to fetch profile first, if fails then auto-register
         ApiClient.get().getProfile().enqueue(new Callback<ApiResponse<UserModel>>() {
             @Override
             public void onResponse(Call<ApiResponse<UserModel>> c, Response<ApiResponse<UserModel>> r) {
@@ -126,14 +122,12 @@ public class LoginActivity extends AppCompatActivity {
                     AuthManager.getInstance().setCurrentUser(r.body().user);
                     navigateToMain();
                 } else {
-                    // User doesn't exist, auto-register with default role
                     autoRegister();
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse<UserModel>> c, Throwable t) {
-                // On failure, try auto-register
                 autoRegister();
             }
         });
@@ -141,7 +135,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void autoRegister() {
         Map<String, String> body = new HashMap<>();
-        // Default role for Google sign-in is PATIENT
         ApiClient.get().autoRegister(body).enqueue(new Callback<ApiResponse<UserModel>>() {
             @Override
             public void onResponse(Call<ApiResponse<UserModel>> c, Response<ApiResponse<UserModel>> r) {

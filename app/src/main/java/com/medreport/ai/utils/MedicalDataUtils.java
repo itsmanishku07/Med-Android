@@ -5,14 +5,7 @@ import com.google.gson.JsonObject;
 
 public class MedicalDataUtils {
 
-    /**
-     * Safely extracts a displayable string from a JsonElement.
-     * Handles:
-     * - "Condition" (String) -> "Condition"
-     * - {"diagnosis": "Condition", ...} -> "Condition"
-     * - {"name": "Condition", ...} -> "Condition"
-     * - Other Objects -> JSON string
-     */
+    
     public static String getDisplayString(JsonElement element) {
         if (element == null || element.isJsonNull()) {
             return "";
@@ -25,7 +18,6 @@ public class MedicalDataUtils {
         if (element.isJsonObject()) {
             JsonObject obj = element.getAsJsonObject();
             
-            // Try standard medical keys
             if (obj.has("diagnosis") && !obj.get("diagnosis").isJsonNull()) {
                 return obj.get("diagnosis").getAsString();
             }
@@ -39,7 +31,6 @@ public class MedicalDataUtils {
                 return obj.get("medication").getAsString();
             }
 
-            // Fallback: return the first non-null string value found
             for (String key : obj.keySet()) {
                 JsonElement val = obj.get(key);
                 if (val.isJsonPrimitive() && val.getAsJsonPrimitive().isString()) {

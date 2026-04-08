@@ -7,7 +7,7 @@
     android:background="@color/background"
     tools:context=".activities.ChatActivity">
 
-    <!-- Toolbar -->
+    
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             android:background="@color/divider" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Messages List -->
+    
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
 
-    <!-- Progress -->
+    
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="40dp"
@@ -54,7 +54,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Typing Indicator -->
+    
     <TextView
         android:id="@+id/tvTyping"
         android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
         app:layout_constraintBottom_toTopOf="@id/bottomLayout"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Image Preview Area -->
+    
     <androidx.cardview.widget.CardView
         android:id="@+id/cvImagePreview"
         android:layout_width="120dp"
@@ -101,7 +101,7 @@
             android:padding="6dp"/>
     </androidx.cardview.widget.CardView>
 
-    <!-- Input Bar -->
+    
     <LinearLayout
         android:id="@+id/bottomLayout"
         android:layout_width="match_parent"

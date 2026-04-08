@@ -12,17 +12,17 @@ public class WaterReminderSettings {
     private static final String KEY_END_TIME = "end_time";
 
     private boolean enabled;
-    private int intervalMinutes; // Duration between reminders
-    private int waterAmountMl;   // Amount of water per reminder
-    private String startTime;    // HH:MM format (e.g., "08:00")
-    private String endTime;      // HH:MM format (e.g., "22:00")
+    private int intervalMinutes;
+    private int waterAmountMl;
+    private String startTime;
+    private String endTime;
 
     public WaterReminderSettings() {
         this.enabled = false;
-        this.intervalMinutes = 60; // Default: 1 hour
-        this.waterAmountMl = 250;  // Default: 250ml (1 glass)
-        this.startTime = "08:00";  // Default: 8 AM
-        this.endTime = "22:00";    // Default: 10 PM
+        this.intervalMinutes = 60;
+        this.waterAmountMl = 250;
+        this.startTime = "08:00";
+        this.endTime = "22:00";
     }
 
     public static WaterReminderSettings load(Context ctx) {
@@ -46,7 +46,6 @@ public class WaterReminderSettings {
         editor.apply();
     }
 
-    // Getters and Setters
     public boolean isEnabled() { return enabled; }
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
 

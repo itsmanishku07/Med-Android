@@ -76,7 +76,6 @@ public class AIChatBottomSheet extends BottomSheetDialogFragment {
             behavior.setState(com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED);
             behavior.setSkipCollapsed(true);
             
-            // Set height to full screen minus minor margin
             ViewGroup.LayoutParams layoutParams = parent.getLayoutParams();
             layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
             parent.setLayoutParams(layoutParams);
@@ -132,8 +131,6 @@ public class AIChatBottomSheet extends BottomSheetDialogFragment {
                 ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 if (data != null && !data.isEmpty()) {
                     b.etQuestion.setText(data.get(0));
-                    // Optional: auto-send
-                    // sendQuestion(data.get(0));
                 }
             }
 
@@ -208,7 +205,6 @@ public class AIChatBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void sendQuestion(String question) {
-        // Optimistic UI update
         AIChatMessage userMsg = new AIChatMessage("user", question);
         adapter.addMessage(userMsg);
         updateClearButtonVisibility();
@@ -227,7 +223,6 @@ public class AIChatBottomSheet extends BottomSheetDialogFragment {
                 b.btnSend.setEnabled(true);
                 b.progressLoading.setVisibility(View.GONE);
                 if (r.isSuccessful() && r.body() != null && r.body().success) {
-                    // answer is the AI reply; question is already shown optimistically
                     if (r.body().answer != null) {
                         adapter.addMessage(r.body().answer);
                         b.rvChat.smoothScrollToPosition(adapter.getItemCount() - 1);

@@ -22,7 +22,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.VH> {
     public MessageAdapter(List<MessageModel> items, String myUserId) {
         this.items = items;
         this.myUserId = myUserId;
-        this.markwon = io.noties.markwon.Markwon.create(null); // Will be initialized by the first VH
+        this.markwon = io.noties.markwon.Markwon.create(null);
     }
 
     @Override public int getItemViewType(int pos) {

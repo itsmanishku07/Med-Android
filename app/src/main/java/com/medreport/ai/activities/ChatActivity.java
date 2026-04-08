@@ -84,13 +84,11 @@ public class ChatActivity extends AppCompatActivity {
                     } else {
                         bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                     }
-                    // Compress and convert to Base64
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 60, outputStream);
                     byte[] byteArray = outputStream.toByteArray();
                     selectedImageBase64 = "data:image/jpeg;base64," + Base64.encodeToString(byteArray, Base64.DEFAULT);
 
-                    // Show preview
                     b.cvImagePreview.setVisibility(View.VISIBLE);
                     b.ivPreview.setImageURI(uri);
                 } catch (Exception e) {

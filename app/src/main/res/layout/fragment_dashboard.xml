@@ -15,9 +15,9 @@
         android:paddingTop="20dp"
         android:paddingBottom="24dp">
 
-        <!-- ════════════════════════════════════════ -->
-        <!-- HEADER                                   -->
-        <!-- ════════════════════════════════════════ -->
+        
+        
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,23 +73,23 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- ════════════════════════════════════════ -->
-        <!-- STATS GRID (2×2)                         -->
-        <!-- ════════════════════════════════════════ -->
+        
+        
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginBottom="16dp">
 
-            <!-- Row 1 -->
+            
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginBottom="8dp">
 
-                <!-- Stat: Total -->
+                
                 <com.google.android.material.card.MaterialCardView android:id="@+id/cardStatTotal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Stat: Pending -->
+                
                 <com.google.android.material.card.MaterialCardView android:id="@+id/cardStatPending"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -200,13 +200,13 @@
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
-            <!-- Row 2 -->
+            
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <!-- Stat: Reviewed -->
+                
                 <com.google.android.material.card.MaterialCardView android:id="@+id/cardStatReviewed"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -261,7 +261,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Stat: Critical -->
+                
                 <com.google.android.material.card.MaterialCardView android:id="@+id/cardStatCritical"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -318,9 +318,9 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- ════════════════════════════════════════ -->
-        <!-- DOCTOR FILTERS                           -->
-        <!-- ════════════════════════════════════════ -->
+        
+        
+        
         <LinearLayout
             android:id="@+id/layoutDoctorFilters"
             android:layout_width="match_parent"
@@ -381,9 +381,9 @@
             </HorizontalScrollView>
         </LinearLayout>
 
-        <!-- ════════════════════════════════════════ -->
-        <!-- UPLOAD CARD                              -->
-        <!-- ════════════════════════════════════════ -->
+        
+        
+        
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardUpload"
             android:layout_width="match_parent"
@@ -487,9 +487,9 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- ════════════════════════════════════════ -->
-        <!-- REPORTS LIST                             -->
-        <!-- ════════════════════════════════════════ -->
+        
+        
+        
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -598,9 +598,9 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- ════════════════════════════════════════ -->
-        <!-- DISCLAIMER                               -->
-        <!-- ════════════════════════════════════════ -->
+        
+        
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

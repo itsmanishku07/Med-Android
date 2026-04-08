@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Core Brand -->
+    
     <color name="primary">#2563EB</color>
     <color name="primary_dark">#1D4ED8</color>
     <color name="primary_light">#EFF6FF</color>
@@ -9,28 +9,28 @@
     <color name="warning">#D97706</color>
     <color name="danger">#DC2626</color>
 
-    <!-- Surfaces -->
+    
     <color name="surface">#FFFFFF</color>
     <color name="background">#F8FAFC</color>
     <color name="card_bg">#FFFFFF</color>
     <color name="screen_bg">#F8FAFC</color>
 
-    <!-- Text -->
+    
     <color name="text_primary">#0F172A</color>
     <color name="text_secondary">#475569</color>
     <color name="text_tertiary">#94A3B8</color>
     <color name="on_surface">#0F172A</color>
     <color name="on_surface_variant">#64748B</color>
 
-    <!-- Dividers -->
+    
     <color name="divider">#E2E8F0</color>
     <color name="icon_tint">#64748B</color>
 
-    <!-- Chat Bubbles -->
+    
     <color name="sent_bubble">#2563EB</color>
     <color name="recv_bubble">#F1F5F9</color>
 
-    <!-- Badge System -->
+    
     <color name="badge_bg_blue">#EFF6FF</color>
     <color name="badge_text_blue">#1D4ED8</color>
     <color name="badge_border_blue">#BFDBFE</color>

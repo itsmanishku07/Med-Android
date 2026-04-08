@@ -121,7 +121,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                     bgColor = R.color.badge_bg_blue;
                     textColor = R.color.badge_text_blue;
                     break;
-                default: // PENDING
+                default:
                     bgColor = R.color.badge_bg_amber;
                     textColor = R.color.badge_text_amber;
                     break;
@@ -132,7 +132,6 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
         private String formatDateTime(String isoString) {
             try {
-                // Simple formatting for display (In a real app, use SimpleDateFormat or Java 8 Time)
                 return isoString.replace("T", " ").substring(0, 16);
             } catch (Exception e) {
                 return isoString;

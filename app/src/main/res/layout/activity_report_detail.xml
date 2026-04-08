@@ -38,7 +38,7 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- ═══ 1. HEADER CARD ═══ -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
@@ -72,7 +72,7 @@
                                 </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
-                        <!-- Badges Row -->
+                        
                         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                             android:layout_marginTop="14dp" android:orientation="horizontal"
                             android:gravity="center_vertical">
@@ -95,7 +95,7 @@
                                 android:paddingHorizontal="10dp" android:paddingVertical="4dp"
                                 android:visibility="gone"/>
                         </LinearLayout>
-                        <!-- File Info Row -->
+                        
                         <LinearLayout android:id="@+id/layoutFileInfo" android:layout_width="match_parent"
                             android:layout_height="wrap_content" android:layout_marginTop="12dp"
                             android:orientation="horizontal" android:gravity="center_vertical"
@@ -119,7 +119,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ═══ 2. AI SUMMARY CARD ═══ -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardSummary"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -155,7 +155,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ═══ 3. EXTRACTION INFO CARD ═══ -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardExtraction"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -190,7 +190,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ═══ 4. PATIENT INFO CARD ═══ -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardPatientInfo"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -220,7 +220,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ═══ 5. DIAGNOSES CARD ═══ -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardDiagnoses"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -256,7 +256,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ═══ 6. SYMPTOMS CARD ═══ -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardSymptoms"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -286,7 +286,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ═══ 7. VITAL SIGNS CARD ═══ -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardVitals"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -316,7 +316,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ═══ 8. LAB RESULTS CARD ═══ -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardLabResults"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -351,7 +351,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ═══ 9. MEDICATIONS CARD ═══ -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardMedications"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -381,7 +381,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ═══ 10. ABNORMAL FINDINGS CARD ═══ -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardAbnormal"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -411,7 +411,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ═══ 11. AI CLINICAL SUGGESTIONS ═══ -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardSuggestions"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -446,7 +446,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ═══ 12. SUGGESTED DOCTORS ═══ -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardSuggestedDoctors"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -476,7 +476,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ═══ 13. DOCTOR NOTES ═══ -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardDoctorNotes"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -506,7 +506,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- ═══ 14. REVIEW FORM (DOCTOR) ═══ -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardReview"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -548,7 +548,7 @@
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <!-- ═══ Sticky Bottom Actions ═══ -->
+    
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
         android:layout_gravity="bottom" android:orientation="vertical"
         android:background="@color/card_bg" android:elevation="8dp"

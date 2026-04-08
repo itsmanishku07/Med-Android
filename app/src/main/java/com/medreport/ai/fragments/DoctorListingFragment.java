@@ -81,7 +81,6 @@ public class DoctorListingFragment extends Fragment implements DoctorAdapter.OnD
     private void loadDoctors() {
         b.progressBar.setVisibility(View.VISIBLE);
         
-        // Load doctors and rating stats in parallel
         ApiClient.get().getDoctors().enqueue(new Callback<ResponseModels.DoctorsResponse>() {
             @Override
             public void onResponse(Call<ResponseModels.DoctorsResponse> call, Response<ResponseModels.DoctorsResponse> response) {
@@ -111,7 +110,6 @@ public class DoctorListingFragment extends Fragment implements DoctorAdapter.OnD
                 b.swipeRefresh.setRefreshing(false);
                 
                 if (response.isSuccessful() && response.body() != null && response.body().stats != null) {
-                    // Merge rating stats with doctor list
                     for (UserModel doctor : fullDoctorList) {
                         ReviewStats stats = response.body().stats.get(doctor.id);
                         if (stats != null) {
@@ -127,7 +125,6 @@ public class DoctorListingFragment extends Fragment implements DoctorAdapter.OnD
             public void onFailure(Call<ResponseModels.AllReviewStatsResponse> call, Throwable t) {
                 b.progressBar.setVisibility(View.GONE);
                 b.swipeRefresh.setRefreshing(false);
-                // Still show doctors even if rating stats fail
                 filterList();
             }
         });

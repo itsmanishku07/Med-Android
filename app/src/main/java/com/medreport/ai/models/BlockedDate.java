@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName;
 public class BlockedDate {
     @SerializedName("id")          public String id;
     @SerializedName("doctor_id")   public String doctorId;
-    @SerializedName("date")        public String date; // YYYY-MM-DD format
+    @SerializedName("date")        public String date;
     @SerializedName("reason")      public String reason;
     @SerializedName("all_day")     public Boolean allDay;
-    @SerializedName("start_time")  public String startTime; // HH:MM if not all day
-    @SerializedName("end_time")    public String endTime;   // HH:MM if not all day
+    @SerializedName("start_time")  public String startTime;
+    @SerializedName("end_time")    public String endTime;
     @SerializedName("created_at")  public String createdAt;
 
     public String getDisplayDate() {

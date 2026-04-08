@@ -52,7 +52,6 @@ public class AIChatAdapter extends RecyclerView.Adapter<AIChatAdapter.ChatViewHo
     @Override
     public int getItemCount() { return messages.size(); }
 
-    // ── ViewHolder ─────────────────────────────────────────────────────────────
 
     static class ChatViewHolder extends RecyclerView.ViewHolder {
         private final ItemAiChatMessageBinding b;
@@ -84,7 +83,6 @@ public class AIChatAdapter extends RecyclerView.Adapter<AIChatAdapter.ChatViewHo
                 b.tvSentContent.setText(msg.content);
                 b.tvSentTime.setText(timeStr);
             } else {
-                // Render Markdown for AI responses using Markwon
                 markwon.setMarkdown(b.tvReceivedContent, msg.content);
                 b.tvReceivedTime.setText(timeStr);
             }

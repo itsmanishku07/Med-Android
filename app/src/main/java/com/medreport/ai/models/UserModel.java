@@ -27,7 +27,6 @@ public class UserModel {
     @SerializedName("profile")
     public ProfileData profile;
     
-    // Rating fields
     @SerializedName("average_rating")
     public Double averageRating;
     @SerializedName("total_reviews")

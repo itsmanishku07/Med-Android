@@ -75,9 +75,6 @@ public class ReportDetailActivity extends AppCompatActivity {
         loadReport();
     }
 
-    // ══════════════════════════════════════════════════════════════════
-    // DATA LOADING
-    // ══════════════════════════════════════════════════════════════════
 
     private void loadReport() {
         b.swipeRefresh.setRefreshing(true);
@@ -109,9 +106,6 @@ public class ReportDetailActivity extends AppCompatActivity {
         });
     }
 
-    // ══════════════════════════════════════════════════════════════════
-    // POLLING
-    // ══════════════════════════════════════════════════════════════════
 
     private void startPolling() {
         if (isPolling)
@@ -131,7 +125,7 @@ public class ReportDetailActivity extends AppCompatActivity {
                     } else {
                         stopPolling();
                         Toast.makeText(ReportDetailActivity.this, "Analysis complete!", Toast.LENGTH_SHORT).show();
-                        loadReport(); // Force fresh reload
+                        loadReport();
                     }
                 } else if (isPolling)
                     pollHandler.postDelayed(pollRunnable, 5000);
@@ -160,9 +154,6 @@ public class ReportDetailActivity extends AppCompatActivity {
         stopPolling();
     }
 
-    // ══════════════════════════════════════════════════════════════════
-    // BIND ALL DATA FROM API RESPONSE
-    // ══════════════════════════════════════════════════════════════════
 
     private void bindReport() {
         if (report == null)
@@ -175,15 +166,12 @@ public class ReportDetailActivity extends AppCompatActivity {
 
         String status = report.status != null ? report.status : "PENDING";
 
-        // ── 1. HEADER ──
         b.tvFileName.setText(report.fileName != null ? report.fileName : "Report");
         applyBadgeColor(b.tvStatus, status.equals("ANALYZED") || status.equals("REVIEWED") ? "green" : "blue");
         b.tvStatus.setText(status);
 
-        // Upload date
         b.tvUploadDate.setText(formatDate(report.uploadedAt));
 
-        // Severity badge
         String sev = report.getSeverityLevel();
         if (sev != null && !status.equals("PENDING") && !status.equals("ANALYZING")) {
             b.tvSeverity.setVisibility(View.VISIBLE);
@@ -206,7 +194,6 @@ public class ReportDetailActivity extends AppCompatActivity {
             b.tvSeverity.setVisibility(View.GONE);
         }
 
-        // Medical specialty badge
         if (report.medicalSpecialty != null && !report.medicalSpecialty.isEmpty()) {
             b.tvSpecialty.setVisibility(View.VISIBLE);
             b.tvSpecialty.setText(report.medicalSpecialty);
@@ -215,7 +202,6 @@ public class ReportDetailActivity extends AppCompatActivity {
             b.tvSpecialty.setVisibility(View.GONE);
         }
 
-        // File info row
         b.layoutFileInfo.setVisibility(View.VISIBLE);
         b.tvFileType.setText(report.fileType != null ? report.fileType.toUpperCase() : "FILE");
         String fileSizeStr = "Unknown size";
@@ -235,10 +221,8 @@ public class ReportDetailActivity extends AppCompatActivity {
             b.tvAnalyzedAt.setText("Analyzed: " + formatDate(report.analyzedAt));
         }
 
-        // ── AI ANALYSIS SECTIONS ──
         JsonObject ai = smartParseObj(report.aiAnalysis);
 
-        // Reset all AI cards
         b.cardSummary.setVisibility(View.GONE);
         b.cardExtraction.setVisibility(View.GONE);
         b.cardPatientInfo.setVisibility(View.GONE);
@@ -254,7 +238,6 @@ public class ReportDetailActivity extends AppCompatActivity {
         if (ai != null && !status.equals("ANALYZING") && !status.equals("PENDING")) {
             Log.d(TAG, "AI Analysis keys: " + ai.keySet());
 
-            // ── 2. AI SUMMARY ──
             String summary = report.getAiSummary();
             if (summary != null && !summary.isEmpty()) {
                 b.cardSummary.setVisibility(View.VISIBLE);
@@ -266,7 +249,6 @@ public class ReportDetailActivity extends AppCompatActivity {
                 }
             }
 
-            // ── 3. EXTRACTION INFO ──
             JsonObject extraction = smartParseObj(ai.get("extraction_info"));
             if (extraction != null) {
                 b.cardExtraction.setVisibility(View.VISIBLE);
@@ -307,7 +289,6 @@ public class ReportDetailActivity extends AppCompatActivity {
                 }
             }
 
-            // ── 4. PATIENT INFO ──
             JsonObject pi = smartParseObj(ai.get("patient_info"));
             if (pi != null && pi.entrySet().size() > 0) {
                 b.cardPatientInfo.setVisibility(View.VISIBLE);
@@ -327,7 +308,6 @@ public class ReportDetailActivity extends AppCompatActivity {
                 addPatientField(b.layoutPatientGrid, "Address", safeStr(pi, "address", null), "blue");
             }
 
-            // ── 5. DIAGNOSES ──
             JsonArray diagnoses = smartParseArray(ai.get("diagnoses"));
             if (diagnoses != null) {
                 b.cardDiagnoses.setVisibility(View.VISIBLE);
@@ -347,7 +327,6 @@ public class ReportDetailActivity extends AppCompatActivity {
                 }
             }
 
-            // ── 6. SYMPTOMS ──
             JsonArray symptoms = smartParseArray(ai.get("symptoms"));
             if (symptoms != null) {
                 b.cardSymptoms.setVisibility(View.VISIBLE);
@@ -369,7 +348,6 @@ public class ReportDetailActivity extends AppCompatActivity {
                 }
             }
 
-            // ── 7. VITAL SIGNS ──
             JsonObject vitals = smartParseObj(ai.get("vital_signs"));
             if (vitals != null) {
                 b.gridVitals.removeAllViews();
@@ -391,7 +369,6 @@ public class ReportDetailActivity extends AppCompatActivity {
                 b.cardVitals.setVisibility(hasAnyVital ? View.VISIBLE : View.GONE);
             }
 
-            // ── 8. LAB RESULTS ──
             JsonArray labs = smartParseArray(ai.get("lab_results"));
             if (labs != null) {
                 b.cardLabResults.setVisibility(View.VISIBLE);
@@ -413,7 +390,6 @@ public class ReportDetailActivity extends AppCompatActivity {
                 }
             }
 
-            // ── 9. MEDICATIONS ──
             JsonArray meds = smartParseArray(ai.get("current_medications"));
             if (meds != null) {
                 b.cardMedications.setVisibility(View.VISIBLE);
@@ -447,7 +423,6 @@ public class ReportDetailActivity extends AppCompatActivity {
                 }
             }
 
-            // ── 10. ABNORMAL FINDINGS ──
             JsonArray abnormal = smartParseArray(ai.get("abnormal_findings"));
             if (abnormal != null && abnormal.size() > 0) {
                 b.cardAbnormal.setVisibility(View.VISIBLE);
@@ -471,7 +446,6 @@ public class ReportDetailActivity extends AppCompatActivity {
                 b.tvAbnormal.setText(sb.toString().trim());
             }
 
-            // ── 11. AI CLINICAL SUGGESTIONS ──
             JsonArray suggestions = smartParseArray(ai.get("clinical_suggestions"));
             if (suggestions != null && suggestions.size() > 0) {
                 b.cardSuggestions.setVisibility(View.VISIBLE);
@@ -490,7 +464,6 @@ public class ReportDetailActivity extends AppCompatActivity {
             }
         }
 
-        // ── 12. SUGGESTED DOCTORS ──
         if (report.suggestedDoctors != null && !report.suggestedDoctors.isEmpty() && isPatient) {
             b.cardSuggestedDoctors.setVisibility(View.VISIBLE);
             b.layoutDoctorItems.removeAllViews();
@@ -499,7 +472,6 @@ public class ReportDetailActivity extends AppCompatActivity {
             }
         }
 
-        // ── 13. DOCTOR NOTES ──
         if (report.doctorNotes != null && !report.doctorNotes.isEmpty()) {
             b.cardDoctorNotes.setVisibility(View.VISIBLE);
             b.tvDoctorNotes.setText(report.doctorNotes);
@@ -509,7 +481,7 @@ public class ReportDetailActivity extends AppCompatActivity {
 
         if (isDoctor) {
             b.btnChat.setText("Chat with Patient");
-            b.btnChat.setVisibility(View.VISIBLE); // Doctors can always chat with the owner
+            b.btnChat.setVisibility(View.VISIBLE);
         } else {
             b.btnChat.setText("Chat with Doctor");
             b.btnChat.setVisibility(report.assignedDoctorId != null ? View.VISIBLE : View.GONE);
@@ -526,7 +498,6 @@ public class ReportDetailActivity extends AppCompatActivity {
                 b.btnAnalyze.setVisibility(View.VISIBLE);
                 b.btnDelete.setVisibility(View.VISIBLE);
             }
-            // Show Ask AI button if report is analyzed (has extracted text)
             if (report.isAnalyzed()) {
                 b.btnAskAI.setVisibility(View.VISIBLE);
             } else {
@@ -565,7 +536,6 @@ public class ReportDetailActivity extends AppCompatActivity {
             });
         });
 
-        // ── VIEW ORIGINAL REPORT ──
         b.btnViewOriginal.setVisibility(View.VISIBLE);
         b.btnViewOriginal.setOnClickListener(v -> viewOriginalReport());
 
@@ -573,17 +543,9 @@ public class ReportDetailActivity extends AppCompatActivity {
         b.btnSubmitReview.setOnClickListener(v -> submitReview());
     }
 
-    // ══════════════════════════════════════════════════════════════════
-    // EDIT FUNCTIONALITY (React Parity)
-    // ══════════════════════════════════════════════════════════════════
 
-    /**
-     * Injects a small "Edit" button into the first LinearLayout child of a card.
-     * The button opens the EditSectionDialog for the given section key.
-     */
+    
     private void injectEditButton(com.google.android.material.card.MaterialCardView card, String sectionKey) {
-        // Find the header LinearLayout (first horizontal LL with gravity
-        // center_vertical)
         LinearLayout cardRoot = null;
         for (int i = 0; i < card.getChildCount(); i++) {
             View child = card.getChildAt(i);
@@ -595,7 +557,6 @@ public class ReportDetailActivity extends AppCompatActivity {
         if (cardRoot == null)
             return;
 
-        // Find first horizontal LinearLayout (header row)
         LinearLayout headerRow = null;
         for (int i = 0; i < cardRoot.getChildCount(); i++) {
             View child = cardRoot.getChildAt(i);
@@ -610,12 +571,10 @@ public class ReportDetailActivity extends AppCompatActivity {
         if (headerRow == null)
             return;
 
-        // Check if we've already injected (tag-based)
         if (headerRow.getTag() != null && headerRow.getTag().equals("edit_injected"))
             return;
         headerRow.setTag("edit_injected");
 
-        // Build small edit button
         TextView btnEdit = new TextView(this);
         btnEdit.setText("Edit");
         btnEdit.setTextSize(12);
@@ -644,7 +603,6 @@ public class ReportDetailActivity extends AppCompatActivity {
     private void saveEditedAnalysis(JsonObject updatedAnalysis) {
         Toast.makeText(this, "Saving changes...", Toast.LENGTH_SHORT).show();
 
-        // Convert JsonObject to Map for Retrofit
         Map<String, Object> body = new HashMap<>();
         body.put("ai_analysis", new com.google.gson.Gson().fromJson(updatedAnalysis, Map.class));
 
@@ -668,9 +626,6 @@ public class ReportDetailActivity extends AppCompatActivity {
         });
     }
 
-    // ══════════════════════════════════════════════════════════════════
-    // DYNAMIC VIEW BUILDERS
-    // ══════════════════════════════════════════════════════════════════
 
     private void addPatientField(LinearLayout container, String label, String value, String color) {
         if (value == null || value.isEmpty() || value.equals("null"))
@@ -860,7 +815,6 @@ public class ReportDetailActivity extends AppCompatActivity {
         lp.bottomMargin = dpToPx(10);
         item.setLayoutParams(lp);
 
-        // Priority + Title
         LinearLayout header = new LinearLayout(this);
         header.setOrientation(LinearLayout.HORIZONTAL);
         header.setGravity(android.view.Gravity.CENTER_VERTICAL);
@@ -901,7 +855,6 @@ public class ReportDetailActivity extends AppCompatActivity {
         header.addView(tvTitle);
         item.addView(header);
 
-        // Category
         String category = safeStr(s, "category", null);
         if (category != null && !category.isEmpty()) {
             TextView tvCat = new TextView(this);
@@ -913,7 +866,6 @@ public class ReportDetailActivity extends AppCompatActivity {
             item.addView(tvCat);
         }
 
-        // Reasoning
         String reason = safeStr(s, "reasoning", safeStr(s, "reason", safeStr(s, "rationale", null)));
         if (reason != null && !reason.isEmpty()) {
             TextView tvReason = new TextView(this);
@@ -924,7 +876,6 @@ public class ReportDetailActivity extends AppCompatActivity {
             item.addView(tvReason);
         }
 
-        // Confidence
         String confStr = safeStr(s, "confidence", null);
         if (confStr != null) {
             try {
@@ -956,7 +907,6 @@ public class ReportDetailActivity extends AppCompatActivity {
         lp.bottomMargin = dpToPx(8);
         item.setLayoutParams(lp);
 
-        // Rank circle
         TextView tvRank = new TextView(this);
         tvRank.setText("#" + (index + 1));
         tvRank.setTextSize(12);
@@ -1001,7 +951,6 @@ public class ReportDetailActivity extends AppCompatActivity {
         }
         item.addView(info);
 
-        // Assign button (only if no doctor assigned yet)
         if (report.assignedDoctorId == null) {
             com.google.android.material.button.MaterialButton btn = new com.google.android.material.button.MaterialButton(
                     this);
@@ -1028,9 +977,6 @@ public class ReportDetailActivity extends AppCompatActivity {
         container.addView(tv);
     }
 
-    // ══════════════════════════════════════════════════════════════════
-    // ACTIONS
-    // ══════════════════════════════════════════════════════════════════
 
     private void triggerAnalysis() {
         b.btnAnalyze.setEnabled(false);
@@ -1124,12 +1070,9 @@ public class ReportDetailActivity extends AppCompatActivity {
     private void viewOriginalReport() {
         if (report == null) return;
 
-        // Check if we have a file URL from the backend
         if (report.fileUrl != null && !report.fileUrl.isEmpty()) {
-            // Open URL directly in browser or download
             openFileUrl(report.fileUrl);
         } else {
-            // Fallback: try to download from API
             downloadAndOpenFile();
         }
     }
@@ -1208,9 +1151,7 @@ public class ReportDetailActivity extends AppCompatActivity {
             try {
                 startActivity(intent);
             } catch (android.content.ActivityNotFoundException e) {
-                // No app to handle this file type
                 Toast.makeText(this, "No app found to open this file type", Toast.LENGTH_LONG).show();
-                // Offer to share/save instead
                 shareFile(uri, mimeType);
             }
         } catch (Exception e) {
@@ -1263,9 +1204,6 @@ public class ReportDetailActivity extends AppCompatActivity {
         }
     }
 
-    // ══════════════════════════════════════════════════════════════════
-    // UTILITIES
-    // ══════════════════════════════════════════════════════════════════
 
     private void applyBadgeColor(TextView tv, String color) {
         int bgRes, txtRes;

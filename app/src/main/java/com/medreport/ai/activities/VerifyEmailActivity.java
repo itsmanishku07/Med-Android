@@ -27,7 +27,6 @@ public class VerifyEmailActivity extends AppCompatActivity {
         b = ActivityVerifyEmailBinding.inflate(getLayoutInflater());
         setContentView(b.getRoot());
 
-        // Get verification token from deep link
         Intent intent = getIntent();
         Uri data = intent.getData();
         

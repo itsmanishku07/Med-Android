@@ -79,7 +79,6 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
                 }
             }
             
-            // Display rating
             if (doctor.averageRating != null && doctor.averageRating > 0) {
                 b.ratingBar.setRating(doctor.averageRating.floatValue());
                 b.ratingBar.setVisibility(android.view.View.VISIBLE);

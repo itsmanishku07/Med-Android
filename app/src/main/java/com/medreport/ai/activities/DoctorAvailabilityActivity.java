@@ -133,12 +133,10 @@ public class DoctorAvailabilityActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(android.R.layout.select_dialog_item, null);
         
-        // Create a simple dialog with inputs
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(50, 40, 50, 10);
 
-        // Day spinner
         android.widget.TextView dayLabel = new android.widget.TextView(this);
         dayLabel.setText("Day of Week");
         dayLabel.setTextSize(14);
@@ -158,7 +156,6 @@ public class DoctorAvailabilityActivity extends AppCompatActivity {
         });
         layout.addView(spinnerDay);
 
-        // Start time
         android.widget.TextView startLabel = new android.widget.TextView(this);
         startLabel.setText("Start Time");
         startLabel.setTextSize(14);
@@ -173,7 +170,6 @@ public class DoctorAvailabilityActivity extends AppCompatActivity {
         }));
         layout.addView(btnStartTime);
 
-        // End time
         android.widget.TextView endLabel = new android.widget.TextView(this);
         endLabel.setText("End Time");
         endLabel.setTextSize(14);
@@ -188,7 +184,6 @@ public class DoctorAvailabilityActivity extends AppCompatActivity {
         }));
         layout.addView(btnEndTime);
 
-        // Max appointments
         android.widget.TextView maxLabel = new android.widget.TextView(this);
         maxLabel.setText("Max Appointments");
         maxLabel.setTextSize(14);

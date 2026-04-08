@@ -33,7 +33,6 @@ public class WaterReminderReceiver extends BroadcastReceiver {
             return;
         }
 
-        // Check if water reminder is still enabled
         WaterReminderSettings settings = WaterReminderSettings.load(ctx);
         if (!settings.isEnabled()) {
             return;
@@ -44,7 +43,6 @@ public class WaterReminderReceiver extends BroadcastReceiver {
         playAlarm(ctx);
         showNotification(ctx, amount);
         
-        // Schedule next reminder
         WaterReminderScheduler.scheduleNext(ctx, settings);
     }
 
@@ -66,7 +64,6 @@ public class WaterReminderReceiver extends BroadcastReceiver {
             e.printStackTrace();
         }
 
-        // Vibrate
         Vibrator v = getVibrator(ctx);
         if (v != null) {
             long[] pattern = {0, 300, 200, 300};

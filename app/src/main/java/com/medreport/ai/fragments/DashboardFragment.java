@@ -50,8 +50,7 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
     private Runnable pollRunnable;
     private boolean isPolling = false;
 
-    // Doctor filters
-    private String viewMode = "ACTIVE"; // ACTIVE or ARCHIVED
+    private String viewMode = "ACTIVE";
     private String priorityFilter = "ALL";
 
     private final ActivityResultLauncher<String> filePickerLauncher = registerForActivityResult(
@@ -194,7 +193,6 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
                     fullReportList = r.body().reports;
                     filterList();
                     
-                    // Simple fade animation for content appearance
                     b.rvDashboardItems.setAlpha(0f);
                     b.rvDashboardItems.animate().alpha(1f).setDuration(400).start();
                     
@@ -343,7 +341,6 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
         return 0;
     }
 
-    // -- Adapter Listeners --
     @Override public void onConsultDoctor(ReportModel r) {
         Intent i = new Intent(requireContext(), ChatActivity.class);
         i.putExtra("report_id", r.id);

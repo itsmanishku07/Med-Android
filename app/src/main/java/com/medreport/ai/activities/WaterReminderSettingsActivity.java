@@ -40,7 +40,6 @@ public class WaterReminderSettingsActivity extends AppCompatActivity {
             updateSettingsVisibility();
         });
 
-        // Interval controls
         b.btnIntervalMinus.setOnClickListener(v -> {
             int current = settings.getIntervalMinutes();
             if (current > 15) {
@@ -51,13 +50,12 @@ public class WaterReminderSettingsActivity extends AppCompatActivity {
 
         b.btnIntervalPlus.setOnClickListener(v -> {
             int current = settings.getIntervalMinutes();
-            if (current < 480) { // Max 8 hours
+            if (current < 480) {
                 settings.setIntervalMinutes(current + 15);
                 updateIntervalDisplay();
             }
         });
 
-        // Amount controls
         b.btnAmountMinus.setOnClickListener(v -> {
             int current = settings.getWaterAmountMl();
             if (current > 100) {
@@ -74,7 +72,6 @@ public class WaterReminderSettingsActivity extends AppCompatActivity {
             }
         });
 
-        // Time pickers
         b.layoutStartTime.setOnClickListener(v -> showTimePicker(true));
         b.layoutEndTime.setOnClickListener(v -> showTimePicker(false));
 

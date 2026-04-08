@@ -53,27 +53,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupNav(UserModel user) {
         try {
-            // Handle Top Notification Button
             b.btnNotifs.setOnClickListener(v -> loadFragment(new NotificationsFragment()));
 
-            // Menu is already inflated via activity_main.xml (app:menu)
-            // We only need to adjust visibility for admin/doctor roles here.
             if (user != null && user.isAdmin()) {
-                // To keep within 5-item limit, replace Reminders with Admin
                 MenuItem remindersItem = b.bottomNav.getMenu().findItem(R.id.nav_reminders);
                 if (remindersItem != null) {
                     remindersItem.setTitle("Admin");
                     remindersItem.setIcon(R.drawable.ic_admin);
-                    // We'll reuse the reminders ID for Admin for simplicity, or we can use the
-                    // actual ID.
-                    // Let's use the actual ID by removing and adding, but careful with the 5-item
-                    // limit.
                     b.bottomNav.getMenu().removeItem(R.id.nav_reminders);
                     b.bottomNav.getMenu().add(android.view.Menu.NONE, R.id.nav_admin, 10, "Admin")
                             .setIcon(R.drawable.ic_admin);
                 }
             } else if (user != null && user.isDoctor()) {
-                // Doctors don't use personal reminders usually
                 MenuItem remindersItem = b.bottomNav.getMenu().findItem(R.id.nav_reminders);
                 if (remindersItem != null)
                     remindersItem.setVisible(false);

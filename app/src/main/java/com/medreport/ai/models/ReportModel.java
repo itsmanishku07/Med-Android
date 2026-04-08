@@ -26,7 +26,7 @@ public class ReportModel {
     @SerializedName("patient_name")          public String patientName;
     @SerializedName("error_message")         public String errorMessage;
     @SerializedName("suggested_doctors")     public List<SuggestedDoctor> suggestedDoctors;
-    @SerializedName("file_url")              public String fileUrl; // URL to view/download original file
+    @SerializedName("file_url")              public String fileUrl;
 
     public String getSeverityLevel() {
         if (aiAnalysis != null && aiAnalysis.isJsonObject()) {

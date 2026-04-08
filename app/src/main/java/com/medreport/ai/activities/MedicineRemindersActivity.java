@@ -44,7 +44,6 @@ public class MedicineRemindersActivity extends AppCompatActivity implements Remi
         setSupportActionBar(b.toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Stop alarm if opened from notification
         AlarmReceiver.stopAlarm(this);
 
         adapter = new ReminderAdapter(reminders, this);

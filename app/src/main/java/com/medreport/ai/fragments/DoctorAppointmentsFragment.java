@@ -109,16 +109,12 @@ public class DoctorAppointmentsFragment extends Fragment implements AppointmentA
 
     @Override
     public void onItemClicked(AppointmentModel appointment) {
-        // Future: Show appointment details
     }
 
     private void showManageDialog(AppointmentModel appt) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         View view = getLayoutInflater().inflate(com.medreport.ai.R.layout.dialog_book_appointment, null);
-        // Reuse booking dialog layout for scheduling by doctor
         
-        // In a real app, I'd create a separate scheduling dialog layout. 
-        // For now, I'll use a direct builder specifically for the doctor's schedule action.
         
         final String[] scheduleTime = {""};
         

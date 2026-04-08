@@ -13,7 +13,7 @@ public class AppointmentModel {
     public String doctorId;
     
     @SerializedName("status")
-    public String status; // PENDING, ACCEPTED, REJECTED, CANCELLED, COMPLETED
+    public String status;
     
     @SerializedName("requested_at")
     public String requestedAt;

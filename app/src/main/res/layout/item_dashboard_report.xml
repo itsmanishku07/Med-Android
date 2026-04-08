@@ -18,7 +18,7 @@
         android:orientation="vertical"
         android:padding="14dp">
 
-        <!-- ── Row 1: Icon + File Name + Severity ── -->
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                 android:visibility="gone" />
         </LinearLayout>
 
-        <!-- ── Row 2: Patient Name (doctor view) ── -->
+        
         <TextView
             android:id="@+id/tvPatientName"
             android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
             android:visibility="gone"
             tools:text="Patient: John Doe" />
 
-        <!-- ── Row 3: AI Summary Snippet ── -->
+        
         <LinearLayout
             android:id="@+id/layoutAiSummary"
             android:layout_width="match_parent"
@@ -180,7 +180,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- ── Row 4: Action Buttons ── -->
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -227,7 +227,7 @@
                 android:visibility="gone"
                 android:layout_marginEnd="6dp" />
 
-            <!-- Doctor-specific -->
+            
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAcceptCase"
                 android:layout_width="wrap_content"
@@ -268,7 +268,7 @@
 
     </LinearLayout>
 
-    <!-- Bottom separator line -->
+    
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

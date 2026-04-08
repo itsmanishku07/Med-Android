@@ -28,7 +28,6 @@ public class WaterReminderScheduler {
             Calendar now = Calendar.getInstance();
             Calendar nextAlarm = Calendar.getInstance();
             
-            // Parse start and end times
             String[] startParts = settings.getStartTime().split(":");
             String[] endParts = settings.getEndTime().split(":");
             int startHour = Integer.parseInt(startParts[0]);
@@ -36,10 +35,8 @@ public class WaterReminderScheduler {
             int endHour = Integer.parseInt(endParts[0]);
             int endMin = Integer.parseInt(endParts[1]);
 
-            // Set next alarm time
             nextAlarm.add(Calendar.MINUTE, settings.getIntervalMinutes());
 
-            // Check if next alarm is within active hours
             Calendar startTime = (Calendar) now.clone();
             startTime.set(Calendar.HOUR_OF_DAY, startHour);
             startTime.set(Calendar.MINUTE, startMin);
@@ -50,16 +47,13 @@ public class WaterReminderScheduler {
             endTime.set(Calendar.MINUTE, endMin);
             endTime.set(Calendar.SECOND, 0);
 
-            // If current time is before start time, schedule for start time
             if (now.before(startTime)) {
                 nextAlarm = startTime;
             }
-            // If next alarm is after end time, schedule for start time tomorrow
             else if (nextAlarm.after(endTime)) {
                 nextAlarm = (Calendar) startTime.clone();
                 nextAlarm.add(Calendar.DAY_OF_YEAR, 1);
             }
-            // If current time is after end time, schedule for start time tomorrow
             else if (now.after(endTime)) {
                 nextAlarm = (Calendar) startTime.clone();
                 nextAlarm.add(Calendar.DAY_OF_YEAR, 1);

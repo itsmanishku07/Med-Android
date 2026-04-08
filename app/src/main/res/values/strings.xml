@@ -20,6 +20,6 @@
     <string name="medicine_reminder">Medicine Reminder</string>
     <string name="stop_alarm">Stop Alarm</string>
     
-    <!-- Google Sign-In Web Client ID -->
+    
     <string name="default_web_client_id">128047057243-nava7s231cdls5nnvc1tg06bdh45nq7u.apps.googleusercontent.com</string>
 </resources>

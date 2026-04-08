@@ -56,7 +56,6 @@ public class ReportDashboardAdapter extends RecyclerView.Adapter<ReportDashboard
         
         h.b.tvFileName.setText(r.fileName != null ? r.fileName : "Unknown Report");
         
-        // Formatted timestamp
         if (r.uploadedAt != null) {
             try {
                 SimpleDateFormat sdfIn = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
@@ -70,7 +69,6 @@ public class ReportDashboardAdapter extends RecyclerView.Adapter<ReportDashboard
             }
         }
 
-        // Handle Badge & Status
         String status = r.status != null ? r.status : "PENDING";
         h.b.tvSeverityBadge.setVisibility(View.GONE);
         h.b.ivStatusIcon.setColorFilter(ContextCompat.getColor(ctx, R.color.icon_tint));
@@ -85,7 +83,6 @@ public class ReportDashboardAdapter extends RecyclerView.Adapter<ReportDashboard
             h.b.ivStatusIcon.setColorFilter(ContextCompat.getColor(ctx, R.color.badge_text_green));
         }
 
-        // UI toggles
         h.b.layoutAiSummary.setVisibility(View.GONE);
         h.b.layoutAbnormalAlert.setVisibility(View.GONE);
         h.b.layoutDoctorAssigned.setVisibility(View.GONE);
@@ -94,7 +91,6 @@ public class ReportDashboardAdapter extends RecyclerView.Adapter<ReportDashboard
             h.b.layoutAiSummary.setVisibility(View.VISIBLE);
             com.google.gson.JsonObject aiObj = r.aiAnalysis.getAsJsonObject();
             
-            // Render diagnoses
             if (aiObj.has("diagnoses") && aiObj.get("diagnoses").isJsonArray()) {
                 com.google.gson.JsonArray diagObj = aiObj.get("diagnoses").getAsJsonArray();
                 if (diagObj.size() > 0) {
@@ -110,7 +106,6 @@ public class ReportDashboardAdapter extends RecyclerView.Adapter<ReportDashboard
                 h.b.tvDiagnosesPreview.setVisibility(View.GONE);
             }
 
-            // Abnormal alert
             if (aiObj.has("abnormal_findings") && aiObj.get("abnormal_findings").isJsonArray()) {
                 com.google.gson.JsonArray abnormalObj = aiObj.get("abnormal_findings").getAsJsonArray();
                 if (abnormalObj.size() > 0) {
@@ -119,7 +114,6 @@ public class ReportDashboardAdapter extends RecyclerView.Adapter<ReportDashboard
                 }
             }
 
-            // Severity Badge
             String sev = r.getSeverityLevel();
             if (sev != null) {
                 h.b.tvSeverityBadge.setVisibility(View.VISIBLE);
@@ -143,7 +137,6 @@ public class ReportDashboardAdapter extends RecyclerView.Adapter<ReportDashboard
             h.b.layoutDoctorAssigned.setVisibility(View.VISIBLE);
         }
 
-        // Setup role specific Views
         h.b.btnConsultDoctor.setVisibility(View.GONE);
         h.b.btnDelete.setVisibility(View.GONE);
         h.b.btnAcceptCase.setVisibility(View.GONE);
@@ -153,7 +146,7 @@ public class ReportDashboardAdapter extends RecyclerView.Adapter<ReportDashboard
 
         if (isDoctor) {
             h.b.tvPatientName.setVisibility(View.VISIBLE);
-            h.b.tvPatientName.setText("Patient: " + (r.patientId != null ? r.patientId : "Unknown")); // Replace patientId with name if Backend provides name
+            h.b.tvPatientName.setText("Patient: " + (r.patientId != null ? r.patientId : "Unknown"));
             
             if (status.equals("PENDING")) {
                 h.b.btnAcceptCase.setVisibility(View.VISIBLE);
@@ -168,7 +161,6 @@ public class ReportDashboardAdapter extends RecyclerView.Adapter<ReportDashboard
             }
         }
 
-        // Listeners
         h.b.btnViewDetails.setOnClickListener(v -> {
             Intent i = new Intent(ctx, ReportDetailActivity.class);
             i.putExtra("report_id", r.id);

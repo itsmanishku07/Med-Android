@@ -7,7 +7,7 @@
     android:paddingHorizontal="12dp"
     android:paddingVertical="4dp">
 
-    <!-- User Message (right-aligned) -->
+    
     <LinearLayout
         android:id="@+id/layoutSent"
         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                 android:layout_marginEnd="4dp" />
         </LinearLayout>
 
-        <!-- User avatar -->
+        
         <FrameLayout
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -63,7 +63,7 @@
         </FrameLayout>
     </LinearLayout>
 
-    <!-- AI Message (left-aligned) -->
+    
     <LinearLayout
         android:id="@+id/layoutReceived"
         android:layout_width="match_parent"
@@ -72,7 +72,7 @@
         android:gravity="start"
         android:visibility="gone">
 
-        <!-- AI avatar -->
+        
         <FrameLayout
             android:layout_width="32dp"
             android:layout_height="32dp"

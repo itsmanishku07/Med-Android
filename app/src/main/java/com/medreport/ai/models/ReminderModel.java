@@ -7,7 +7,7 @@ public class ReminderModel {
     @SerializedName("id")            public String id;
     @SerializedName("medicine_name") public String medicineName;
     @SerializedName("dosage")        public String dosage;
-    @SerializedName("reminder_time") public String reminderTime; // HH:MM
+    @SerializedName("reminder_time") public String reminderTime;
     @SerializedName("days")          public List<String> days;
     @SerializedName("is_active")     public boolean isActive;
     @SerializedName("notes")         public String notes;

@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName;
 public class ApiResponse<T> {
     @SerializedName("success") public boolean success;
     @SerializedName("message") public String message;
-    @SerializedName("user")    public T user;      // auth endpoints
-    @SerializedName("report")  public T report;    // report endpoints
-    @SerializedName("reminder") public T reminder; // reminder endpoints
-    @SerializedName("count")   public T count;     // count endpoints
+    @SerializedName("user")    public T user;
+    @SerializedName("report")  public T report;
+    @SerializedName("reminder") public T reminder;
+    @SerializedName("count")   public T count;
 
     public T getData() {
         if (user != null) return user;

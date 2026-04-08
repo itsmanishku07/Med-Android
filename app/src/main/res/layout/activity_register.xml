@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <!-- Registration Form -->
+    
     <ScrollView
         android:id="@+id/layoutRegisterForm"
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:paddingTop="60dp"
             android:paddingBottom="40dp">
 
-        <!-- Title -->
+        
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             android:layout_marginTop="6dp"
             android:layout_marginBottom="32dp" />
 
-        <!-- Google Sign Up Button -->
+        
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnGoogleSignUp"
             android:layout_width="match_parent"
@@ -58,7 +58,7 @@
             app:iconTint="@null"
             android:layout_marginBottom="16dp" />
 
-        <!-- Divider with OR -->
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                 android:background="@color/divider" />
         </LinearLayout>
 
-        <!-- Full Name -->
+        
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                 android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Email -->
+        
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
                 android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Password -->
+        
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                 android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Role Picker Section -->
+        
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -195,7 +195,7 @@
                 android:background="@drawable/bg_radio_button" />
         </RadioGroup>
 
-        <!-- Progress -->
+        
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="40dp"
@@ -205,7 +205,7 @@
             android:layout_marginBottom="12dp"
             android:indeterminateTint="@color/primary" />
 
-        <!-- Create Button -->
+        
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
@@ -216,14 +216,14 @@
             app:cornerRadius="12dp"
             android:layout_marginBottom="24dp" />
 
-        <!-- Divider -->
+        
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/divider"
             android:layout_marginBottom="24dp" />
 
-        <!-- Login Link -->
+        
         <TextView
             android:id="@+id/tvLogin"
             android:layout_width="wrap_content"
@@ -238,7 +238,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Verification Sent Screen -->
+    
     <ScrollView
         android:id="@+id/layoutVerificationSent"
         android:layout_width="match_parent"
@@ -254,7 +254,7 @@
             android:paddingHorizontal="32dp"
             android:paddingVertical="60dp">
 
-            <!-- Email Icon -->
+            
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="96dp"
                 android:layout_height="96dp"
@@ -272,7 +272,7 @@
                     
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Title -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -283,7 +283,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Description -->
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -293,7 +293,7 @@
                 android:gravity="center"
                 android:layout_marginBottom="8dp" />
 
-            <!-- Email Address -->
+            
             <TextView
                 android:id="@+id/tvVerificationEmail"
                 android:layout_width="wrap_content"
@@ -305,7 +305,7 @@
                 android:gravity="center"
                 android:layout_marginBottom="32dp" />
 
-            <!-- Info Card -->
+            
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -347,7 +347,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Go to Login Button -->
+            
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnGoToLogin"
                 android:layout_width="match_parent"

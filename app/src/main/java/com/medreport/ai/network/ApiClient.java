@@ -37,7 +37,6 @@ public class ApiClient {
         return apiService;
     }
 
-    // Injects Firebase ID token into every request
     static class AuthInterceptor implements Interceptor {
         @Override
         public Response intercept(Chain chain) throws IOException {

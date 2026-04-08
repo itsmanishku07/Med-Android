@@ -34,7 +34,6 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         user = AuthManager.getInstance().getCurrentUser();
         if (user == null) {
-            // Unlikely if they are on this screen, but handle it
             return;
         }
 
@@ -45,7 +44,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Refresh profile data in case it was updated in ProfileActivity
         user = AuthManager.getInstance().getCurrentUser();
         setupUI();
     }
@@ -57,7 +55,6 @@ public class ProfileFragment extends Fragment {
         b.tvPhone.setText(user.phone != null && !user.phone.isEmpty() ? user.phone : "Not set");
         b.chipRole.setText(user.role);
 
-        // Handle Profile Picture
         if (user.profilePicture != null && user.profilePicture.startsWith("data:image")) {
             try {
                 String pureBase64 = user.profilePicture.split(",")[1];

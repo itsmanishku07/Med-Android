@@ -43,14 +43,12 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(b.getRoot());
         auth = FirebaseAuth.getInstance();
 
-        // Configure Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        // Register activity result launcher for Google Sign-In
         googleSignInLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -69,7 +67,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void signUpWithGoogle() {
-        // Check if role is selected
         int selectedRoleId = b.rgRole.getCheckedRadioButtonId();
         if (selectedRoleId == -1) {
             Toast.makeText(this, "Please select account type first", Toast.LENGTH_SHORT).show();
@@ -91,7 +88,6 @@ public class RegisterActivity extends AppCompatActivity {
             android.util.Log.e("RegisterActivity", "Google sign-up failed with code: " + e.getStatusCode(), e);
             String errorMessage = "Google sign-up failed";
             
-            // Provide more specific error messages
             switch (e.getStatusCode()) {
                 case 10:
                     errorMessage = "Google Sign-In configuration error. Please check your setup.";
@@ -206,10 +202,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void showVerificationScreen() {
-        // Hide registration form
         b.layoutRegisterForm.setVisibility(View.GONE);
         
-        // Show verification message
         b.layoutVerificationSent.setVisibility(View.VISIBLE);
         b.tvVerificationEmail.setText(userEmail);
         

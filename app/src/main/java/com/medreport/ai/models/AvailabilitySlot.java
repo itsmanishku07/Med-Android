@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName;
 public class AvailabilitySlot {
     @SerializedName("id")           public String id;
     @SerializedName("doctor_id")    public String doctorId;
-    @SerializedName("day_of_week")  public String dayOfWeek; // MONDAY, TUESDAY, etc.
-    @SerializedName("start_time")   public String startTime; // HH:MM format
-    @SerializedName("end_time")     public String endTime;   // HH:MM format
+    @SerializedName("day_of_week")  public String dayOfWeek;
+    @SerializedName("start_time")   public String startTime;
+    @SerializedName("end_time")     public String endTime;
     @SerializedName("is_available") public Boolean isAvailable;
-    @SerializedName("slot_duration") public Integer slotDuration; // minutes per appointment
+    @SerializedName("slot_duration") public Integer slotDuration;
     @SerializedName("created_at")   public String createdAt;
     @SerializedName("updated_at")   public String updatedAt;
 

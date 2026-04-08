@@ -28,11 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Full-screen dialog for editing an AI analysis section.
- * Matches the React frontend's edit capability for:
- * patient_info, diagnoses, symptoms, medications, vital_signs, lab_results
- */
+
 public class EditSectionDialog extends Dialog {
 
     public interface OnSaveListener {
@@ -46,15 +42,12 @@ public class EditSectionDialog extends Dialog {
     private final List<EditText> fieldInputs = new ArrayList<>();
     private final List<String> fieldKeys = new ArrayList<>();
 
-    // For array editing (diagnoses, symptoms)
     private final List<EditText> arrayInputs = new ArrayList<>();
     private LinearLayout arrayContainer;
 
-    // For medication editing
     private final List<MedRow> medRows = new ArrayList<>();
     private LinearLayout medsContainer;
 
-    // For lab result editing
     private final List<LabRow> labRows = new ArrayList<>();
     private LinearLayout labsContainer;
 
@@ -85,7 +78,6 @@ public class EditSectionDialog extends Dialog {
         root.setOrientation(LinearLayout.VERTICAL);
         root.setPadding(dp(20), dp(20), dp(20), dp(40));
 
-        // ── Header ──
         LinearLayout header = new LinearLayout(getContext());
         header.setOrientation(LinearLayout.HORIZONTAL);
         header.setGravity(Gravity.CENTER_VERTICAL);
@@ -107,14 +99,12 @@ public class EditSectionDialog extends Dialog {
         header.addView(btnCancel);
         root.addView(header);
 
-        // ── Form area ──
         formContainer = new LinearLayout(getContext());
         formContainer.setOrientation(LinearLayout.VERTICAL);
         root.addView(formContainer);
 
         buildForm();
 
-        // ── Save button ──
         MaterialButton btnSave = new MaterialButton(getContext());
         btnSave.setText("Save Changes");
         btnSave.setAllCaps(false);
@@ -140,7 +130,6 @@ public class EditSectionDialog extends Dialog {
         }
     }
 
-    // ── PATIENT INFO ──
     private void buildPatientInfoForm() {
         JsonObject pi = getObj("patient_info");
         addField("Name", "name", safeStr(pi, "name"));
@@ -152,7 +141,6 @@ public class EditSectionDialog extends Dialog {
         addField("Address", "address", safeStr(pi, "address"));
     }
 
-    // ── DIAGNOSES / SYMPTOMS (string arrays) ──
     private void buildArrayForm(String key, String itemLabel) {
         arrayContainer = new LinearLayout(getContext());
         arrayContainer.setOrientation(LinearLayout.VERTICAL);
@@ -165,7 +153,6 @@ public class EditSectionDialog extends Dialog {
             }
         }
         
-        // Add button
         MaterialButton btnAdd = new MaterialButton(getContext(), null, com.google.android.material.R.attr.materialButtonOutlinedStyle);
         btnAdd.setText("+ Add " + itemLabel);
         btnAdd.setAllCaps(false);
@@ -214,7 +201,6 @@ public class EditSectionDialog extends Dialog {
         arrayContainer.addView(row);
     }
 
-    // ── MEDICATIONS ──
     private void buildMedicationsForm() {
         medsContainer = new LinearLayout(getContext());
         medsContainer.setOrientation(LinearLayout.VERTICAL);
@@ -270,7 +256,6 @@ public class EditSectionDialog extends Dialog {
         mr.frequency.setText(freq);
         card.addView(mr.frequency);
 
-        // Delete
         MaterialButton btnDel = new MaterialButton(getContext(), null, com.google.android.material.R.attr.materialButtonOutlinedStyle);
         btnDel.setText("Remove");
         btnDel.setAllCaps(false);
@@ -290,7 +275,6 @@ public class EditSectionDialog extends Dialog {
         medsContainer.addView(card);
     }
 
-    // ── VITAL SIGNS ──
     private void buildVitalSignsForm() {
         JsonObject vs = getObj("vital_signs");
         String[] keys = {"blood_pressure", "heart_rate", "temperature", "respiratory_rate", "oxygen_saturation", "weight", "height", "bmi"};
@@ -300,7 +284,6 @@ public class EditSectionDialog extends Dialog {
         }
     }
 
-    // ── LAB RESULTS ──
     private void buildLabResultsForm() {
         labsContainer = new LinearLayout(getContext());
         labsContainer.setOrientation(LinearLayout.VERTICAL);
@@ -393,9 +376,6 @@ public class EditSectionDialog extends Dialog {
         labsContainer.addView(card);
     }
 
-    // ══════════════════════════════════════════
-    // SAVE
-    // ══════════════════════════════════════════
 
     private void save() {
         JsonObject updated = aiAnalysis.deepCopy();
@@ -485,9 +465,6 @@ public class EditSectionDialog extends Dialog {
         dismiss();
     }
 
-    // ══════════════════════════════════════════
-    // HELPERS
-    // ══════════════════════════════════════════
 
     private void addField(String label, String key, String value) {
         TextView tv = new TextView(getContext());

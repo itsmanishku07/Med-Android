@@ -10,7 +10,7 @@ public class AIChatMessage {
     public String reportId;
     
     @SerializedName("role")
-    public String role; // "user" or "assistant"
+    public String role;
     
     @SerializedName("content")
     public String content;

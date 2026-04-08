@@ -8,7 +8,6 @@ import java.util.Map;
 
 public interface ApiService {
 
-    // ── Auth ──────────────────────────────────────────────────────────────────
     @POST("auth/register")
     Call<ApiResponse<UserModel>> register(@Body Map<String, String> body);
 
@@ -27,7 +26,6 @@ public interface ApiService {
     @PUT("auth/profile")
     Call<ApiResponse<UserModel>> updateProfile(@Body Map<String, Object> body);
 
-    // ── Reports ───────────────────────────────────────────────────────────────
     @GET("medical-reports/my-reports")
     Call<ResponseModels.ReportsResponse> getMyReports();
 
@@ -68,7 +66,6 @@ public interface ApiService {
     @GET("medical-reports/{id}/file")
     Call<okhttp3.ResponseBody> downloadReport(@Path("id") String reportId);
 
-    // ── Notifications ─────────────────────────────────────────────────────────
     @GET("notifications/")
     Call<ResponseModels.NotificationsResponse> getNotifications(@Query("unread_only") boolean unreadOnly, @Query("limit") int limit);
 
@@ -84,7 +81,6 @@ public interface ApiService {
     @DELETE("notifications/{id}")
     Call<ApiResponse<Void>> deleteNotification(@Path("id") String notifId);
 
-    // ── Chat ──────────────────────────────────────────────────────────────────
     @GET("chats/")
     Call<ResponseModels.ChatsResponse> getChats();
 
@@ -97,7 +93,6 @@ public interface ApiService {
     @DELETE("chats/{chatId}")
     Call<ApiResponse<Void>> deleteChat(@Path("chatId") String chatId);
 
-    // ── Medicine Reminders ────────────────────────────────────────────────────
     @GET("medicine-reminders/")
     Call<ResponseModels.RemindersResponse> getReminders();
 
@@ -110,7 +105,6 @@ public interface ApiService {
     @DELETE("medicine-reminders/{id}")
     Call<ApiResponse<Void>> deleteReminder(@Path("id") String id);
 
-    // ── Admin ─────────────────────────────────────────────────────────────────
     @GET("admin/dashboard")
     Call<ResponseModels.AdminDashboardResponse> getAdminDashboard();
 
@@ -138,7 +132,6 @@ public interface ApiService {
     @PUT("appointments/{id}/status")
     Call<ApiResponse<AppointmentModel>> updateAppointmentStatus(@Path("id") String id, @Body Map<String, Object> body);
 
-    // ── AI Q&A ────────────────────────────────────────────────────────────────
     @GET("medical-reports/{id}/ai-chat")
     Call<ResponseModels.AIChatResponse> getAIChatHistory(@Path("id") String reportId);
 
@@ -148,7 +141,6 @@ public interface ApiService {
     @POST("medical-reports/{id}/ask")
     Call<ResponseModels.AIAskResponse> askAIQuestion(@Path("id") String reportId, @Body Map<String, String> body);
 
-    // ── Doctor Availability ───────────────────────────────────────────────────
     @GET("availability/slots")
     Call<ResponseModels.AvailabilitySlotsResponse> getMyAvailabilitySlots();
 
@@ -173,7 +165,6 @@ public interface ApiService {
     @GET("availability/doctor/{doctorId}")
     Call<ResponseModels.DoctorAvailabilityResponse> getDoctorAvailability(@Path("doctorId") String doctorId);
 
-    // ── Doctor Reviews ────────────────────────────────────────────────────────
     @GET("reviews/doctor/{doctorId}")
     Call<ResponseModels.DoctorReviewsResponse> getDoctorReviews(@Path("doctorId") String doctorId);
 

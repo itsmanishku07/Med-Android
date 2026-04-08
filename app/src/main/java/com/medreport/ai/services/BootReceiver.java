@@ -11,13 +11,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/** Re-schedules all active reminders after device reboot. */
+
 public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context ctx, Intent intent) {
         if (!Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) return;
         
-        // Reschedule medicine reminders
         AuthManager.getInstance().refreshToken(new AuthManager.TokenCallback() {
             @Override public void onToken(String token) {
                 ApiClient.get().getReminders().enqueue(new Callback<ResponseModels.RemindersResponse>() {
@@ -32,7 +31,6 @@ public class BootReceiver extends BroadcastReceiver {
             @Override public void onError(Exception e) {}
         });
         
-        // Reschedule water reminders
         WaterReminderSettings waterSettings = WaterReminderSettings.load(ctx);
         if (waterSettings.isEnabled()) {
             WaterReminderScheduler.schedule(ctx, waterSettings);

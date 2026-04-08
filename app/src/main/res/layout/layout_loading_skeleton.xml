@@ -6,14 +6,14 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Title Placeholder -->
+    
     <View
         android:layout_width="160dp"
         android:layout_height="24dp"
         android:background="#E2E8F0"
         android:layout_marginBottom="16dp" />
 
-    <!-- Card Skeletons -->
+    
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="100dp"

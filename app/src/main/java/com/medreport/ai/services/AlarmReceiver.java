@@ -42,7 +42,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     @SuppressWarnings("deprecation")
     private void playAlarm(Context ctx) {
         try {
-            stopAlarm(ctx); // stop any previous
+            stopAlarm(ctx);
             Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
             if (alarmUri == null) alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             mediaPlayer = new MediaPlayer();
@@ -56,7 +56,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             mediaPlayer.start();
         } catch (Exception e) { e.printStackTrace(); }
 
-        // Vibrate
         Vibrator v = getVibrator(ctx);
         if (v != null) {
             long[] pattern = {0, 500, 300, 500, 300, 500};
@@ -90,13 +89,11 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     private void showNotification(Context ctx, String name, String dosage, String rid) {
-        // Stop action
         Intent stopIntent = new Intent(ctx, AlarmReceiver.class);
         stopIntent.setAction(ACTION_STOP);
         PendingIntent stopPi = PendingIntent.getBroadcast(ctx, 0, stopIntent,
             PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-        // Open app action (Main Activity)
         Intent openIntent = new Intent(ctx, com.medreport.ai.activities.MainActivity.class);
         openIntent.putExtra("target_tab", "reminders");
         openIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

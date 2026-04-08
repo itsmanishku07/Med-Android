@@ -69,11 +69,9 @@ public class ProfileActivity extends AppCompatActivity {
                         bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                     }
                     
-                    // Show preview
                     b.ivProfilePic.setImageBitmap(bitmap);
                     b.tvInitial.setVisibility(View.GONE);
 
-                    // Convert to Base64
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 70, outputStream);
                     byte[] byteArray = outputStream.toByteArray();

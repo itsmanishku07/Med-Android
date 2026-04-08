@@ -59,7 +59,6 @@ public class RemindersFragment extends Fragment implements ReminderAdapter.Liste
             return b.getRoot();
         } catch (Exception e) {
             e.printStackTrace();
-            // Fallback view in case of inflation crash
             View errorView = new View(getContext());
             android.widget.Toast.makeText(getContext(), "Reminders UI Error: " + e.getMessage(), android.widget.Toast.LENGTH_LONG).show();
             return errorView;
@@ -73,7 +72,6 @@ public class RemindersFragment extends Fragment implements ReminderAdapter.Liste
         Context ctx = getContext();
         if (ctx == null) return;
 
-        // Stop alarm if opened from notification
         AlarmReceiver.stopAlarm(ctx);
 
         adapter = new ReminderAdapter(reminders, this);
@@ -90,7 +88,7 @@ public class RemindersFragment extends Fragment implements ReminderAdapter.Liste
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        b = null; // Prevent leaks and crashes in async callbacks
+        b = null;
     }
 
     private void loadReminders() {

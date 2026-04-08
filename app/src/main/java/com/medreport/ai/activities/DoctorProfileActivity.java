@@ -177,7 +177,6 @@ public class DoctorProfileActivity extends AppCompatActivity {
             
             @Override
             public void onFailure(Call<ResponseModels.MyReviewResponse> call, Throwable t) {
-                // Ignore
             }
         });
     }

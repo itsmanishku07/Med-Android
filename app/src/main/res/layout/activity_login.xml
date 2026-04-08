@@ -15,7 +15,7 @@
         android:paddingBottom="40dp"
         android:gravity="center_horizontal">
 
-        <!-- Logo Icon -->
+        
         <FrameLayout
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -30,7 +30,7 @@
                  />
         </FrameLayout>
 
-        <!-- Title -->
+        
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
             android:layout_marginTop="6dp"
             android:layout_marginBottom="40dp" />
 
-        <!-- Email Field -->
+        
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                 android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Password Field -->
+        
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                 android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Progress -->
+        
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="40dp"
@@ -99,7 +99,7 @@
             android:layout_marginBottom="12dp"
             android:indeterminateTint="@color/primary" />
 
-        <!-- Sign In Button -->
+        
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
@@ -110,7 +110,7 @@
             app:cornerRadius="12dp"
             android:layout_marginBottom="16dp" />
 
-        <!-- Divider with OR -->
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
                 android:background="@color/divider" />
         </LinearLayout>
 
-        <!-- Google Sign In Button -->
+        
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnGoogleSignIn"
             android:layout_width="match_parent"
@@ -159,14 +159,14 @@
             app:iconTint="@null"
             android:layout_marginBottom="24dp" />
 
-        <!-- Divider -->
+        
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/divider"
             android:layout_marginBottom="24dp" />
 
-        <!-- Register Link -->
+        
         <TextView
             android:id="@+id/tvRegister"
             android:layout_width="wrap_content"

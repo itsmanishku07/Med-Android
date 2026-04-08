@@ -13,9 +13,9 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
-        buildConfigField "String", "BASE_URL", '"http://10.247.223.219:8081/api/"'
+//        buildConfigField "String", "BASE_URL", '"http://10.247.223.219:8081/api/"'
 //        buildConfigField "String", "BASE_URL", '"https://med-backend-amoa.vercel.app/api/"'
-//        buildConfigField "String", "BASE_URL", '"http://13.232.161.29:8081/api/"'
+        buildConfigField "String", "BASE_URL", '"http://13.232.161.29:8081/api/"'
     }
 
     buildFeatures {

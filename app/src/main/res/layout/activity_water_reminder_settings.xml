@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Toolbar -->
+        
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -38,14 +38,14 @@
                 android:layout_marginStart="8dp" />
         </com.google.android.material.appbar.MaterialToolbar>
 
-        <!-- Content -->
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Header Card -->
+            
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                         android:background="@color/divider"
                         android:layout_marginVertical="12dp" />
 
-                    <!-- Enable Switch -->
+                    
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Settings Layout (visible when enabled) -->
+            
             <LinearLayout
                 android:id="@+id/layoutSettings"
                 android:layout_width="match_parent"
@@ -113,7 +113,7 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <!-- Interval Setting -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -183,7 +183,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Water Amount Setting -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -253,7 +253,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Active Hours -->
+                
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -284,7 +284,7 @@
                             android:layout_marginTop="2dp"
                             android:layout_marginBottom="12dp" />
 
-                        <!-- Start Time -->
+                        
                         <LinearLayout
                             android:id="@+id/layoutStartTime"
                             android:layout_width="match_parent"
@@ -318,7 +318,7 @@
                             android:layout_height="1dp"
                             android:background="@color/divider" />
 
-                        <!-- End Time -->
+                        
                         <LinearLayout
                             android:id="@+id/layoutEndTime"
                             android:layout_width="match_parent"
@@ -350,7 +350,7 @@
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
-            <!-- Save Button -->
+            
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSave"
                 android:layout_width="match_parent"
