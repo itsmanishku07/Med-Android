@@ -48,6 +48,12 @@ public interface ApiService {
     @POST("medical-reports/{id}/analyze")
     Call<ApiResponse<ReportModel>> analyzeReport(@Path("id") String reportId);
 
+    @GET("medical-reports/private-reports")
+    Call<ResponseModels.ReportsResponse> getPrivateReports();
+
+    @POST("medical-reports/{id}/private-assign")
+    Call<ApiResponse<ReportModel>> privateAssignDoctor(@Path("id") String reportId, @Body Map<String, String> body);
+
     @POST("medical-reports/{id}/assign-doctor")
     Call<ApiResponse<ReportModel>> assignDoctor(@Path("id") String reportId, @Body Map<String, String> body);
 

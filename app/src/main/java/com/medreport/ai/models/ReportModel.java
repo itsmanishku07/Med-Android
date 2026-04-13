@@ -58,6 +58,9 @@ public class ReportModel {
     public boolean isAnalyzed() { return "ANALYZED".equals(status) || "REVIEWED".equals(status); }
     public boolean isPending()  { return "PENDING".equals(status) || "ANALYZING".equals(status); }
 
+    @SerializedName("is_private")
+    public Boolean isPrivate;
+
     public static class SuggestedDoctor {
         @SerializedName("doctor_id")       public String doctorId;
         @SerializedName("doctor_name")     public String doctorName;

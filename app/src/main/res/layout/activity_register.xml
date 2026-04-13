@@ -149,22 +149,27 @@
                 android:textSize="15sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
+
+        {/* Simplified form: Name, Email, Password only */}
         
         <TextView
+            android:id="@+id/tvRoleLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="I am a:"
             android:textStyle="bold"
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="12dp"
+            android:visibility="gone" />
 
         <RadioGroup
             android:id="@+id/rgRole"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="32dp">
+            android:layout_marginBottom="32dp"
+            android:visibility="gone">
 
             <RadioButton
                 android:id="@+id/rbPatient"
@@ -196,16 +201,39 @@
         </RadioGroup>
 
         
+        <LinearLayout
+            android:id="@+id/layoutTerms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="24dp"
+            android:visibility="gone">
+            
+            <CheckBox
+                android:id="@+id/cbTerms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/primary" />
+            
+            <TextView
+                android:id="@+id/tvTerms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="I agree to the Terms, Medical Disclaimer &amp; Privacy Policy"
+                android:textSize="13sp"
+                android:textColor="@color/text_secondary" />
+        </LinearLayout>
+
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:visibility="gone"
             android:layout_gravity="center"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="16dp"
             android:indeterminateTint="@color/primary" />
 
-        
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"

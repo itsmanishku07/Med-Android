@@ -24,6 +24,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.medreport.ai.R;
 import com.medreport.ai.databinding.ActivityReportDetailBinding;
+import com.medreport.ai.fragments.ReportActionsBottomSheet;
 import com.medreport.ai.models.*;
 import com.medreport.ai.network.ApiClient;
 import com.medreport.ai.utils.AuthManager;
@@ -111,8 +112,7 @@ public class ReportDetailActivity extends AppCompatActivity {
         if (isPolling)
             return;
         isPolling = true;
-        b.btnAnalyze.setEnabled(false);
-        b.btnAnalyze.setText("Analyzing...");
+        // Legacy b.btnAnalyze is now a dummy View to avoid breaking data binding
         pollRunnable = () -> ApiClient.get().getReport(reportId).enqueue(new Callback<ApiResponse<ReportModel>>() {
             @Override
             public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
@@ -144,8 +144,8 @@ public class ReportDetailActivity extends AppCompatActivity {
         isPolling = false;
         if (pollRunnable != null)
             pollHandler.removeCallbacks(pollRunnable);
-        b.btnAnalyze.setEnabled(true);
-        b.btnAnalyze.setText("Re-analyze with AI");
+        b.btnAnalyzePrimary.setEnabled(true);
+        b.btnAnalyzePrimary.setText("Start AI Analysis");
     }
 
     @Override
@@ -200,6 +200,14 @@ public class ReportDetailActivity extends AppCompatActivity {
             applyBadgeColor(b.tvSpecialty, "blue");
         } else {
             b.tvSpecialty.setVisibility(View.GONE);
+        }
+
+        if (report.isPrivate != null && report.isPrivate) {
+            b.tvPrivate.setVisibility(View.VISIBLE);
+            applyBadgeColor(b.tvPrivate, "blue");
+            b.tvPrivate.setText("Privately Shared");
+        } else {
+            b.tvPrivate.setVisibility(View.GONE);
         }
 
         b.layoutFileInfo.setVisibility(View.VISIBLE);
@@ -480,11 +488,9 @@ public class ReportDetailActivity extends AppCompatActivity {
         }
 
         if (isDoctor) {
-            b.btnChat.setText("Chat with Patient");
-            b.btnChat.setVisibility(View.VISIBLE);
+            // b.btnChat is legacy dummy View
         } else {
-            b.btnChat.setText("Chat with Doctor");
-            b.btnChat.setVisibility(report.assignedDoctorId != null ? View.VISIBLE : View.GONE);
+            // b.btnChat is legacy dummy View
         }
 
         b.btnChat.setOnClickListener(v -> {
@@ -517,6 +523,9 @@ public class ReportDetailActivity extends AppCompatActivity {
                     .show(getSupportFragmentManager(), "ai_chat");
         });
 
+        b.btnExportPdf.setVisibility(report.isAnalyzed() ? View.VISIBLE : View.GONE);
+        b.btnExportPdf.setOnClickListener(v -> downloadAnalysisPdf());
+
         b.switchDoctorEdit.setChecked(report.doctorEditPermission);
         b.switchDoctorEdit.setOnCheckedChangeListener((sw, checked) -> {
             if (!sw.isPressed())
@@ -536,11 +545,126 @@ public class ReportDetailActivity extends AppCompatActivity {
             });
         });
 
-        b.btnViewOriginal.setVisibility(View.VISIBLE);
+        b.btnViewOriginal.setVisibility(View.GONE);
         b.btnViewOriginal.setOnClickListener(v -> viewOriginalReport());
 
         b.cardReview.setVisibility(isDoctor ? View.VISIBLE : View.GONE);
         b.btnSubmitReview.setOnClickListener(v -> submitReview());
+
+        // --- Console/Bottom Menu Logic ---
+        setupQuickActions();
+    }
+
+    private void setupQuickActions() {
+        if (report == null) return;
+        
+        UserModel me = AuthManager.getInstance().getCurrentUser();
+        boolean isPatient = me != null && me.isPatient();
+        boolean isDoctor = me != null && me.isDoctor();
+        String status = report.status != null ? report.status : "PENDING";
+        boolean isAnalyzing = "ANALYZING".equals(status);
+        boolean isAnalyzed = report.isAnalyzed();
+
+        // 1. Primary Button Logic
+        if (isPatient) {
+            if (isAnalyzing) {
+                b.btnAnalyzePrimary.setVisibility(View.VISIBLE);
+                b.btnAnalyzePrimary.setText("Analyzing...");
+                b.btnAnalyzePrimary.setEnabled(false);
+                b.btnAskAIPrimary.setVisibility(View.GONE);
+            } else if (!isAnalyzed) {
+                b.btnAnalyzePrimary.setVisibility(View.VISIBLE);
+                b.btnAnalyzePrimary.setText("Start AI Analysis");
+                b.btnAnalyzePrimary.setEnabled(true);
+                b.btnAskAIPrimary.setVisibility(View.GONE);
+            } else {
+                b.btnAnalyzePrimary.setVisibility(View.GONE);
+                b.btnAskAIPrimary.setVisibility(View.VISIBLE);
+            }
+        } else {
+            b.btnAnalyzePrimary.setVisibility(View.GONE);
+            b.btnAskAIPrimary.setVisibility(View.GONE);
+        }
+
+        b.btnAnalyzePrimary.setOnClickListener(v -> triggerAnalysis());
+        b.btnAskAIPrimary.setOnClickListener(v -> {
+            com.medreport.ai.fragments.AIChatBottomSheet.newInstance(reportId)
+                    .show(getSupportFragmentManager(), "ai_chat");
+        });
+
+        // 2. Quick Actions Menu Preparation
+        b.btnQuickActions.setOnClickListener(v -> {
+            ReportActionsBottomSheet sheet = ReportActionsBottomSheet.newInstance();
+            
+            // Add contextual items
+            sheet.addAction("original", "View Original", R.drawable.ic_file, R.color.primary);
+            
+            if (isAnalyzed) {
+                sheet.addAction("export", "Export PDF", R.drawable.ic_document, R.color.success);
+            }
+            
+            if (isPatient && isAnalyzed) {
+                sheet.addAction("ask_ai", "Ask AI Assistant", R.drawable.ic_chat, R.color.badge_text_blue);
+            }
+            
+            if (isPatient && !isAnalyzing) {
+                sheet.addAction("reanalyze", "Re-analyze Report", R.drawable.ic_clock, R.color.warning);
+            }
+            
+            if (isDoctor || (isPatient && report.assignedDoctorId != null)) {
+                sheet.addAction("chat", isDoctor ? "Chat with Patient" : "Chat with Doctor", R.drawable.ic_chat, R.color.primary);
+            }
+            
+            if (isPatient && !isAnalyzing) {
+                sheet.addAction("delete", "Delete Report", R.drawable.ic_delete, R.color.danger);
+            }
+            
+            sheet.setListener(action -> {
+                switch (action) {
+                    case "original": viewOriginalReport(); break;
+                    case "export": downloadAnalysisPdf(); break;
+                    case "ask_ai": b.btnAskAIPrimary.performClick(); break;
+                    case "reanalyze": triggerAnalysis(); break;
+                    case "chat": b.btnChat.performClick(); break;
+                    case "delete": confirmDelete(); break;
+                }
+            });
+            
+            sheet.show(getSupportFragmentManager(), "quick_actions");
+        });
+
+        // Show/Hide bottom bar entirely if no primary or quick actions are relevant
+        // (Simplified check: always show if there's a reason for QuickActions, which 'viewOriginal' always is)
+        b.layoutBottomActions.setVisibility(View.VISIBLE);
+    }
+
+    private void downloadAnalysisPdf() {
+        if (report == null || reportId == null) return;
+
+        String url = com.medreport.ai.BuildConfig.BASE_URL + "medical-reports/" + reportId + "/export-pdf";
+        if (url.endsWith("/")) url = url.substring(0, url.length() - 1);
+        
+        android.app.DownloadManager.Request request = new android.app.DownloadManager.Request(android.net.Uri.parse(url));
+        request.setTitle("MedReport Analysis");
+        request.setDescription("Downloading professional analysis for " + report.fileName);
+        request.setNotificationVisibility(android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        
+        String fileName = "MedReport_Analysis_" + reportId.substring(0, 8) + ".pdf";
+        request.setDestinationInExternalPublicDir(android.os.Environment.DIRECTORY_DOWNLOADS, fileName);
+
+        // Add verification token
+        String token = AuthManager.getInstance().getCachedToken();
+        if (token != null && !token.isEmpty()) {
+            request.addRequestHeader("Authorization", "Bearer " + token);
+        }
+
+        android.app.DownloadManager manager = (android.app.DownloadManager) getSystemService(android.content.Context.DOWNLOAD_SERVICE);
+        if (manager != null) {
+            manager.enqueue(request);
+            Toast.makeText(this, "Download started. Check your notifications.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Download manager not available", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -952,17 +1076,47 @@ public class ReportDetailActivity extends AppCompatActivity {
         item.addView(info);
 
         if (report.assignedDoctorId == null) {
-            com.google.android.material.button.MaterialButton btn = new com.google.android.material.button.MaterialButton(
-                    this);
+            LinearLayout buttons = new LinearLayout(this);
+            buttons.setOrientation(LinearLayout.HORIZONTAL);
+
+            com.google.android.material.button.MaterialButton btn = new com.google.android.material.button.MaterialButton(this);
             btn.setText("Assign");
-            btn.setTextSize(11);
+            btn.setTextSize(10);
             btn.setAllCaps(false);
-            btn.setCornerRadius(dpToPx(10));
-            btn.setMinimumHeight(dpToPx(36));
-            btn.setMinHeight(dpToPx(36));
-            btn.setPadding(dpToPx(12), 0, dpToPx(12), 0);
+            btn.setCornerRadius(dpToPx(8));
+            btn.setMinimumHeight(dpToPx(32));
+            btn.setPadding(dpToPx(8), 0, dpToPx(8), 0);
             btn.setOnClickListener(v -> assignDoctor(doc.doctorId, doc.doctorName));
-            item.addView(btn);
+            buttons.addView(btn);
+
+            com.google.android.material.button.MaterialButton btnPv = new com.google.android.material.button.MaterialButton(this);
+            btnPv.setText("Private");
+            btnPv.setTextSize(10);
+            btnPv.setAllCaps(false);
+            btnPv.setCornerRadius(dpToPx(8));
+            btnPv.setMinimumHeight(dpToPx(32));
+            btnPv.setPadding(dpToPx(8), 0, dpToPx(8), 0);
+            btnPv.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.primary_dark)));
+            btnPv.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_lock));
+            btnPv.setIconPadding(dpToPx(4));
+            btnPv.setIconGravity(com.google.android.material.button.MaterialButton.ICON_GRAVITY_TEXT_START);
+            btnPv.setOnClickListener(v -> privateAssignDoctor(doc.doctorId, doc.doctorName));
+            LinearLayout.LayoutParams lpPv = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            lpPv.leftMargin = dpToPx(6);
+            btnPv.setLayoutParams(lpPv);
+            buttons.addView(btnPv);
+
+            item.addView(buttons);
+        } else if (doc.doctorId.equals(report.assignedDoctorId) && report.isPrivate != null && report.isPrivate) {
+            TextView tvPv = new TextView(this);
+            tvPv.setText("PRIVATELY SHARED");
+            tvPv.setTextSize(9);
+            tvPv.setTypeface(null, Typeface.BOLD);
+            tvPv.setTextColor(ContextCompat.getColor(this, R.color.badge_text_blue));
+            tvPv.setBackgroundResource(R.drawable.bg_badge);
+            tvPv.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.badge_bg_blue)));
+            tvPv.setPadding(dpToPx(8), dpToPx(3), dpToPx(8), dpToPx(3));
+            item.addView(tvPv);
         }
 
         container.addView(item);
@@ -979,8 +1133,8 @@ public class ReportDetailActivity extends AppCompatActivity {
 
 
     private void triggerAnalysis() {
-        b.btnAnalyze.setEnabled(false);
-        b.btnAnalyze.setText("Starting...");
+        b.btnAnalyzePrimary.setEnabled(false);
+        b.btnAnalyzePrimary.setText("Starting...");
         ApiClient.get().analyzeReport(reportId).enqueue(new Callback<ApiResponse<ReportModel>>() {
             @Override
             public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
@@ -996,16 +1150,16 @@ public class ReportDetailActivity extends AppCompatActivity {
                         startPolling();
                     }
                 } else {
-                    b.btnAnalyze.setEnabled(true);
-                    b.btnAnalyze.setText("Analyze with AI");
+                    b.btnAnalyzePrimary.setEnabled(true);
+                    b.btnAnalyzePrimary.setText("Start AI Analysis");
                     Toast.makeText(ReportDetailActivity.this, "Failed to start", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {
-                b.btnAnalyze.setEnabled(true);
-                b.btnAnalyze.setText("Analyze with AI");
+                b.btnAnalyzePrimary.setEnabled(true);
+                b.btnAnalyzePrimary.setText("Start AI Analysis");
             }
         });
     }
@@ -1028,6 +1182,34 @@ public class ReportDetailActivity extends AppCompatActivity {
                 Toast.makeText(ReportDetailActivity.this, "Assignment failed", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void privateAssignDoctor(String doctorId, String doctorName) {
+        new AlertDialog.Builder(this)
+                .setTitle("Private Consultation")
+                .setMessage("Share this report privately with Dr. " + doctorName + "? It will not be visible to other doctors. This will also start a private chat.")
+                .setPositiveButton("Share Privately", (dialog, which) -> {
+                    Map<String, String> body = new HashMap<>();
+                    body.put("doctor_id", doctorId);
+                    ApiClient.get().privateAssignDoctor(reportId, body).enqueue(new Callback<ApiResponse<ReportModel>>() {
+                        @Override
+                        public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
+                            if (r.isSuccessful()) {
+                                Toast.makeText(ReportDetailActivity.this, "Shared privately with Dr. " + doctorName, Toast.LENGTH_SHORT).show();
+                                loadReport();
+                            } else {
+                                Toast.makeText(ReportDetailActivity.this, "Assignment failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ApiResponse<ReportModel>> c, Throwable t) {
+                            Toast.makeText(ReportDetailActivity.this, "Network error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     private void submitReview() {

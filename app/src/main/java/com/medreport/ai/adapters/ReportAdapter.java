@@ -31,6 +31,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.VH> {
         h.tvSeverity.setText(r.getSeverityLevel());
         int color = severityColor(r.getSeverityLevel());
         h.tvSeverity.setTextColor(color);
+        h.tvPrivate.setVisibility(r.isPrivate != null && r.isPrivate ? View.VISIBLE : View.GONE);
         h.itemView.setOnClickListener(v -> listener.onReportClick(r));
     }
 
@@ -46,13 +47,14 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.VH> {
     @Override public int getItemCount() { return items.size(); }
 
     static class VH extends RecyclerView.ViewHolder {
-        TextView tvName, tvDate, tvStatus, tvSeverity;
+        TextView tvName, tvDate, tvStatus, tvSeverity, tvPrivate;
         VH(View v) {
             super(v);
             tvName     = v.findViewById(R.id.tvFileName);
             tvDate     = v.findViewById(R.id.tvDate);
             tvStatus   = v.findViewById(R.id.tvStatus);
             tvSeverity = v.findViewById(R.id.tvSeverity);
+            tvPrivate  = v.findViewById(R.id.tvPrivate);
         }
     }
 }

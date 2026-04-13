@@ -55,21 +55,32 @@ public class ReportsFragment extends Fragment implements ReportAdapter.Listener 
         UserModel currentUser = com.medreport.ai.utils.AuthManager.getInstance().getCurrentUser();
         if (currentUser != null && "DOCTOR".equals(currentUser.role)) {
             b.fab.setVisibility(View.GONE);
+            b.layoutFilters.setVisibility(View.VISIBLE);
+            b.chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
+                loadReports();
+            });
         } else {
             b.fab.setOnClickListener(v -> filePicker.launch(new String[]{"application/pdf", "image/*"}));
+            b.layoutFilters.setVisibility(View.GONE);
         }
         
         b.swipeRefresh.setOnRefreshListener(this::loadReports);
         loadReports();
     }
-
     private void loadReports() {
-        if (!b.swipeRefresh.isRefreshing()) {
-            b.layoutSkeleton.getRoot().setVisibility(View.VISIBLE);
-            b.recyclerView.setVisibility(View.GONE);
-        }
+        b.swipeRefresh.setRefreshing(true);
+        b.layoutSkeleton.getRoot().setVisibility(View.VISIBLE);
+        b.recyclerView.setVisibility(View.GONE);
+        b.tvEmpty.setVisibility(View.GONE);
+
+        UserModel user = com.medreport.ai.utils.AuthManager.getInstance().getCurrentUser();
+        boolean isPrivateMode = user != null && user.isDoctor() && b.chipPrivate.isChecked();
         
-        ApiClient.get().getMyReports().enqueue(new Callback<ResponseModels.ReportsResponse>() {
+        Call<ResponseModels.ReportsResponse> call = isPrivateMode 
+                ? ApiClient.get().getPrivateReports() 
+                : ApiClient.get().getMyReports();
+        
+        call.enqueue(new Callback<ResponseModels.ReportsResponse>() {
             @Override public void onResponse(Call<ResponseModels.ReportsResponse> c, Response<ResponseModels.ReportsResponse> r) {
                 b.swipeRefresh.setRefreshing(false);
                 b.layoutSkeleton.getRoot().setVisibility(View.GONE);
