@@ -67,8 +67,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void signInWithGoogle() {
         setLoading(true);
-        Intent signInIntent = googleSignInClient.getSignInIntent();
-        googleSignInLauncher.launch(signInIntent);
+        // Force the account picker to show every time by signing out before starting the intent
+        googleSignInClient.signOut().addOnCompleteListener(this, task -> {
+            Intent signInIntent = googleSignInClient.getSignInIntent();
+            googleSignInLauncher.launch(signInIntent);
+        });
     }
 
     private void handleGoogleSignInResult(Task<GoogleSignInAccount> completedTask) {

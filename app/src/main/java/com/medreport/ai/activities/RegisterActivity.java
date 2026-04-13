@@ -127,8 +127,10 @@ public class RegisterActivity extends AppCompatActivity {
                 if (isGoogle) {
                     // For Google, we proceed to Sign In first, then role
                     setLoading(true);
-                    Intent signInIntent = googleSignInClient.getSignInIntent();
-                    googleSignInLauncher.launch(signInIntent);
+                    googleSignInClient.signOut().addOnCompleteListener(RegisterActivity.this, task -> {
+                        Intent signInIntent = googleSignInClient.getSignInIntent();
+                        googleSignInLauncher.launch(signInIntent);
+                    });
                 } else {
                     showRoleSelectionDialog();
                 }
