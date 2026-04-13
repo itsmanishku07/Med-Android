@@ -53,15 +53,15 @@ public class ReportsFragment extends Fragment implements ReportAdapter.Listener 
         b.recyclerView.setAdapter(adapter);
         
         UserModel currentUser = com.medreport.ai.utils.AuthManager.getInstance().getCurrentUser();
+        b.layoutFilters.setVisibility(View.VISIBLE);
+        b.chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            loadReports();
+        });
+
         if (currentUser != null && "DOCTOR".equals(currentUser.role)) {
             b.fab.setVisibility(View.GONE);
-            b.layoutFilters.setVisibility(View.VISIBLE);
-            b.chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
-                loadReports();
-            });
         } else {
             b.fab.setOnClickListener(v -> filePicker.launch(new String[]{"application/pdf", "image/*"}));
-            b.layoutFilters.setVisibility(View.GONE);
         }
         
         b.swipeRefresh.setOnRefreshListener(this::loadReports);
@@ -73,8 +73,10 @@ public class ReportsFragment extends Fragment implements ReportAdapter.Listener 
         b.recyclerView.setVisibility(View.GONE);
         b.tvEmpty.setVisibility(View.GONE);
 
-        UserModel user = com.medreport.ai.utils.AuthManager.getInstance().getCurrentUser();
-        boolean isPrivateMode = user != null && user.isDoctor() && b.chipPrivate.isChecked();
+        int checkedId = b.chipGroup.getCheckedChipId();
+        boolean isPrivateMode = (checkedId == R.id.chipPrivate);
+        
+        android.util.Log.d("ReportsFragment", "loadReports: isPrivateMode=" + isPrivateMode + " checkedId=" + checkedId);
         
         Call<ResponseModels.ReportsResponse> call = isPrivateMode 
                 ? ApiClient.get().getPrivateReports() 
@@ -116,8 +118,9 @@ public class ReportsFragment extends Fragment implements ReportAdapter.Listener 
             RequestBody rb = RequestBody.create(bytes, MediaType.parse(mime));
             MultipartBody.Part part = MultipartBody.Part.createFormData("file", "report." + getExt(mime), rb);
             b.swipeRefresh.setRefreshing(true);
-        RequestBody type = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), "GENERAL");
-        ApiClient.get().uploadReport(part, type).enqueue(new Callback<ApiResponse<ReportModel>>() {
+        RequestBody doctorIdBody = null;
+        RequestBody isPrivateBody = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"), "false");
+        ApiClient.get().uploadReport(part, doctorIdBody, isPrivateBody).enqueue(new Callback<ApiResponse<ReportModel>>() {
                 @Override public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
                     b.swipeRefresh.setRefreshing(false);
                     if (r.isSuccessful()) { Toast.makeText(requireContext(), "Uploaded! Analysis started.", Toast.LENGTH_SHORT).show(); loadReports(); }

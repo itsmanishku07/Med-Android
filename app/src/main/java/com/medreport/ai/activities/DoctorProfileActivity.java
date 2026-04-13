@@ -1,4 +1,7 @@
 package com.medreport.ai.activities;
+ 
+import com.medreport.ai.databinding.ActivityDoctorProfileBinding;
+import android.content.Intent;
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,14 +14,21 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.medreport.ai.R;
 import com.medreport.ai.adapters.ReviewAdapter;
-import com.medreport.ai.databinding.ActivityDoctorProfileBinding;
 import com.medreport.ai.models.*;
 import com.medreport.ai.network.ApiClient;
 import com.medreport.ai.utils.AuthManager;
+import java.io.InputStream;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import java.util.*;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class DoctorProfileActivity extends AppCompatActivity {
     public static final String EXTRA_DOCTOR_ID = "doctor_id";
@@ -31,6 +41,12 @@ public class DoctorProfileActivity extends AppCompatActivity {
     private DoctorReview myReview;
     private ReviewAdapter reviewAdapter;
     private int selectedRating = 0;
+    
+    private final ActivityResultLauncher<String[]> filePickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.OpenDocument(),
+            uri -> {
+                if (uri != null) uploadPrivateReport(uri);
+            });
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +90,12 @@ public class DoctorProfileActivity extends AppCompatActivity {
         if (isPatient) {
             b.btnWriteReview.setVisibility(View.VISIBLE);
             b.btnWriteReview.setOnClickListener(v -> showReviewDialog());
+            
+            b.btnUploadReport.setVisibility(View.VISIBLE);
+            b.btnUploadReport.setOnClickListener(v -> filePickerLauncher.launch(new String[]{"application/pdf", "image/*"}));
         } else {
             b.btnWriteReview.setVisibility(View.GONE);
+            b.btnUploadReport.setVisibility(View.GONE);
         }
     }
     
@@ -298,5 +318,74 @@ public class DoctorProfileActivity extends AppCompatActivity {
                 Toast.makeText(DoctorProfileActivity.this, "Network error", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void uploadPrivateReport(android.net.Uri uri) {
+        b.progressBar.setVisibility(View.VISIBLE);
+        try {
+            String fileName = getFileName(uri);
+            InputStream is = getContentResolver().openInputStream(uri);
+            byte[] bytes = readAllBytes(is);
+            is.close();
+
+            String mimeType = getContentResolver().getType(uri);
+            if (mimeType == null) mimeType = "application/pdf";
+
+            RequestBody reqFile = RequestBody.create(bytes, MediaType.parse(mimeType));
+            MultipartBody.Part body = MultipartBody.Part.createFormData("file", fileName, reqFile);
+            
+            RequestBody doctorIdBody = RequestBody.create(MediaType.parse("text/plain"), doctorId);
+            RequestBody isPrivateBody = RequestBody.create(MediaType.parse("text/plain"), "true");
+
+            ApiClient.get().uploadReport(body, doctorIdBody, isPrivateBody).enqueue(new Callback<ApiResponse<ReportModel>>() {
+                @Override
+                public void onResponse(Call<ApiResponse<ReportModel>> call, Response<ApiResponse<ReportModel>> response) {
+                    b.progressBar.setVisibility(View.GONE);
+                    if (response.isSuccessful()) {
+                        Toast.makeText(DoctorProfileActivity.this, "Report shared privately with Dr. " + doctor.name, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(DoctorProfileActivity.this, "Upload failed: " + response.code(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponse<ReportModel>> call, Throwable t) {
+                    b.progressBar.setVisibility(View.GONE);
+                    Toast.makeText(DoctorProfileActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            b.progressBar.setVisibility(View.GONE);
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String getFileName(android.net.Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            try (android.database.Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    int idx = cursor.getColumnIndex(android.util.Pair.create("display_name", android.provider.OpenableColumns.DISPLAY_NAME).second);
+                    if (idx != -1) result = cursor.getString(idx);
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) result = result.substring(cut + 1);
+        }
+        return result;
+    }
+
+    private byte[] readAllBytes(InputStream inputStream) throws java.io.IOException {
+        java.io.ByteArrayOutputStream byteBuffer = new java.io.ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
     }
 }

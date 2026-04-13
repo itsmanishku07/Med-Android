@@ -17,12 +17,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.VH> {
     private static final int VIEW_SENT = 0, VIEW_RECV = 1;
     private final List<MessageModel> items;
     private final String myUserId;
-    private final io.noties.markwon.Markwon markwon;
-
     public MessageAdapter(List<MessageModel> items, String myUserId) {
         this.items = items;
         this.myUserId = myUserId;
-        this.markwon = io.noties.markwon.Markwon.create(null);
     }
 
     @Override public int getItemViewType(int pos) {

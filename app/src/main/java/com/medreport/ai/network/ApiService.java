@@ -36,7 +36,8 @@ public interface ApiService {
     @POST("medical-reports/upload")
     Call<ApiResponse<ReportModel>> uploadReport(
         @Part MultipartBody.Part file,
-        @Part("report_type") okhttp3.RequestBody reportType
+        @Part("doctor_id") okhttp3.RequestBody doctorId,
+        @Part("is_private") okhttp3.RequestBody isPrivate
     );
 
     @GET("medical-reports/{id}")

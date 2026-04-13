@@ -32,6 +32,18 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.VH> {
         int color = severityColor(r.getSeverityLevel());
         h.tvSeverity.setTextColor(color);
         h.tvPrivate.setVisibility(r.isPrivate != null && r.isPrivate ? View.VISIBLE : View.GONE);
+        if (r.assignedDoctorName != null) {
+            h.tvDoctorName.setVisibility(View.VISIBLE);
+            h.tvDoctorName.setText("Shared with Dr. " + r.assignedDoctorName);
+            h.tvDoctorName.setPaintFlags(h.tvDoctorName.getPaintFlags() | android.graphics.Paint.UNDERLINE_TEXT_FLAG);
+            h.tvDoctorName.setOnClickListener(v -> {
+                android.content.Intent intent = new android.content.Intent(v.getContext(), com.medreport.ai.activities.DoctorProfileActivity.class);
+                intent.putExtra(com.medreport.ai.activities.DoctorProfileActivity.EXTRA_DOCTOR_ID, r.assignedDoctorId);
+                v.getContext().startActivity(intent);
+            });
+        } else {
+            h.tvDoctorName.setVisibility(View.GONE);
+        }
         h.itemView.setOnClickListener(v -> listener.onReportClick(r));
     }
 
@@ -47,14 +59,15 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.VH> {
     @Override public int getItemCount() { return items.size(); }
 
     static class VH extends RecyclerView.ViewHolder {
-        TextView tvName, tvDate, tvStatus, tvSeverity, tvPrivate;
+        TextView tvName, tvDate, tvStatus, tvSeverity, tvPrivate, tvDoctorName;
         VH(View v) {
             super(v);
-            tvName     = v.findViewById(R.id.tvFileName);
-            tvDate     = v.findViewById(R.id.tvDate);
-            tvStatus   = v.findViewById(R.id.tvStatus);
-            tvSeverity = v.findViewById(R.id.tvSeverity);
-            tvPrivate  = v.findViewById(R.id.tvPrivate);
+            tvName       = v.findViewById(R.id.tvFileName);
+            tvDate       = v.findViewById(R.id.tvDate);
+            tvStatus     = v.findViewById(R.id.tvStatus);
+            tvSeverity   = v.findViewById(R.id.tvSeverity);
+            tvPrivate    = v.findViewById(R.id.tvPrivate);
+            tvDoctorName = v.findViewById(R.id.tvDoctorName);
         }
     }
 }

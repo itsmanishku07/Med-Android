@@ -135,6 +135,17 @@ public class ReportDashboardAdapter extends RecyclerView.Adapter<ReportDashboard
 
         if (r.assignedDoctorId != null) {
             h.b.layoutDoctorAssigned.setVisibility(View.VISIBLE);
+            if (r.assignedDoctorName != null) {
+                h.b.tvDoctorAssignedName.setText("Shared with Dr. " + r.assignedDoctorName);
+                h.b.tvDoctorAssignedName.setPaintFlags(h.b.tvDoctorAssignedName.getPaintFlags() | android.graphics.Paint.UNDERLINE_TEXT_FLAG);
+                h.b.tvDoctorAssignedName.setOnClickListener(v -> {
+                    Intent intent = new Intent(ctx, DoctorProfileActivity.class);
+                    intent.putExtra(DoctorProfileActivity.EXTRA_DOCTOR_ID, r.assignedDoctorId);
+                    ctx.startActivity(intent);
+                });
+            } else {
+                h.b.tvDoctorAssignedName.setText("Doctor assigned");
+            }
         }
 
         h.b.btnConsultDoctor.setVisibility(View.GONE);

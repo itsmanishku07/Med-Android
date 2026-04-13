@@ -67,7 +67,6 @@ public class RegisterActivity extends AppCompatActivity {
         b.tvLogin.setOnClickListener(v -> finish());
     }
 
-
     private void signUpWithGoogle() {
         // Step 1: Sequential Flow for Google starts with Terms
         showProfessionalTermsDialog(true);
@@ -77,11 +76,11 @@ public class RegisterActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             android.util.Log.d("RegisterActivity", "Google Sign-In successful: " + account.getEmail());
-            
+
             // Check if we need role (for new users)
-            // But since we want to be safe, we always ask for role if we haven't got it 
+            // But since we want to be safe, we always ask for role if we haven't got it
             // In a real app, we'd check if user exists.
-            // Here, we'll let the backend handle the 'existing user' case, 
+            // Here, we'll let the backend handle the 'existing user' case,
             // but we'll show the Role dialog if it's a signup context.
             firebaseAuthWithGoogle(account.getIdToken());
         } catch (ApiException e) {
@@ -94,12 +93,12 @@ public class RegisterActivity extends AppCompatActivity {
     private String pendingName, pendingEmail, pendingPass, pendingRole;
 
     private void register() {
-        pendingName  = b.etName.getText().toString().trim();
+        pendingName = b.etName.getText().toString().trim();
         pendingEmail = b.etEmail.getText().toString().trim();
-        pendingPass  = b.etPassword.getText().toString().trim();
+        pendingPass = b.etPassword.getText().toString().trim();
 
         if (pendingName.isEmpty() || pendingEmail.isEmpty() || pendingPass.isEmpty()) {
-            Toast.makeText(this, "Fill all fields", Toast.LENGTH_SHORT).show(); 
+            Toast.makeText(this, "Fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -113,48 +112,49 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void showProfessionalTermsDialog(boolean isGoogle) {
-        String termsContent = "MEDICAL DISCLAIMER: MedReport AI provides AI-assisted analysis for informational purposes only. It is NOT a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician.\n\n" +
-                             "TERMS OF SERVICE:\n" +
-                             "1. Personal Use: This platform is for personal health tracking.\n" +
-                             "2. Privacy: We use industry-standard encryption for your data.\n" +
-                             "3. Accuracy: AI results may vary; professional verification is advised.";
+        String termsContent = "MEDICAL DISCLAIMER: MedReport AI provides AI-assisted analysis for informational purposes only. It is NOT a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician.\n\n"
+                +
+                "TERMS OF SERVICE:\n" +
+                "1. Personal Use: This platform is for personal health tracking.\n" +
+                "2. Privacy: We use industry-standard encryption for your data.\n" +
+                "3. Accuracy: AI results may vary; professional verification is advised.";
 
         new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
-            .setTitle("Legal Compliance")
-            .setMessage(termsContent)
-            .setCancelable(false)
-            .setPositiveButton("I Accept & Continue", (dialog, which) -> {
-                if (isGoogle) {
-                    // For Google, we proceed to Sign In first, then role
-                    setLoading(true);
-                    googleSignInClient.signOut().addOnCompleteListener(RegisterActivity.this, task -> {
-                        Intent signInIntent = googleSignInClient.getSignInIntent();
-                        googleSignInLauncher.launch(signInIntent);
-                    });
-                } else {
-                    showRoleSelectionDialog();
-                }
-            })
-            .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
-            .show();
+                .setTitle("Legal Compliance")
+                .setMessage(termsContent)
+                .setCancelable(false)
+                .setPositiveButton("I Accept & Continue", (dialog, which) -> {
+                    if (isGoogle) {
+                        // For Google, we proceed to Sign In first, then role
+                        setLoading(true);
+                        googleSignInClient.signOut().addOnCompleteListener(RegisterActivity.this, task -> {
+                            Intent signInIntent = googleSignInClient.getSignInIntent();
+                            googleSignInLauncher.launch(signInIntent);
+                        });
+                    } else {
+                        showRoleSelectionDialog();
+                    }
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     private void showRoleSelectionDialog() {
-        String[] roles = {"Patient - I want analysis", "Doctor - I want to review reports"};
-        
+        String[] roles = { "Patient - I want analysis", "Doctor - I want to review reports" };
+
         new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
-            .setTitle("Select Your Account Type")
-            .setItems(roles, (dialog, which) -> {
-                pendingRole = (which == 0) ? "PATIENT" : "DOCTOR";
-                executeSignupAPI();
-            })
-            .setCancelable(false)
-            .show();
+                .setTitle("Select Your Account Type")
+                .setItems(roles, (dialog, which) -> {
+                    pendingRole = (which == 0) ? "PATIENT" : "DOCTOR";
+                    executeSignupAPI();
+                })
+                .setCancelable(false)
+                .show();
     }
 
     private void executeSignupAPI() {
         setLoading(true);
-        
+
         Map<String, String> body = new HashMap<>();
         body.put("name", pendingName);
         body.put("email", pendingEmail);
@@ -162,22 +162,24 @@ public class RegisterActivity extends AppCompatActivity {
         body.put("role", pendingRole);
 
         ApiClient.get().signupRequest(body).enqueue(new Callback<ApiResponse<Map<String, Object>>>() {
-            @Override 
-            public void onResponse(Call<ApiResponse<Map<String, Object>>> c, Response<ApiResponse<Map<String, Object>>> r) {
+            @Override
+            public void onResponse(Call<ApiResponse<Map<String, Object>>> c,
+                    Response<ApiResponse<Map<String, Object>>> r) {
                 setLoading(false);
                 if (r.isSuccessful() && r.body() != null && r.body().success) {
                     userEmail = pendingEmail;
                     emailSent = true;
                     showVerificationScreen();
                 } else {
-                    String errorMsg = r.body() != null && r.body().message != null ? r.body().message : "Registration failed";
+                    String errorMsg = r.body() != null && r.body().message != null ? r.body().message
+                            : "Registration failed";
                     Toast.makeText(RegisterActivity.this, errorMsg, Toast.LENGTH_LONG).show();
                 }
             }
-            
-            @Override 
-            public void onFailure(Call<ApiResponse<Map<String, Object>>> c, Throwable t) { 
-                setLoading(false); 
+
+            @Override
+            public void onFailure(Call<ApiResponse<Map<String, Object>>> c, Throwable t) {
+                setLoading(false);
                 Toast.makeText(RegisterActivity.this, "Network error", Toast.LENGTH_SHORT).show();
             }
         });
@@ -206,24 +208,24 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void showGoogleRoleSelectionDialog() {
-        String[] roles = {"Patient", "Doctor"};
+        String[] roles = { "Patient", "Doctor" };
         new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
-            .setTitle("One Last Step: Choose Role")
-            .setItems(roles, (dialog, which) -> {
-                String role = (which == 0) ? "PATIENT" : "DOCTOR";
-                FirebaseAuth.getInstance().getCurrentUser().getIdToken(true).addOnSuccessListener(tokenResult -> {
-                    AuthManager.getInstance().setCachedToken(tokenResult.getToken());
-                    registerWithBackend(role);
-                });
-            })
-            .setCancelable(false)
-            .show();
+                .setTitle("One Last Step: Choose Role")
+                .setItems(roles, (dialog, which) -> {
+                    String role = (which == 0) ? "PATIENT" : "DOCTOR";
+                    FirebaseAuth.getInstance().getCurrentUser().getIdToken(true).addOnSuccessListener(tokenResult -> {
+                        AuthManager.getInstance().setCachedToken(tokenResult.getToken());
+                        registerWithBackend(role);
+                    });
+                })
+                .setCancelable(false)
+                .show();
     }
 
     private void registerWithBackend(String role) {
         Map<String, String> body = new HashMap<>();
         body.put("role", role);
-        
+
         ApiClient.get().autoRegister(body).enqueue(new Callback<ApiResponse<UserModel>>() {
             @Override
             public void onResponse(Call<ApiResponse<UserModel>> c, Response<ApiResponse<UserModel>> r) {
@@ -249,17 +251,17 @@ public class RegisterActivity extends AppCompatActivity {
         b.layoutRegisterForm.setVisibility(View.GONE);
         b.layoutVerificationSent.setVisibility(View.VISIBLE);
         b.tvVerificationEmail.setText(userEmail);
-        
+
         b.btnGoToLogin.setOnClickListener(v -> {
             startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             finish();
         });
     }
 
-    private void setLoading(boolean l) { 
+    private void setLoading(boolean l) {
         b.btnRegister.setEnabled(!l);
         b.btnGoogleSignUp.setEnabled(!l);
-        b.progressBar.setVisibility(l ? View.VISIBLE : View.GONE); 
+        b.progressBar.setVisibility(l ? View.VISIBLE : View.GONE);
     }
 
     private void showTermsDialog() {

@@ -290,9 +290,10 @@ public class DashboardFragment extends Fragment implements ReportDashboardAdapte
 
             RequestBody reqFile = RequestBody.create(MediaType.parse(mimeType), f);
             MultipartBody.Part body = MultipartBody.Part.createFormData("file", fileName, reqFile);
-            RequestBody type = RequestBody.create(MediaType.parse("text/plain"), "GENERAL");
+            RequestBody doctorIdBody = null;
+            RequestBody isPrivateBody = RequestBody.create(MediaType.parse("text/plain"), "false");
 
-            ApiClient.get().uploadReport(body, type).enqueue(new Callback<ApiResponse<ReportModel>>() {
+            ApiClient.get().uploadReport(body, doctorIdBody, isPrivateBody).enqueue(new Callback<ApiResponse<ReportModel>>() {
                 @Override public void onResponse(Call<ApiResponse<ReportModel>> c, Response<ApiResponse<ReportModel>> r) {
                     b.uploadProgress.setVisibility(View.GONE);
                     android.util.Log.d("DashboardFragment", "Upload response code: " + r.code());

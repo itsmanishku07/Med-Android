@@ -26,6 +26,7 @@ public class ReportModel {
     @SerializedName("patient_name")          public String patientName;
     @SerializedName("error_message")         public String errorMessage;
     @SerializedName("suggested_doctors")     public List<SuggestedDoctor> suggestedDoctors;
+    @SerializedName("assigned_doctor_name")   public String assignedDoctorName;
     @SerializedName("file_url")              public String fileUrl;
 
     public String getSeverityLevel() {

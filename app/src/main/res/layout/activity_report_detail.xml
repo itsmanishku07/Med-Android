@@ -102,6 +102,14 @@
                                 android:visibility="gone" tools:visibility="visible"
                                 tools:text="Privately Shared"/>
                         </LinearLayout>
+
+                        <TextView android:id="@+id/tvDoctorAssignedName" android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:layout_marginTop="12dp"
+                            android:textSize="13sp" android:textColor="@color/primary"
+                            android:textStyle="bold" android:visibility="gone"
+                            tools:visibility="visible" tools:text="Shared with Dr. Manish"
+                            android:background="@drawable/bg_badge" android:backgroundTint="#EFF6FF"
+                            android:paddingHorizontal="12dp" android:paddingVertical="8dp"/>
                         
                         <LinearLayout android:id="@+id/layoutFileInfo" android:layout_width="match_parent"
                             android:layout_height="wrap_content" android:layout_marginTop="12dp"

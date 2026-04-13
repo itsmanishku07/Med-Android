@@ -210,6 +210,19 @@ public class ReportDetailActivity extends AppCompatActivity {
             b.tvPrivate.setVisibility(View.GONE);
         }
 
+        if (report.assignedDoctorId != null && report.assignedDoctorName != null) {
+            b.tvDoctorAssignedName.setVisibility(View.VISIBLE);
+            b.tvDoctorAssignedName.setText("Shared with Dr. " + report.assignedDoctorName);
+            b.tvDoctorAssignedName.setPaintFlags(b.tvDoctorAssignedName.getPaintFlags() | android.graphics.Paint.UNDERLINE_TEXT_FLAG);
+            b.tvDoctorAssignedName.setOnClickListener(v -> {
+                Intent intent = new Intent(this, DoctorProfileActivity.class);
+                intent.putExtra(DoctorProfileActivity.EXTRA_DOCTOR_ID, report.assignedDoctorId);
+                startActivity(intent);
+            });
+        } else {
+            b.tvDoctorAssignedName.setVisibility(View.GONE);
+        }
+
         b.layoutFileInfo.setVisibility(View.VISIBLE);
         b.tvFileType.setText(report.fileType != null ? report.fileType.toUpperCase() : "FILE");
         String fileSizeStr = "Unknown size";
